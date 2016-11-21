@@ -42,7 +42,7 @@ public class ThirdFragment extends Fragment {
     }
 
     private void initView() {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.third_fragment_group, TownMapFragment.newInstance()).commit();
     }
 
@@ -50,7 +50,7 @@ public class ThirdFragment extends Fragment {
         mSegmentControl.setOnSegmentControlClickListener(new SegmentControl.OnSegmentControlClickListener() {
             @Override
             public void onSegmentControlClick(int index) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = getChildFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 switch (index) {
                     case 0:

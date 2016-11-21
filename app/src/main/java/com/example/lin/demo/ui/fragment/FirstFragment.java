@@ -84,7 +84,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
                 ((ImageView) view).setImageResource(((int) model));
             }
         });
-        mBanner.setData(Arrays.asList(R.mipmap.image, R.mipmap.image, R.mipmap.image, R.mipmap.image), null);
+        mBanner.setData(Arrays.asList(R.mipmap.banner_img1, R.mipmap.banner_img1, R.mipmap.banner_img1, R.mipmap.banner_img1), null);
 
         mGridRv.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         mGridRv.setHasFixedSize(true);
@@ -104,7 +104,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(getActivity(), DetailedActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constant.BEAN, mNewses.get(position));
-                intent.putExtra(Constant.TITLE, "景点推荐");
+                intent.putExtra(Constant.TITLE, "相关推荐");
                 intent.putExtra(Constant.BUNDLE, bundle);
                 startActivity(intent);
             }
@@ -117,7 +117,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.big_image_more:
                 Intent intent2List = new Intent(getActivity(), ListActivity.class);
-                intent2List.putExtra(Constant.TITLE, "景点推荐");
+                intent2List.putExtra(Constant.TITLE, "相关推荐");
                 startActivity(intent2List);
                 break;
             case R.id.big_img_group:
@@ -125,7 +125,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constant.BEAN, mNewses.get(0));
                 intent.putExtra(Constant.BUNDLE, bundle);
-                intent.putExtra(Constant.TITLE, "景点推荐");
+                intent.putExtra(Constant.TITLE, "相关推荐");
                 startActivity(intent);
             default:
                 break;
@@ -134,27 +134,26 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
 
     private void initData() {
         mCategories = new ArrayList<>();
-        Category category1 = new Category("发展变迁", R.mipmap.img2);
-        Category category2 = new Category("地方文化", R.mipmap.img2);
-        Category category3 = new Category("特产美食", R.mipmap.img2);
-        Category category4 = new Category("风景名胜", R.mipmap.img2);
+        Category category1 = new Category("发展变迁", R.mipmap.first_f_1);
+        Category category2 = new Category("地方文化", R.mipmap.first_f_2);
+        Category category3 = new Category("特产美食", R.mipmap.first_f_3);
+        Category category4 = new Category("风景名胜", R.mipmap.first_f_4);
         mCategories.add(category1);
         mCategories.add(category2);
         mCategories.add(category3);
         mCategories.add(category4);
 
         mNewses = new ArrayList<>();
-        News news1 = new News("标题1", "这是标题1啊", R.mipmap.image, "2015-10-2");
-        News news2 = new News("标题2", "这是标题2啊", R.mipmap.image, "2015-10-2");
-        News news3 = new News("标题3", "这是标题3啊", R.mipmap.image, "2015-10-2");
+        News news1 = new News("福清高山山羊", "高山羊是我省肉用型优良山羊品种之一。其肉鲜嫩少膻味,味道香甜。逢年过节,外省和香港都有人特地到福清采购高山羊。福清籍的海外华侨和港台同胞回乡时也必尝高...",
+                R.mipmap.first_f_6, "2015-12-24");
+        News news2 = new News("福清高山名胜古迹", "从福州图库乘车到福清高山镇至沙浦镇牛头尾,再坐渡船上目屿岛,约莫 2...", R.mipmap.first_f_7, "2015-10-2");
         mNewses.add(news1);
         mNewses.add(news2);
-        mNewses.add(news3);
     }
 
 
     private void initAdapter() {
-        mGridAdapter = new GridAdapter(R.layout.design_tab_layout, mCategories);
+        mGridAdapter = new GridAdapter(R.layout.design_tab_layout2, mCategories);
         mListAdapter = new ListAdapter(mNewses, getActivity());
     }
 
@@ -166,8 +165,8 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
 
         @Override
         protected void convert(BaseViewHolder baseViewHolder, Category category) {
-            baseViewHolder.setImageResource(R.id.iv_tab, category.getImg())
-                    .setText(R.id.iv_text, category.getName())
+            baseViewHolder.setImageResource(R.id.iv_tab2, category.getImg())
+                    .setText(R.id.iv_text2, category.getName())
                     .addOnClickListener(R.id.tab_group);
         }
     }

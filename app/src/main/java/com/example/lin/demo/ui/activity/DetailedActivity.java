@@ -33,14 +33,14 @@ public class DetailedActivity extends BaseActivity {
 
     private void initView() {
         setTitle(mTitle);
-        mDetailedTitle.setText(mNews.getTitle());
-        mContent.setText(mNews.getContent());
+        mDetailedTitle.setText("福清高山山羊");
+//        mContent.setText(mNews.getContent());
     }
 
     private void initData() {
         Intent intent = getIntent();
         mTitle = intent.getStringExtra(Constant.TITLE);
-        Bundle bundle = intent.getBundleExtra(Constant.BUNDLE);
-        mNews = (News) bundle.getSerializable(Constant.BEAN);
+//        Bundle bundle = intent.getBundleExtra(Constant.BUNDLE);
+//        mNews = (News) bundle.getSerializable(Constant.BEAN);
     }
 }

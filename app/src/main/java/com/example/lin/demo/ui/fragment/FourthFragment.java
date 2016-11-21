@@ -58,12 +58,12 @@ public class FourthFragment extends Fragment {
 
     private void initData() {
         mCategories = new ArrayList<>();
-        Category category1 = new Category("头像设置", R.mipmap.img2);
-        Category category2 = new Category("修改密码", R.mipmap.img2);
-        Category category3 = new Category("运动数据", R.mipmap.img2);
-        Category category4 = new Category("健康记录", R.mipmap.img2);
-        Category category5 = new Category("健康检测", R.mipmap.img2);
-        Category category6 = new Category("保险查询", R.mipmap.img2);
+        Category category1 = new Category("头像设置", R.mipmap.fourth_1);
+        Category category2 = new Category("修改密码", R.mipmap.fourth_2);
+        Category category3 = new Category("运动数据", R.mipmap.fourth_3);
+        Category category4 = new Category("健康记录", R.mipmap.fourth_4);
+        Category category5 = new Category("健康检测", R.mipmap.fourth_5);
+        Category category6 = new Category("保险查询", R.mipmap.fourth_6);
         mCategories.add(category1);
         mCategories.add(category2);
         mCategories.add(category3);

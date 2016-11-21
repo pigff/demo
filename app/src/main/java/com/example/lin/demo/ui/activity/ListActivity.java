@@ -52,7 +52,7 @@ public class ListActivity extends BaseActivity {
             }
         });
 
-        mBanner.setData(Arrays.asList(R.mipmap.image, R.mipmap.image, R.mipmap.image, R.mipmap.image), null);
+        mBanner.setData(Arrays.asList(R.mipmap.banner_img2, R.mipmap.banner_img2, R.mipmap.banner_img2, R.mipmap.banner_img2), null);
         ListAdapter2 adapter2 = new ListAdapter2(mNewses, this);
         mListView.setAdapter(adapter2);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,10 +71,10 @@ public class ListActivity extends BaseActivity {
     private void initData() {
         mTitle = getIntent().getStringExtra(Constant.TITLE);
         mNewses = new ArrayList<>();
-        News news1 = new News("标题1", "这是标题1", R.mipmap.image);
-        News news2 = new News("标题2", "这是标题2", R.mipmap.image);
-        News news3 = new News("标题3", "这是标题3", R.mipmap.image);
-        News news4 = new News("标题4", "这是标题4", R.mipmap.image);
+        News news1 = new News("鱼溪龙眼", "龙眼（学名：Dimocarpus longan Lour.），又称桂圆，益智。常绿乔木，高通常10余米；小枝粗壮，被微柔毛....", R.mipmap.list_2);
+        News news2 = new News("一都枇杷", "一都枇杷是福建省福州市福清市一都镇的特产。一都枇杷以“果大、色艳、肉厚...", R.mipmap.list_3);
+        News news3 = new News("嘉儒蛤", "嘉儒蛤是福建福州福清的特产。嘉儒蛤 福建省福清市,北纬25°41′43.89″至25°29′33.58″,东经119°27′42.73″...", R.mipmap.list_4);
+        News news4 = new News("福清海蛎饼", "福清是沿海城市，而海蛎饼则是福清的汉族小吃。海蛎饼，以新鲜海蛎为主要原料，搭配上紫菜...", R.mipmap.list_5);
         mNewses.add(news1);
         mNewses.add(news2);
         mNewses.add(news3);

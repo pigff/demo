@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:text="景点推荐"
+        android:text="相关推荐"
         android:textSize="16sp"/>
 
     <TextView
@@ -34,7 +34,7 @@
             android:id="@+id/big_image"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@mipmap/image"
+            android:background="@mipmap/first_f_5"
             android:scaleType="fitXY"/>
 
         <LinearLayout
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="标题"
+                android:text="福清高山发展变迁(图)"
                 android:textColor="@color/white"/>
         </LinearLayout>
     </FrameLayout>
