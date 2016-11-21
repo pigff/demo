@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.lin.demo.R;
@@ -34,6 +35,9 @@ public class MainActivity extends BaseFragmentActivity {
     @ViewInject(R.id.titlebar_backbutton)
     private LinearLayout mBackBtn;
 
+    @ViewInject(R.id.titlebar_group)
+    private RelativeLayout mRelativeLayout;
+
     private boolean mFirst = true;
 
     List<String> mTitles;
@@ -49,7 +53,7 @@ public class MainActivity extends BaseFragmentActivity {
             mTabLayout.addTab(mTabLayout.newTab().setCustomView(getTabView(i)));
         }
 
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
@@ -57,9 +61,15 @@ public class MainActivity extends BaseFragmentActivity {
                 ImageView imageView = (ImageView) v.findViewById(R.id.iv_tab);
                 imageView.setImageResource(mImageOnIds.get(position));
                 TextView textView = (TextView) v.findViewById(R.id.iv_text);
-                textView.setTextColor(Color.rgb(59,186,255));
+                textView.setTextColor(Color.rgb(59, 186, 255));
                 mViewPager.setCurrentItem(tab.getPosition(), false);
-                setTitle(mTitles.get(position));
+                if (position == 1 || position == 2) {
+                    mRelativeLayout.setVisibility(View.GONE);
+                } else {
+                    mRelativeLayout.setVisibility(View.VISIBLE);
+                    setTitle(mTitles.get(position));
+                }
+
             }
 
             @Override
@@ -77,6 +87,56 @@ public class MainActivity extends BaseFragmentActivity {
             }
         });
     }
+
+//    private void setSegGone(int position) {
+//        mTitle.setVisibility(View.VISIBLE);
+//        mSegmentControl.setVisibility(View.GONE);
+//        mSegmentControl2.setVisibility(View.GONE);
+//        setTitle(mTitles.get(position));
+//    }
+//
+//    private void setSegShow(int position) {
+//        mTitle.setVisibility(View.GONE);
+//        switch (position) {
+//            case 1:
+//                mSegmentControl.setVisibility(View.VISIBLE);
+//                mSegmentControl2.setVisibility(View.GONE);
+//                mSegmentControl.setText("地图", "VR");
+//                mSegmentControl.setOnSegmentControlClickListener(new SegmentControl.OnSegmentControlClickListener() {
+//                    @Override
+//                    public void onSegmentControlClick(int index) {
+//                        switch (index) {
+//                            case 0:
+//                                Toast.makeText(MainActivity.this, "hahaha1", Toast.LENGTH_SHORT).show();
+//                                break;
+//                            case 1:
+//                                Toast.makeText(MainActivity.this, "xixixixi", Toast.LENGTH_SHORT).show();
+//                                break;
+//                        }
+//                    }
+//                });
+//                break;
+//            case 2:
+//                mSegmentControl.setVisibility(View.GONE);
+//                mSegmentControl2.setVisibility(View.VISIBLE);
+//                mSegmentControl2.setOnSegmentControlClickListener(new SegmentControl.OnSegmentControlClickListener() {
+//                    @Override
+//                    public void onSegmentControlClick(int index) {
+//                        switch (index) {
+//                            case 0:
+//                                Toast.makeText(MainActivity.this, "hoho", Toast.LENGTH_SHORT).show();
+//                                break;
+//                            case 1:
+//                                Toast.makeText(MainActivity.this, "lala", Toast.LENGTH_SHORT).show();
+//                                break;
+//                        }
+//                    }
+//                });
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
     private void initViewPager() {
         MainFragmentAdapter mainFragmentAdapter = new MainFragmentAdapter(getSupportFragmentManager(), mTitles);
@@ -109,17 +169,17 @@ public class MainActivity extends BaseFragmentActivity {
         setTitle(mTitles.get(0));
     }
 
-    public View getTabView(int position){
+    public View getTabView(int position) {
         View v = LayoutInflater.from(this).inflate(R.layout.design_tab_layout, null);
         ImageView imageView = (ImageView) v.findViewById(R.id.iv_tab);
         TextView textView = (TextView) v.findViewById(R.id.iv_text);
         textView.setText(mTitles.get(position));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DisplayUtil.sp2px(this, 12.0f));
-        if (mFirst){
-            textView.setTextColor(Color.rgb(59,186,255));
+        if (mFirst) {
+            textView.setTextColor(Color.rgb(59, 186, 255));
             imageView.setImageResource(mImageOnIds.get(position));
             mFirst = false;
-        }else {
+        } else {
             imageView.setImageResource(mImageIds.get(position));
             textView.setTextColor(Color.rgb(149, 152, 167));
         }
