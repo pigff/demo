@@ -3,10 +3,12 @@ package com.example.lin.demo.ui.base;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.lin.demo.R;
 
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -28,5 +30,10 @@ public class BaseActivity extends Activity {
 
     public void setTitle(String title) {
         mTitleText.setText(title);
+    }
+
+    @Event(R.id.titlebar_backbutton)
+    private void onClick(View view) {
+        finish();
     }
 }

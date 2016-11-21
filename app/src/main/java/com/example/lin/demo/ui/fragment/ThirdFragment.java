@@ -1,4 +1,5 @@
-package com.example.lin.demo.ui;
+package com.example.lin.demo.ui.fragment;
+
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,14 +10,14 @@ import android.view.ViewGroup;
 import com.example.lin.demo.R;
 
 
-public class SecondFragment extends Fragment {
+public class ThirdFragment extends Fragment {
 
-    public SecondFragment() {
+    public ThirdFragment() {
         // Required empty public constructor
     }
 
-    public static SecondFragment newInstance() {
-        SecondFragment fragment = new SecondFragment();
+    public static ThirdFragment newInstance() {
+        ThirdFragment fragment = new ThirdFragment();
         return fragment;
     }
 
@@ -28,9 +29,8 @@ public class SecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second, container, false);
-    }
 
+        return inflater.inflate(R.layout.fragment_third, container, false);
+    }
 
 }

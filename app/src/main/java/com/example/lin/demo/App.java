@@ -2,6 +2,8 @@ package com.example.lin.demo;
 
 import android.app.Application;
 
+import com.baidu.mapapi.SDKInitializer;
+
 import org.xutils.x;
 
 /**
@@ -12,6 +14,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        SDKInitializer.initialize(this);
         x.Ext.init(this);
         x.Ext.setDebug(true);
     }

@@ -4,10 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.lin.demo.ui.FirstFragment;
-import com.example.lin.demo.ui.FourthFragment;
-import com.example.lin.demo.ui.SecondFragment;
-import com.example.lin.demo.ui.ThirdFragment;
+import com.example.lin.demo.ui.fragment.FirstFragment;
+import com.example.lin.demo.ui.fragment.FourthFragment;
+import com.example.lin.demo.ui.fragment.SecondFragment;
+import com.example.lin.demo.ui.fragment.ThirdFragment;
 
 import java.util.ArrayList;
 import java.util.List;

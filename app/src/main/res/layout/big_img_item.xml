@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_left_10dp"
+                android:layout_marginRight="@dimen/dimen_right_10dp"
+                android:layout_marginTop="@dimen/dimen_top_10dp">
+
+    <TextView
+        android:id="@+id/big_image_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="景点推荐"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/big_image_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/big_img_group"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="5dp"
+        android:text="更多..."
+        android:textColor="@color/orange"/>
+
+    <FrameLayout
+        android:id="@+id/big_img_group"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/big_image_text">
+
+        <ImageView
+            android:id="@+id/big_image"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@mipmap/image"
+            android:scaleType="fitXY"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom"
+            android:alpha="0.5"
+            android:background="@color/black"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/big_image_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="标题"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </FrameLayout>
+
+
+</RelativeLayout>

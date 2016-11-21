@@ -5,6 +5,23 @@
                 android:background="@drawable/border_bottom"
                 android:orientation="horizontal">
 
+    <LinearLayout
+        android:id="@+id/titlebar_backbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/toolbar_backbutton_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:background="@mipmap/return_icon"
+            android:clickable="false"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/titlebar_title"
         android:layout_width="wrap_content"

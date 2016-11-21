@@ -1,4 +1,4 @@
-package com.example.lin.demo.ui;
+package com.example.lin.demo.ui.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.lin.demo.R;
@@ -30,6 +31,8 @@ public class MainActivity extends BaseFragmentActivity {
     @ViewInject(R.id.main_viewpager)
     private ViewPager mViewPager;
 
+    @ViewInject(R.id.titlebar_backbutton)
+    private LinearLayout mBackBtn;
 
     private boolean mFirst = true;
 
@@ -46,7 +49,7 @@ public class MainActivity extends BaseFragmentActivity {
             mTabLayout.addTab(mTabLayout.newTab().setCustomView(getTabView(i)));
         }
 
-        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
@@ -84,10 +87,11 @@ public class MainActivity extends BaseFragmentActivity {
 
     private void init() {
 //        getActionToolBar().setNavigationIcon(null);
+        mBackBtn.setVisibility(View.GONE);
         mTitles = new ArrayList<>();
         mTitles.add("首页");
-        mTitles.add("企业互动");
-        mTitles.add("企业服务");
+        mTitles.add("美丽乡村");
+        mTitles.add("平安家园");
         mTitles.add("个人中心");
 
         mImageIds = new ArrayList<>();
@@ -122,22 +126,4 @@ public class MainActivity extends BaseFragmentActivity {
         return v;
     }
 
-//    /**
-//     * 处理个人中心fragment权限申请返回的结果
-//     * (由于fragment 用的是app包下的 而开源库支持的是v4包下的fragment)
-//     * @param requestCode
-//     * @param permissions
-//     * @param grantResults
-//     */
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        if (requestCode == Constant.PERMISSION_CODE) {
-//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//            } else {
-//                Toast.makeText(this, R.string.permission_failure, Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    }
 }

@@ -4,10 +4,12 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.lin.demo.R;
 
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -30,5 +32,10 @@ public class BaseFragmentActivity extends FragmentActivity {
         if (mTextView != null) {
             mTextView.setText(title);
         }
+    }
+
+    @Event(R.id.titlebar_backbutton)
+    private void onClick(View view) {
+        finish();
     }
 }
