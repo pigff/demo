@@ -84,7 +84,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
                 ((ImageView) view).setImageResource(((int) model));
             }
         });
-        mBanner.setData(Arrays.asList(R.mipmap.banner_img1, R.mipmap.banner_img1, R.mipmap.banner_img1, R.mipmap.banner_img1), null);
+        mBanner.setData(Arrays.asList(R.mipmap.banner_3, R.mipmap.banner_3, R.mipmap.banner_3, R.mipmap.banner_3), null);
 
         mGridRv.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         mGridRv.setHasFixedSize(true);

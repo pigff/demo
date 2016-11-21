@@ -52,7 +52,7 @@ public class ListActivity extends BaseActivity {
             }
         });
 
-        mBanner.setData(Arrays.asList(R.mipmap.banner_img2, R.mipmap.banner_img2, R.mipmap.banner_img2, R.mipmap.banner_img2), null);
+        mBanner.setData(Arrays.asList(R.mipmap.banner_4, R.mipmap.banner_4, R.mipmap.banner_4, R.mipmap.banner_4), null);
         ListAdapter2 adapter2 = new ListAdapter2(mNewses, this);
         mListView.setAdapter(adapter2);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
