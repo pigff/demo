@@ -73,6 +73,17 @@ public class VrFragment extends Fragment {
 //            mWebView.removeAllViews();
 //            mWebView.destroy();
 //        }
+
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
         if (mWebView != null) {
             ViewParent parent = mWebView.getParent();
             if (parent != null) {
@@ -86,17 +97,6 @@ public class VrFragment extends Fragment {
 //            clearWevViewCache();
 //            mWebView = null;
         }
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-
         super.onDestroy();
     }
 }

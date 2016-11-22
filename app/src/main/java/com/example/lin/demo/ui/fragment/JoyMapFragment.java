@@ -53,17 +53,17 @@ public class JoyMapFragment extends Fragment {
     }
 
     private void initView() {
-        LatLng latLng = new LatLng(25.829001, 119.328396);
+        LatLng latLng = new LatLng(25.479496,119.566955);
         setMap(latLng, R.mipmap.second_1);
-        LatLng latLng2 = new LatLng(26.729001, 119.328396);
+        LatLng latLng2 = new LatLng(25.478459,119.559925);
         setMap(latLng2, R.mipmap.second_2);
-        LatLng latLng3 = new LatLng(25.929001, 119.328396);
+        LatLng latLng3 = new LatLng(25.48066,119.577245);
         setMap(latLng3, R.mipmap.second_3);
-        LatLng latLng4 = new LatLng(25.229001, 119.328396);
+        LatLng latLng4 = new LatLng(25.473688,119.577676);
         setMap(latLng4, R.mipmap.second_4);
-        LatLng latLng5 = new LatLng(25.029001, 119.328396);
+        LatLng latLng5 = new LatLng(25.470657,119.571981);
         setMap(latLng5, R.mipmap.second_5);
-        LatLng latLng6 = new LatLng(24.729001, 119.328396);
+        LatLng latLng6 = new LatLng(25.477087,119.58113);
         setMap(latLng6, R.mipmap.second_6);
 
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
@@ -82,7 +82,7 @@ public class JoyMapFragment extends Fragment {
                 .icon(BitmapDescriptorFactory.fromView(getOverlayView(img))));
 
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(latLng));
-        MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(10);
+        MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(15);
         mBaiduMap.animateMapStatus(u);
     }
 

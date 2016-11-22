@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:fillViewport="true">
 
     <LinearLayout
@@ -8,7 +9,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/banner"/>
+        <cn.bingoogolapple.bgabanner.BGABanner
+            android:id="@+id/common_banner"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            app:banner_indicatorGravity="center_horizontal"
+            app:banner_pointDrawable="@drawable/bga_banner_selector_point_solid"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/grid_rv"

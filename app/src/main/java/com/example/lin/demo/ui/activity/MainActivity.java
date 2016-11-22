@@ -3,7 +3,6 @@ package com.example.lin.demo.ui.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.example.lin.demo.R;
 import com.example.lin.demo.adapter.MainFragmentAdapter;
 import com.example.lin.demo.ui.base.BaseFragmentActivity;
 import com.example.lin.demo.util.DisplayUtil;
+import com.example.lin.demo.util.NoScrollPager;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -30,7 +30,7 @@ public class MainActivity extends BaseFragmentActivity {
     private TabLayout mTabLayout;
 
     @ViewInject(R.id.main_viewpager)
-    private ViewPager mViewPager;
+    private NoScrollPager mViewPager;
 
     @ViewInject(R.id.titlebar_backbutton)
     private LinearLayout mBackBtn;
@@ -88,55 +88,6 @@ public class MainActivity extends BaseFragmentActivity {
         });
     }
 
-//    private void setSegGone(int position) {
-//        mTitle.setVisibility(View.VISIBLE);
-//        mSegmentControl.setVisibility(View.GONE);
-//        mSegmentControl2.setVisibility(View.GONE);
-//        setTitle(mTitles.get(position));
-//    }
-//
-//    private void setSegShow(int position) {
-//        mTitle.setVisibility(View.GONE);
-//        switch (position) {
-//            case 1:
-//                mSegmentControl.setVisibility(View.VISIBLE);
-//                mSegmentControl2.setVisibility(View.GONE);
-//                mSegmentControl.setText("地图", "VR");
-//                mSegmentControl.setOnSegmentControlClickListener(new SegmentControl.OnSegmentControlClickListener() {
-//                    @Override
-//                    public void onSegmentControlClick(int index) {
-//                        switch (index) {
-//                            case 0:
-//                                Toast.makeText(MainActivity.this, "hahaha1", Toast.LENGTH_SHORT).show();
-//                                break;
-//                            case 1:
-//                                Toast.makeText(MainActivity.this, "xixixixi", Toast.LENGTH_SHORT).show();
-//                                break;
-//                        }
-//                    }
-//                });
-//                break;
-//            case 2:
-//                mSegmentControl.setVisibility(View.GONE);
-//                mSegmentControl2.setVisibility(View.VISIBLE);
-//                mSegmentControl2.setOnSegmentControlClickListener(new SegmentControl.OnSegmentControlClickListener() {
-//                    @Override
-//                    public void onSegmentControlClick(int index) {
-//                        switch (index) {
-//                            case 0:
-//                                Toast.makeText(MainActivity.this, "hoho", Toast.LENGTH_SHORT).show();
-//                                break;
-//                            case 1:
-//                                Toast.makeText(MainActivity.this, "lala", Toast.LENGTH_SHORT).show();
-//                                break;
-//                        }
-//                    }
-//                });
-//                break;
-//            default:
-//                break;
-//        }
-//    }
 
     private void initViewPager() {
         MainFragmentAdapter mainFragmentAdapter = new MainFragmentAdapter(getSupportFragmentManager(), mTitles);

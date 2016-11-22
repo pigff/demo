@@ -58,27 +58,27 @@ public class TownMapFragment extends Fragment {
     }
 
     private void initView() {
-        LatLng latLng = new LatLng(25.829001, 119.328396);
+        LatLng latLng = new LatLng(25.479496,119.566955);
         Bundle bundle = new Bundle();
         bundle.putString(Constant.BEAN, "北垞村");
         setMap(latLng, "北垞村", R.mipmap.third_01);
-        LatLng latLng2 = new LatLng(26.729001, 119.328396);
+        LatLng latLng2 = new LatLng(25.478459,119.559925);
         Bundle bundle2 = new Bundle();
         bundle.putString(Constant.BEAN, "薛港村");
         setMap(latLng2, "薛港村", R.mipmap.third_02);
-        LatLng latLng3 = new LatLng(25.929001, 119.328396);
+        LatLng latLng3 = new LatLng(25.48066,119.577245);
         Bundle bundle3 = new Bundle();
         bundle.putString(Constant.BEAN, "后安村");
         setMap(latLng3, "后安村", R.mipmap.third_03);
-        LatLng latLng4 = new LatLng(25.229001, 119.328396);
+        LatLng latLng4 = new LatLng(25.473688,119.577676);
         Bundle bundle4 = new Bundle();
         bundle.putString(Constant.BEAN, "东埔村");
         setMap(latLng4, "东埔村", R.mipmap.third_04);
-        LatLng latLng5 = new LatLng(25.029001, 119.328396);
+        LatLng latLng5 = new LatLng(25.470657,119.571981);
         Bundle bundle5 = new Bundle();
         bundle.putString(Constant.BEAN, "安适村");
         setMap(latLng5, "安适村", R.mipmap.third_05);
-        LatLng latLng6 = new LatLng(24.729001, 119.328396);
+        LatLng latLng6 = new LatLng(25.477087,119.58113);
         Bundle bundle6 = new Bundle();
         bundle.putString(Constant.BEAN, "目屿村");
         setMap(latLng6, "目屿村", R.mipmap.third_06);
@@ -104,7 +104,7 @@ public class TownMapFragment extends Fragment {
         bundle1.putString(Constant.BEAN, title);
         marker.setExtraInfo(bundle1);
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(latLng));
-        MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(10);
+        MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(15);
         mBaiduMap.animateMapStatus(u);
     }
 
