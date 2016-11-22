@@ -53,6 +53,8 @@
         </activity>
         <activity android:name=".ui.activity.VideoActivity">
         </activity>
+        <activity android:name=".ui.activity.TestActivity">
+        </activity>
     </application>
 
 </manifest>

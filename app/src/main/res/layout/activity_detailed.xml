@@ -84,7 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_10dp"
                 android:src="@mipmap/banner_4"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:onClick="jump"/>
 
             <TextView
                 android:id="@+id/detailed_content2"
