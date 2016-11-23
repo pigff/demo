@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.lin.demo.ui.fragment.HomeFragment;
-import com.example.lin.demo.ui.fragment.CenterFragment;
 import com.example.lin.demo.ui.fragment.BeatyTownFragment;
+import com.example.lin.demo.ui.fragment.CenterFragment;
+import com.example.lin.demo.ui.fragment.HomeFragment;
 import com.example.lin.demo.ui.fragment.SafaHomeFragment;
 
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+
         switch (position) {
             case 0:
                 return HomeFragment.newInstance();

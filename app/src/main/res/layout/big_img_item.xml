@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="福清高山发展变迁(图)"
+                android:text="(图)"
                 android:textColor="@color/white"/>
         </LinearLayout>
     </FrameLayout>

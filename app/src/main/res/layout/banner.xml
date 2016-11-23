@@ -8,7 +8,7 @@
             <cn.bingoogolapple.bgabanner.BGABanner
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:id="@+id/test_banner"
+                android:id="@+id/common_banner"
                 app:banner_indicatorGravity="center_horizontal"
                 app:banner_pointDrawable="@drawable/bga_banner_selector_point_solid"/>
 

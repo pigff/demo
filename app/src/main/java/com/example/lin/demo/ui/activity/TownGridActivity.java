@@ -70,7 +70,7 @@ public class TownGridActivity extends BaseActivity {
         mVideoAttr.add(new Video(R.mipmap.image, "乡村路口(流畅)"));
     }
 
-    class GridAdapter extends BaseQuickAdapter<Video> {
+    class GridAdapter extends BaseQuickAdapter<Video, BaseViewHolder> {
 
         public GridAdapter(int layoutResId, List<Video> data) {
             super(layoutResId, data);

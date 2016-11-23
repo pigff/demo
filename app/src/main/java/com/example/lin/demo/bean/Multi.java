@@ -13,37 +13,53 @@ public class Multi implements MultiItemEntity, Serializable {
     public static final int BANNER = 1;
     public static final int CATEGORY = 2;
     public static final int BIG_IMG = 3;
-    public static final int LIST = 4;
+    public static final int NEWS = 4;
     public static final int DIVIDING = 5;
+
+    public static final int CATEGORY_SIZE = 1;
+    public static final int NORMAL_SIZE = 4;
 
     private Integer[] bannerImgs;
     private List<Category> categories;
+    private Category category;
     private Integer bigImg;
     private News news;
     private int itemType;
+    private int spanSize;
 
-    public Multi(int itemType, News news) {
+    public Multi(int itemType, News news, int spanSize) {
         this.itemType = itemType;
         this.news = news;
+        this.spanSize = spanSize;
     }
 
-    public Multi(int itemType) {
+    public Multi(int itemType, int spanSize) {
         this.itemType = itemType;
+        this.spanSize = spanSize;
     }
 
-    public Multi(int itemType, Integer[] bannerImgs) {
+    public Multi(int itemType, Integer[] bannerImgs, int spanSize) {
         this.itemType = itemType;
         this.bannerImgs = bannerImgs;
+        this.spanSize = spanSize;
     }
 
-    public Multi(int itemType, List<Category> categories) {
+    public Multi(int itemType, List<Category> categories, int spanSize) {
         this.itemType = itemType;
         this.categories = categories;
+        this.spanSize = spanSize;
     }
 
-    public Multi(int itemType, Integer bigImg) {
+    public Multi(int itemType, Category category, int spanSize) {
+        this.itemType = itemType;
+        this.category = category;
+        this.spanSize = spanSize;
+    }
+
+    public Multi(int itemType, Integer bigImg, int spanSize) {
         this.itemType = itemType;
         this.bigImg = bigImg;
+        this.spanSize = spanSize;
     }
 
     public Integer[] getBannerImgs() {
@@ -81,5 +97,25 @@ public class Multi implements MultiItemEntity, Serializable {
     @Override
     public int getItemType() {
         return itemType;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setItemType(int itemType) {
+        this.itemType = itemType;
+    }
+
+    public int getSpanSize() {
+        return spanSize;
+    }
+
+    public void setSpanSize(int spanSize) {
+        this.spanSize = spanSize;
     }
 }
