@@ -1,13 +1,21 @@
 package com.example.lin.demo.ui.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -28,6 +36,10 @@ public class JoyMapFragment extends Fragment {
     private BaiduMap mBaiduMap;
     private boolean mIsShow;
     private boolean mIsFirst;
+    private boolean mIsSearch;
+
+    private EditText mEditText;
+    private ImageButton mSearchBtn;
 
     public JoyMapFragment() {
         // Required empty public constructor
@@ -50,18 +62,15 @@ public class JoyMapFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_joy_map, container, false);
         mMapView = (MapView) view.findViewById(R.id.joy_bdmap);
         mBaiduMap = mMapView.getMap();
+        mEditText = (EditText) view.findViewById(R.id.search_edit);
+        mSearchBtn = (ImageButton) view.findViewById(R.id.search_btn);
         initData();
         initView();
+        initListener();
         return view;
     }
 
-    private void initData() {
-        mIsFirst = true;
-    }
-
-    private void initView() {
-        initOverlay();
-
+    private void initListener() {
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -97,6 +106,50 @@ public class JoyMapFragment extends Fragment {
 
             }
         });
+
+        mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_SEARCH:
+                        searchLat(v);
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        mSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String keyWord = String.valueOf(mEditText.getText());
+                if (!TextUtils.isEmpty(keyWord)) {
+                    searchLat(v);
+                }
+            }
+        });
+    }
+
+    private void searchLat(View v) {
+        mIsSearch = true;
+        InputMethodManager imm = (InputMethodManager) v
+                .getContext().getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive()) {
+            imm.hideSoftInputFromWindow(
+                    v.getApplicationWindowToken(), 0);
+        }
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(new LatLng(25.479496,119.566955)));
+        MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(16);
+        mBaiduMap.animateMapStatus(u);
+    }
+
+    private void initData() {
+        mIsFirst = true;
+    }
+
+    private void initView() {
+        initOverlay();
     }
 
     private void initOverlay() {
@@ -123,8 +176,11 @@ public class JoyMapFragment extends Fragment {
             mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(latLng));
             mIsFirst = false;
         }
-        MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(15);
-        mBaiduMap.animateMapStatus(u);
+        if (!mIsSearch) {
+            MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(15);
+            mBaiduMap.animateMapStatus(u);
+            mIsSearch = false;
+        }
     }
 
     public View getOverlayView(Integer img) {

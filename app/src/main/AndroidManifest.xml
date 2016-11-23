@@ -38,7 +38,9 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="nOiZfv6Tcsf0ys4o2BmWR8xoXOx8P9La"/>
 
-        <activity android:name=".ui.activity.MainActivity">
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

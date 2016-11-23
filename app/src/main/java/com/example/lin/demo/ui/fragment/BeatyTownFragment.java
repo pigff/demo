@@ -18,6 +18,7 @@ public class BeatyTownFragment extends Fragment {
     private SegmentControl mSegmentControl;
     private FrameLayout mLayout;
 
+
     public BeatyTownFragment() {
         // Required empty public constructor
     }
@@ -38,6 +39,7 @@ public class BeatyTownFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_beauty_town, container, false);
         mSegmentControl = (SegmentControl) view.findViewById(R.id.by_town_segment_control);
+
         initView();
         initListener();
         return view;

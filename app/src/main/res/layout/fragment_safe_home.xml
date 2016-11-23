@@ -28,7 +28,6 @@
             app:verticalGap="10dp"/>
     </RelativeLayout>
 
-    <include layout="@layout/common_search"/>
 
     <FrameLayout
         android:layout_width="match_parent"
