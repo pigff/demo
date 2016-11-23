@@ -69,11 +69,6 @@ public class VrFragment extends Fragment {
 
     @Override
     public void onPause() {
-//        if (mWebView != null) {
-//            mWebView.removeAllViews();
-//            mWebView.destroy();
-//        }
-
         super.onPause();
     }
 
@@ -94,8 +89,6 @@ public class VrFragment extends Fragment {
             mWebView.clearHistory();
             mWebView.removeAllViews();
             mWebView.destroy();
-//            clearWevViewCache();
-//            mWebView = null;
         }
         super.onDestroy();
     }

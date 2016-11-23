@@ -8,4 +8,5 @@ public class Constant {
     public static final String TITLE = "title";
     public static final String BUNDLE = "bundle";
     public static final String BEAN = "bean";
+    public static final int PERMISSION_CODE = 10000;
 }
