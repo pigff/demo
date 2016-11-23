@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -23,9 +24,10 @@ import com.example.lin.demo.ui.activity.DetailedActivity;
 
 public class JoyMapFragment extends Fragment {
 
-
     private MapView mMapView;
     private BaiduMap mBaiduMap;
+    private boolean mIsShow;
+    private boolean mIsFirst;
 
     public JoyMapFragment() {
         // Required empty public constructor
@@ -48,23 +50,17 @@ public class JoyMapFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_joy_map, container, false);
         mMapView = (MapView) view.findViewById(R.id.joy_bdmap);
         mBaiduMap = mMapView.getMap();
+        initData();
         initView();
         return view;
     }
 
+    private void initData() {
+        mIsFirst = true;
+    }
+
     private void initView() {
-        LatLng latLng = new LatLng(25.479496,119.566955);
-        setMap(latLng, R.mipmap.second_1);
-        LatLng latLng2 = new LatLng(25.478459,119.559925);
-        setMap(latLng2, R.mipmap.second_2);
-        LatLng latLng3 = new LatLng(25.48066,119.577245);
-        setMap(latLng3, R.mipmap.second_3);
-        LatLng latLng4 = new LatLng(25.473688,119.577676);
-        setMap(latLng4, R.mipmap.second_4);
-        LatLng latLng5 = new LatLng(25.470657,119.571981);
-        setMap(latLng5, R.mipmap.second_5);
-        LatLng latLng6 = new LatLng(25.477087,119.58113);
-        setMap(latLng6, R.mipmap.second_6);
+        initOverlay();
 
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
@@ -74,14 +70,59 @@ public class JoyMapFragment extends Fragment {
                 return true;
             }
         });
+
+        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+            @Override
+            public void onMapStatusChangeStart(MapStatus mapStatus) {
+
+            }
+
+            @Override
+            public void onMapStatusChange(MapStatus mapStatus) {
+                if (mapStatus.zoom < 14.5) {
+                    if (mIsShow) {
+                        mBaiduMap.clear();
+                        mIsShow = false;
+                    }
+                } else {
+                    if (!mIsShow) {
+                        initOverlay();
+                        mIsShow = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onMapStatusChangeFinish(MapStatus mapStatus) {
+
+            }
+        });
+    }
+
+    private void initOverlay() {
+        mIsShow = true;
+        LatLng latLng = new LatLng(25.479496, 119.566955);
+        setMap(latLng, R.mipmap.second_1);
+        LatLng latLng2 = new LatLng(25.478459, 119.559925);
+        setMap(latLng2, R.mipmap.second_2);
+        LatLng latLng3 = new LatLng(25.48066, 119.577245);
+        setMap(latLng3, R.mipmap.second_3);
+        LatLng latLng4 = new LatLng(25.473688, 119.577676);
+        setMap(latLng4, R.mipmap.second_4);
+        LatLng latLng5 = new LatLng(25.470657, 119.571981);
+        setMap(latLng5, R.mipmap.second_5);
+        LatLng latLng6 = new LatLng(25.477087, 119.58113);
+        setMap(latLng6, R.mipmap.second_6);
     }
 
     private void setMap(LatLng latLng, Integer img) {
         Marker marker;
         marker = (Marker) mBaiduMap.addOverlay(new MarkerOptions().position(latLng)
                 .icon(BitmapDescriptorFactory.fromView(getOverlayView(img))));
-
-        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(latLng));
+        if (mIsFirst) {
+            mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(latLng));
+            mIsFirst = false;
+        }
         MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(15);
         mBaiduMap.animateMapStatus(u);
     }

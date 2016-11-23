@@ -4,10 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.lin.demo.ui.fragment.FirstFragment;
-import com.example.lin.demo.ui.fragment.FourthFragment;
-import com.example.lin.demo.ui.fragment.SecondFragment;
-import com.example.lin.demo.ui.fragment.ThirdFragment;
+import com.example.lin.demo.ui.fragment.HomeFragment;
+import com.example.lin.demo.ui.fragment.CenterFragment;
+import com.example.lin.demo.ui.fragment.BeatyTownFragment;
+import com.example.lin.demo.ui.fragment.SafaHomeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +29,13 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return FirstFragment.newInstance();
+                return HomeFragment.newInstance();
             case 1:
-                return SecondFragment.newInstance();
+                return BeatyTownFragment.newInstance();
             case 2:
-                return ThirdFragment.newInstance();
+                return SafaHomeFragment.newInstance();
             case 3:
-                return FourthFragment.newInstance();
+                return CenterFragment.newInstance();
             default:
                 break;
         }

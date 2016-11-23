@@ -4,6 +4,7 @@ package com.example.lin.demo.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -27,7 +29,9 @@ import com.example.lin.demo.util.Constant;
  * create an instance of this fragment.
  */
 public class TownMapFragment extends Fragment {
-
+    private static final String TAG = "TownMapFragment";
+    private boolean mIsShow;
+    private boolean mIsFirst;
     private BaiduMap mBaiduMap;
 
     public TownMapFragment() {
@@ -53,35 +57,17 @@ public class TownMapFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_town_map, container, false);
         MapView mapView = (MapView) view.findViewById(R.id.town_bdmap);
         mBaiduMap = mapView.getMap();
+        initData();
         initView();
         return view;
     }
 
+    private void initData() {
+        mIsFirst = true;
+    }
+
     private void initView() {
-        LatLng latLng = new LatLng(25.479496,119.566955);
-        Bundle bundle = new Bundle();
-        bundle.putString(Constant.BEAN, "北垞村");
-        setMap(latLng, "北垞村", R.mipmap.third_01);
-        LatLng latLng2 = new LatLng(25.478459,119.559925);
-        Bundle bundle2 = new Bundle();
-        bundle.putString(Constant.BEAN, "薛港村");
-        setMap(latLng2, "薛港村", R.mipmap.third_02);
-        LatLng latLng3 = new LatLng(25.48066,119.577245);
-        Bundle bundle3 = new Bundle();
-        bundle.putString(Constant.BEAN, "后安村");
-        setMap(latLng3, "后安村", R.mipmap.third_03);
-        LatLng latLng4 = new LatLng(25.473688,119.577676);
-        Bundle bundle4 = new Bundle();
-        bundle.putString(Constant.BEAN, "东埔村");
-        setMap(latLng4, "东埔村", R.mipmap.third_04);
-        LatLng latLng5 = new LatLng(25.470657,119.571981);
-        Bundle bundle5 = new Bundle();
-        bundle.putString(Constant.BEAN, "安适村");
-        setMap(latLng5, "安适村", R.mipmap.third_05);
-        LatLng latLng6 = new LatLng(25.477087,119.58113);
-        Bundle bundle6 = new Bundle();
-        bundle.putString(Constant.BEAN, "目屿村");
-        setMap(latLng6, "目屿村", R.mipmap.third_06);
+        initOverlay();
 
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
@@ -94,6 +80,49 @@ public class TownMapFragment extends Fragment {
                 return true;
             }
         });
+
+        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+            @Override
+            public void onMapStatusChangeStart(MapStatus mapStatus) {
+
+            }
+
+            @Override
+            public void onMapStatusChange(MapStatus mapStatus) {
+                if (mapStatus.zoom < 14.5) {
+                    if (mIsShow) {
+                        mBaiduMap.clear();
+                        mIsShow = !mIsShow;
+                    }
+                } else {
+                    if (!mIsShow) {
+                        initOverlay();
+                    }
+                }
+                Log.d(TAG, "onMapStatusChange() called with: " + "mapStatus = [" + mapStatus.zoom + "]");
+            }
+
+            @Override
+            public void onMapStatusChangeFinish(MapStatus mapStatus) {
+
+            }
+        });
+    }
+
+    private void initOverlay() {
+        mIsShow = true;
+        LatLng latLng = new LatLng(25.479496,119.566955);
+        setMap(latLng, "北垞村", R.mipmap.third_01);
+        LatLng latLng2 = new LatLng(25.478459,119.559925);
+        setMap(latLng2, "薛港村", R.mipmap.third_02);
+        LatLng latLng3 = new LatLng(25.48066,119.577245);
+        setMap(latLng3, "后安村", R.mipmap.third_03);
+        LatLng latLng4 = new LatLng(25.473688,119.577676);
+        setMap(latLng4, "东埔村", R.mipmap.third_04);
+        LatLng latLng5 = new LatLng(25.470657,119.571981);
+        setMap(latLng5, "安适村", R.mipmap.third_05);
+        LatLng latLng6 = new LatLng(25.477087,119.58113);
+        setMap(latLng6, "目屿村", R.mipmap.third_06);
     }
 
     private void setMap(LatLng latLng, String title, Integer img) {
@@ -103,7 +132,10 @@ public class TownMapFragment extends Fragment {
         Bundle bundle1 = new Bundle();
         bundle1.putString(Constant.BEAN, title);
         marker.setExtraInfo(bundle1);
-        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(latLng));
+        if (mIsFirst) {
+            mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(latLng));
+            mIsFirst = false;
+        }
         MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(15);
         mBaiduMap.animateMapStatus(u);
     }

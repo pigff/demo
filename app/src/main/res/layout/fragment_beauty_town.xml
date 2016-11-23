@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue">
+
+        <com.sevenheaven.segmentcontrol.SegmentControl
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/by_town_segment_control"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            app:boundWidth="1dp"
+            app:colors="#FFF"
+            app:cornerRadius="5dp"
+            app:direction="horizon"
+            app:horizonGap="10dp"
+            app:separatorWidth="2dp"
+            app:textSelectedColors="@color/blue"
+            app:texts="地图|VR"
+            app:verticalGap="10dp"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/by_town_fragment_group"/>
+
+</LinearLayout>

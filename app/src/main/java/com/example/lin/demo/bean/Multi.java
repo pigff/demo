@@ -2,12 +2,13 @@ package com.example.lin.demo.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lin on 2016/11/22.
  */
-public class Multi implements MultiItemEntity {
+public class Multi implements MultiItemEntity, Serializable {
 
     public static final int BANNER = 1;
     public static final int CATEGORY = 2;
