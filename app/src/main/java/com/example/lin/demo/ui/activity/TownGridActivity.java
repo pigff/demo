@@ -25,7 +25,7 @@ public class TownGridActivity extends BaseActivity {
 
     @ViewInject(R.id.town_grid)
     private RecyclerView mRecyclerView;
-    private List<Video> mVideoName;
+    private List<Video> mVideoAttr;
     private GridAdapter mGridAdapter;
     private String mTitle;
 
@@ -46,7 +46,7 @@ public class TownGridActivity extends BaseActivity {
             @Override
             public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
                 Intent intent2Video = new Intent(TownGridActivity.this, VideoActivity.class);
-               intent2Video.putExtra(Constant.BEAN, mVideoName.get(i));
+               intent2Video.putExtra(Constant.BEAN, mVideoAttr.get(i));
                 startActivity(intent2Video);
             }
         });
@@ -54,20 +54,20 @@ public class TownGridActivity extends BaseActivity {
     }
 
     private void initAdapter() {
-        mGridAdapter = new GridAdapter(R.layout.img_item, mVideoName);
+        mGridAdapter = new GridAdapter(R.layout.img_item, mVideoAttr);
     }
 
     private void initData() {
         mTitle = getIntent().getStringExtra(Constant.BEAN);
-        mVideoName = new ArrayList<>();
-        mVideoName.add(new Video(R.mipmap.third_2, "八字路口(流畅)"));
-        mVideoName.add(new Video(R.mipmap.third_3, "马路口(流畅)"));
-        mVideoName.add(new Video(R.mipmap.third_4, "十字路口(流畅)"));
-        mVideoName.add(new Video(R.mipmap.third_5, "学校路口(流畅)"));
-        mVideoName.add(new Video(R.mipmap.third_6, "集市路口(流畅)"));
-        mVideoName.add(new Video(R.mipmap.third_7, "乡村路口(流畅)"));
-        mVideoName.add(new Video(R.mipmap.third_8, "乡村路口(流畅)"));
-        mVideoName.add(new Video(R.mipmap.third_9, "乡村路口(流畅)"));
+        mVideoAttr = new ArrayList<>();
+        mVideoAttr.add(new Video(R.mipmap.image, "八字路口(流畅)"));
+        mVideoAttr.add(new Video(R.mipmap.image, "马路口(流畅)"));
+        mVideoAttr.add(new Video(R.mipmap.image, "十字路口(流畅)"));
+        mVideoAttr.add(new Video(R.mipmap.image, "学校路口(流畅)"));
+        mVideoAttr.add(new Video(R.mipmap.image, "集市路口(流畅)"));
+        mVideoAttr.add(new Video(R.mipmap.image, "乡村路口(流畅)"));
+        mVideoAttr.add(new Video(R.mipmap.image, "乡村路口(流畅)"));
+        mVideoAttr.add(new Video(R.mipmap.image, "乡村路口(流畅)"));
     }
 
     class GridAdapter extends BaseQuickAdapter<Video> {
@@ -79,6 +79,7 @@ public class TownGridActivity extends BaseActivity {
         @Override
         protected void convert(BaseViewHolder baseViewHolder, Video video) {
             baseViewHolder.setImageResource(R.id.grid_image, video.getImg())
+                    .setText(R.id.grid_image_title, video.getName())
                     .addOnClickListener(R.id.img_group);
         }
     }

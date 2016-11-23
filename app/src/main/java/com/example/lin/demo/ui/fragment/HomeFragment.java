@@ -113,10 +113,10 @@ public class HomeFragment extends Fragment {
         Integer bigImg = R.mipmap.image;
         Multi multi1 = new Multi(Multi.BIG_IMG, bigImg);
         List<Category> categories = new ArrayList<>();
-        categories.add(new Category("发展变迁", R.mipmap.first_f_1));
-        categories.add(new Category("地方文化", R.mipmap.first_f_2));
-        categories.add(new Category("特产美食", R.mipmap.first_f_3));
-        categories.add(new Category("风景名胜", R.mipmap.first_f_4));
+        categories.add(new Category("发展变迁", R.mipmap.change));
+        categories.add(new Category("地方文化", R.mipmap.culture));
+        categories.add(new Category("特产美食", R.mipmap.food));
+        categories.add(new Category("风景名胜", R.mipmap.attractions));
         Multi multi2 = new Multi(Multi.CATEGORY, categories);
         Multi multi3 = new Multi(Multi.DIVIDING);
         mMultis.add(multi);
@@ -124,8 +124,8 @@ public class HomeFragment extends Fragment {
         mMultis.add(multi3);
         mMultis.add(multi1);
         News news1 = new News("福清高山山羊", "高山羊是我省肉用型优良山羊品种之一。其肉鲜嫩少膻味,味道香甜。逢年过节,外省和香港都有人特地到福清采购高山羊。福清籍的海外华侨和港台同胞回乡时也必尝高...",
-                R.mipmap.first_f_6, "2015-12-24");
-        News news2 = new News("福清高山名胜古迹", "从福州图库乘车到福清高山镇至沙浦镇牛头尾,再坐渡船上目屿岛,约莫 2...", R.mipmap.first_f_7, "2015-10-2");
+                R.mipmap.image, "2015-12-24");
+        News news2 = new News("福清高山名胜古迹", "从福州图库乘车到福清高山镇至沙浦镇牛头尾,再坐渡船上目屿岛,约莫 2...", R.mipmap.image, "2015-10-2");
         mMultis.add(new Multi(Multi.LIST, news1));
         mMultis.add(new Multi(Multi.LIST, news2));
     }

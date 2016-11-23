@@ -106,16 +106,16 @@ public class MainActivity extends BaseFragmentActivity {
         mTitles.add("个人中心");
 
         mImageIds = new ArrayList<>();
-        mImageIds.add(R.mipmap.first_01);
-        mImageIds.add(R.mipmap.first_02);
-        mImageIds.add(R.mipmap.first_03);
-        mImageIds.add(R.mipmap.first_04);
+        mImageIds.add(R.mipmap.icon_home_off);
+        mImageIds.add(R.mipmap.icon_by_town_off);
+        mImageIds.add(R.mipmap.icon_safe_home_off);
+        mImageIds.add(R.mipmap.icon_center_off);
 
         mImageOnIds = new ArrayList<>();
-        mImageOnIds.add(R.mipmap.first_11);
-        mImageOnIds.add(R.mipmap.first_12);
-        mImageOnIds.add(R.mipmap.first_13);
-        mImageOnIds.add(R.mipmap.first_14);
+        mImageOnIds.add(R.mipmap.icon_home_on);
+        mImageOnIds.add(R.mipmap.icon_by_town_on);
+        mImageOnIds.add(R.mipmap.icon_safe_home_on);
+        mImageOnIds.add(R.mipmap.icon_center_on);
 
         setTitle(mTitles.get(0));
     }

@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:src="@mipmap/btn_01"/>
+                    android:src="@mipmap/icon_capture"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:src="@mipmap/btn_02"
+                    android:src="@mipmap/icon_upload"
                     />
 
                 <TextView
@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:src="@mipmap/btn_03"/>
+                    android:src="@mipmap/icon_policy"/>
 
                 <TextView
                     android:layout_width="wrap_content"
