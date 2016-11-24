@@ -76,15 +76,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_10dp"
-                android:textColor="@color/light_black"
-                android:text="@string/text1"/>
+                android:text="@string/text1"
+                android:textColor="@color/light_black"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_10dp"
-                android:src="@mipmap/banner_4"
-                android:scaleType="fitXY"/>
+                android:onClick="jump"
+                android:scaleType="fitXY"
+                android:src="@mipmap/banner_4"/>
 
             <TextView
                 android:id="@+id/detailed_content2"
@@ -92,8 +93,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_marginRight="@dimen/dimen_10dp"
-                android:textColor="@color/light_black"
-                android:text="@string/text2"/>
+                android:text="@string/text2"
+                android:textColor="@color/light_black"/>
 
         </LinearLayout>
     </ScrollView>

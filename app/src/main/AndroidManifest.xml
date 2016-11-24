@@ -47,7 +47,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.ListActivity">
+        <activity android:name=".ui.activity.MoreActivity">
         </activity>
         <activity android:name=".ui.activity.DetailedActivity">
         </activity>
@@ -58,6 +58,8 @@
         <activity android:name=".ui.activity.SelectPicActivity">
         </activity>
         <activity android:name=".ui.activity.ModifyPwdActivity">
+        </activity>
+        <activity android:name=".ui.activity.ManagerActivity">
         </activity>
     </application>
 

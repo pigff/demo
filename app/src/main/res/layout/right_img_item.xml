@@ -44,6 +44,7 @@
             android:id="@+id/right_img"
             android:layout_width="100dp"
             android:layout_height="60dp"
+            android:layout_marginLeft="@dimen/dimen_left_10dp"
             android:scaleType="fitXY"/>
     </LinearLayout>
 

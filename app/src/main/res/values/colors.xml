@@ -6,16 +6,22 @@
 
     //
     <color name="white">#ffff</color>
-    <color name="black">#010114</color>
+    <color name="black">#000000</color>
     <color name="green">#4ac7a4</color>
     <color name="grey">#7daaaaaa</color>
     <color name="fleshcolor">#fdf9f6</color>
     <color name="blue">#3bbaff</color>
     <color name="orange">#ff8a14</color>
     <color name="light_grey">#e4e4e2</color>
-    <color name="light_black">#141414</color>
+    <color name="light_black">#7d000000</color>
     <color name="red">#f93956</color>
     <color name="ching">#f2f6f9</color>
-    <color name="light_blue">#6fc8e8</color>
+
     <color name="tab_back_color">#f8f8f8</color>
+
+    //地图
+    <color name="light_blue">#7bc4fe</color>
+    <color name="dark_orange">#fc4305</color>
+    <color name="pink_red">#fe3059</color>
+    <color name="light_green">#9fcb00</color>
 </resources>

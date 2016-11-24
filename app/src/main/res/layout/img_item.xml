@@ -3,7 +3,7 @@
               android:id="@+id/img_group"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_margin="@dimen/dimen_top_10dp"
+              android:layout_margin="@dimen/dimen_5dp"
               android:orientation="vertical">
 
     <FrameLayout

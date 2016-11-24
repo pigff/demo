@@ -15,13 +15,13 @@ import java.util.List;
 /**
  * Created by lin on 2016/11/21.
  */
-public class ListAdapter3 extends BaseAdapter{
+public class TownListAdapter extends BaseAdapter{
 
     private List<Town> mTowns;
 
     private LayoutInflater mInflater;
 
-    public ListAdapter3(List<Town> towns, Context context) {
+    public TownListAdapter(List<Town> towns, Context context) {
         mTowns = towns;
         mInflater = LayoutInflater.from(context);
     }

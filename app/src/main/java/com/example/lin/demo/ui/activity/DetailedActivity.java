@@ -2,6 +2,7 @@ package com.example.lin.demo.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.lin.demo.R;
@@ -42,6 +43,11 @@ public class DetailedActivity extends BaseActivity {
         mTitle = intent.getStringExtra(Constant.TITLE);
 //        Bundle bundle = intent.getBundleExtra(Constant.BUNDLE);
 //        mNews = (News) bundle.getSerializable(Constant.BEAN);
+    }
+
+    public void jump(View view) {
+        Intent intent = new Intent(this, ManagerActivity.class);
+        startActivity(intent);
     }
 
 }

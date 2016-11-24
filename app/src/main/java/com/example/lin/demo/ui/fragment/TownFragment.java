@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lin.demo.R;
-import com.example.lin.demo.adapter.ListAdapter3;
+import com.example.lin.demo.adapter.TownListAdapter;
 import com.example.lin.demo.bean.Town;
 import com.example.lin.demo.ui.activity.TownGridActivity;
 import com.example.lin.demo.util.Constant;
@@ -35,7 +35,7 @@ import java.util.List;
 public class TownFragment extends Fragment {
 
     private List<Town> mTowns;
-    private ListAdapter3 mAdapter3;
+    private TownListAdapter mAdapter3;
     private ListView mListView;
     private EditText mEditText;
     private ImageButton mSearchBtn;
@@ -105,7 +105,7 @@ public class TownFragment extends Fragment {
     }
 
     private void initAdapter() {
-        mAdapter3 = new ListAdapter3(mTowns, getActivity());
+        mAdapter3 = new TownListAdapter(mTowns, getActivity());
     }
 
     private void initData() {

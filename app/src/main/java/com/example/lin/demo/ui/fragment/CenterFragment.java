@@ -14,8 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.lin.demo.R;
 import com.example.lin.demo.adapter.CenterGridAdapter;
 import com.example.lin.demo.bean.Category;
@@ -23,6 +26,7 @@ import com.example.lin.demo.ui.activity.ModifyPwdActivity;
 import com.example.lin.demo.ui.activity.SelectPicActivity;
 import com.example.lin.demo.util.Constant;
 import com.example.lin.demo.util.FileUtil;
+import com.example.lin.demo.util.GlideCircleTransform;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,6 +45,8 @@ public class CenterFragment extends Fragment {
     private GridView mGridView;
     private List<Category> mCategories;
     private CenterGridAdapter mAdapter;
+    private ImageView mImageView;
+    private TextView mNoticeLogin;
 
     public CenterFragment() {
 
@@ -63,6 +69,8 @@ public class CenterFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_center, container, false);
         mGridView = (GridView) view.findViewById(R.id.center_grid);
+        mImageView = (ImageView) view.findViewById(R.id.ec_head_image);
+        mNoticeLogin = (TextView) view.findViewById(R.id.notice_login);
         initData();
         initAdapter();
         initView();
@@ -99,6 +107,7 @@ public class CenterFragment extends Fragment {
 
     private void initView() {
         mGridView.setAdapter(mAdapter);
+        Glide.with(this).load(R.mipmap.image).transform(new GlideCircleTransform(getActivity())).into(mImageView);
     }
 
     private void initAdapter() {

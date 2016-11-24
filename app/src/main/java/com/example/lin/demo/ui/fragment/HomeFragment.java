@@ -2,33 +2,29 @@ package com.example.lin.demo.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.example.lin.demo.R;
+import com.example.lin.demo.adapter.MultiAdapter;
 import com.example.lin.demo.bean.Category;
 import com.example.lin.demo.bean.Multi;
 import com.example.lin.demo.bean.News;
 import com.example.lin.demo.ui.activity.DetailedActivity;
-import com.example.lin.demo.ui.activity.ListActivity;
+import com.example.lin.demo.ui.activity.MoreActivity;
 import com.example.lin.demo.util.Constant;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import cn.bingoogolapple.bgabanner.BGABanner;
-
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment {
 
     private RecyclerView mRv;
 
@@ -82,13 +78,13 @@ public class HomeFragment extends Fragment{
                                 startActivity(intent);
                                 break;
                             case R.id.big_image_more:
-                                Intent intent2List = new Intent(getActivity(), ListActivity.class);
+                                Intent intent2List = new Intent(getActivity(), MoreActivity.class);
                                 intent2List.putExtra(Constant.TITLE, "相关推荐");
                                 startActivity(intent2List);
                                 break;
                         }
                         break;
-                    case Multi.NEWS:
+                    case Multi.NEWS_RIGHT:
                         Intent intent = new Intent(getActivity(), DetailedActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(Constant.BEAN, ((Multi) baseQuickAdapter.getItem(i)).getNews());
@@ -98,7 +94,7 @@ public class HomeFragment extends Fragment{
 //                        Toast.makeText(getActivity(), ((Multi) baseQuickAdapter.getItem(i)).getNews().getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case Multi.CATEGORY:
-                        Intent intent2List = new Intent(getActivity(), ListActivity.class);
+                        Intent intent2List = new Intent(getActivity(), MoreActivity.class);
                         intent2List.putExtra(Constant.TITLE, ((Multi) baseQuickAdapter.getItem(i)).getCategory().getName());
                         startActivity(intent2List);
                         break;
@@ -115,9 +111,10 @@ public class HomeFragment extends Fragment{
 
     private void initData() {
         mMultis = new ArrayList<>();
-        Integer[] imgs = new Integer[]{R.mipmap.banner_3, R.mipmap.banner_3, R.mipmap.banner_3, R.mipmap.banner_3};
+//        Integer[] imgs = new Integer[]{R.mipmap.banner_3, R.mipmap.banner_3, R.mipmap.banner_3, R.mipmap.banner_3};
+        Category[] imgs = new Category[]{new Category("haha", R.mipmap.banner_3)};
         Multi multi = new Multi(Multi.BANNER, imgs, Multi.NORMAL_SIZE);
-        Integer bigImg = R.mipmap.image;
+        News bigImg = new News("大标题", "大标题的内容", R.mipmap.image, "222323");
         Multi multi1 = new Multi(Multi.BIG_IMG, bigImg, Multi.NORMAL_SIZE);
         Category category = new Category("发展变迁", R.mipmap.change);
         Category category1 = new Category("地方文化", R.mipmap.culture);
@@ -134,8 +131,18 @@ public class HomeFragment extends Fragment{
         News news1 = new News("第一个", "第一个内容",
                 R.mipmap.image, "2015-12-24");
         News news2 = new News("第二个", "第二个内容", R.mipmap.image, "2015-10-2");
-        mMultis.add(new Multi(Multi.NEWS, news1, Multi.NORMAL_SIZE));
-        mMultis.add(new Multi(Multi.NEWS, news2, Multi.NORMAL_SIZE));
+        mMultis.add(new Multi(Multi.NEWS_RIGHT, news1, Multi.NORMAL_SIZE));
+        mMultis.add(new Multi(Multi.NEWS_RIGHT, news2, Multi.NORMAL_SIZE));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Category[] imgs = new Category[]{new Category("xixi", R.mipmap.banner_3), new Category("xixi", R.mipmap.banner_3)
+                        , new Category("xixi", R.mipmap.banner_3), new Category("xixi", R.mipmap.banner_3)};
+                mMultis.set(0, new Multi(Multi.BANNER, imgs, Multi.NORMAL_SIZE));
+                mMultiAdapter.notifyDataSetChanged();
+            }
+        }, 5000);
+
     }
 
 
@@ -172,57 +179,6 @@ public class HomeFragment extends Fragment{
 //            }, 1000);
 //        }
 //    }
-
-    class MultiAdapter extends BaseMultiItemQuickAdapter<Multi, BaseViewHolder> {
-        public MultiAdapter(List<Multi> data) {
-            super(data);
-            addItemType(Multi.BANNER, R.layout.banner);
-            addItemType(Multi.CATEGORY, R.layout.home_category_item);
-            addItemType(Multi.BIG_IMG, R.layout.big_img_item);
-            addItemType(Multi.NEWS, R.layout.right_img_item);
-            addItemType(Multi.DIVIDING, R.layout.divide_item);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder baseViewHolder, final Multi multi) {
-            switch (baseViewHolder.getItemViewType()) {
-                case Multi.BANNER:
-                    BGABanner bgaBanner = baseViewHolder.getView(R.id.common_banner);
-                    bgaBanner.setAdapter(new BGABanner.Adapter() {
-                        @Override
-                        public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
-                            ((ImageView) view).setScaleType(ImageView.ScaleType.FIT_XY);
-                            ((ImageView) view).setImageResource(((int) model));
-                        }
-                    });
-                    bgaBanner.setData(Arrays.asList(multi.getBannerImgs()), null);
-//                    bgaBanner.setOnItemClickListener(new BGABanner.OnItemClickListener() {
-//                        @Override
-//                        public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
-//                        }
-//                    });
-                    break;
-                case Multi.CATEGORY:
-                    baseViewHolder.setImageResource(R.id.category_img, multi.getCategory().getImg())
-                            .setText(R.id.category_text, multi.getCategory().getName())
-                            .addOnClickListener(R.id.category_group);
-                    break;
-                case Multi.BIG_IMG:
-                    baseViewHolder.setImageResource(R.id.big_image, multi.getBigImg())
-                            .addOnClickListener(R.id.big_image_more)
-                            .addOnClickListener(R.id.big_image);
-                    break;
-                case Multi.NEWS:
-                    baseViewHolder.setImageResource(R.id.right_img, multi.getNews().getImg())
-                            .setText(R.id.right_item_title, multi.getNews().getTitle())
-                            .setText(R.id.right_item_time, multi.getNews().getTime())
-                            .setText(R.id.right_item_content, multi.getNews().getContent())
-                            .addOnClickListener(R.id.right_img_group);
-                    break;
-            }
-        }
-    }
-
 
 //    private List<Multi> getData() {
 //        List<Multi> multis = new ArrayList<>();

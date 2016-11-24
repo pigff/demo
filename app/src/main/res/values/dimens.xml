@@ -7,4 +7,5 @@
     <dimen name="dimen_right_10dp">10dp</dimen>
     <dimen name="dimen_left_10dp">10dp</dimen>
     <dimen name="dimen_10dp">10dp</dimen>
+    <dimen name="dimen_5dp">5dp</dimen>
 </resources>

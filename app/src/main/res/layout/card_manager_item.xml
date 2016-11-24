@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="@dimen/dimen_5dp"
+    android:layout_marginRight="@dimen/dimen_5dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="2dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/CardLinerStyle"
+            android:padding="@dimen/dimen_10dp">
+
+            <ImageView
+                android:id="@+id/card_portrait"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/card_name"
+                style="@style/CardTextStyle"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/grey"/>
+
+        <LinearLayout
+            style="@style/CardLinerStyle"
+            android:padding="@dimen/dimen_10dp">
+
+            <TextView
+                style="@style/CardTextStyle"
+                android:text="年龄:"/>
+
+            <TextView
+                android:id="@+id/card_age"
+                style="@style/CardTextStyle"
+                android:layout_marginLeft="@dimen/dimen_10dp"
+                />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/grey"/>
+
+        <LinearLayout
+            style="@style/CardLinerStyle"
+            android:padding="@dimen/dimen_10dp">
+
+            <TextView
+                style="@style/CardTextStyle"
+                android:text="负责区域:"/>
+
+            <TextView
+                android:id="@+id/card_area"
+                style="@style/CardTextStyle"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/grey"/>
+
+        <LinearLayout
+            style="@style/CardLinerStyle"
+            android:paddingBottom="@dimen/dimen_5dp"
+            android:paddingLeft="@dimen/dimen_10dp"
+            android:paddingRight="@dimen/dimen_10dp"
+            android:paddingTop="@dimen/dimen_5dp">
+
+            <TextView
+                style="@style/CardTextStyle"
+                android:text="联系方式:"/>
+
+            <TextView
+                android:id="@+id/card_phone_num"
+                style="@style/CardTextStyle"
+                android:layout_marginLeft="10dp"/>
+
+            <View
+                android:layout_width="@dimen/dimen_10dp"
+                android:layout_height="1px"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/card_phone_call"
+                style="@style/CardTextStyle"
+                android:background="@drawable/bg_orange"
+                android:drawableLeft="@mipmap/offers"
+                android:drawablePadding="@dimen/dimen_10dp"
+                android:padding="@dimen/dimen_10dp"
+                android:text="立即拨打"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
