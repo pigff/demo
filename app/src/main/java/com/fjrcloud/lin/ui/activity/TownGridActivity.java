@@ -1,6 +1,5 @@
 package com.fjrcloud.lin.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +12,7 @@ import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.bean.Video;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
+import com.videogo.openapi.EZOpenSDK;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -45,9 +45,10 @@ public class TownGridActivity extends BaseActivity {
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                Intent intent2Video = new Intent(TownGridActivity.this, VideoActivity.class);
-                intent2Video.putExtra(Constant.BEAN, mVideoAttr.get(i));
-                startActivity(intent2Video);
+//                Intent intent2Video = new Intent(TownGridActivity.this, VideoActivity.class);
+//                intent2Video.putExtra(Constant.BEAN, mVideoAttr.get(i));
+//                startActivity(intent2Video);
+                EZOpenSDK.getInstance().openLoginPage();
             }
         });
 

@@ -20,4 +20,7 @@
     <string name="confirm_new_psw">请确认新密码</string>
     <string name="modify_psw_error">密码不能为空</string>
     <string name="modify_psw_error2">两次输入的新密码不一致</string>
+    <string name="sd_error">存储卡不可用</string>
+    <string name="sd_error2">抓图失败,存储空间已满</string>
+    <string name="already_saved_to_volume">已保存至相册</string>
 </resources>

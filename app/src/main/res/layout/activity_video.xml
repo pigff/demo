@@ -7,12 +7,18 @@
 
     <include layout="@layout/titlebar"/>
 
-    <ImageView
-        android:id="@+id/video_img"
+    <!--<ImageView-->
+        <!--android:id="@+id/video_img"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="2"-->
+        <!--android:scaleType="fitXY"/>-->
+    <SurfaceView
+        android:id="@+id/realplay_sv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:scaleType="fitXY"/>
+        android:background="@android:color/transparent" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,6 +33,11 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="40dp"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/test_img"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
