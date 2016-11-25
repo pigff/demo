@@ -160,8 +160,17 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     @Override
     protected void onResume() {
         super.onResume();
-        startPlay();
+        if (mEzPlayer != null) {
+            mEzPlayer.startRealPlay();
+        }
+
         Log.d(TAG, "onResume() called with: " + "");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mEzPlayer.stopRealPlay();
     }
 
     @Override
