@@ -9,7 +9,7 @@
     <include layout="@layout/titlebar"/>
 
 
-    <com.example.lin.demo.util.NoScrollPager
+    <com.fjrcloud.lin.util.NoScrollPager
         android:id="@+id/main_viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
