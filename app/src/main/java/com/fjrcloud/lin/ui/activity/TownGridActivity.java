@@ -46,7 +46,7 @@ public class TownGridActivity extends BaseActivity {
             @Override
             public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
                 Intent intent2Video = new Intent(TownGridActivity.this, VideoActivity.class);
-               intent2Video.putExtra(Constant.BEAN, mVideoAttr.get(i));
+                intent2Video.putExtra(Constant.BEAN, mVideoAttr.get(i));
                 startActivity(intent2Video);
             }
         });
