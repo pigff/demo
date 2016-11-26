@@ -9,21 +9,21 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
-public class MenuViewItem extends ImageView {
+public class MenuViewItem2 extends ImageView {
 
     private int width = -1;
     private int height = -1;
     private Bitmap bitmap;
 
-    public MenuViewItem(Context context) {
+    public MenuViewItem2(Context context) {
         super( context);
     }
 
-    public MenuViewItem(Context context, AttributeSet attrs, int defStyle) {
+    public MenuViewItem2(Context context, AttributeSet attrs, int defStyle) {
         super( context, attrs, defStyle);
     }
 
-    public MenuViewItem(Context context, AttributeSet attrs) {
+    public MenuViewItem2(Context context, AttributeSet attrs) {
         super( context, attrs);
     }
 
@@ -36,7 +36,7 @@ public class MenuViewItem extends ImageView {
         int x = (int)event.getX();
         int y = (int)event.getY();
         if(width == -1 || height == -1) {
-            Drawable drawable = getDrawable();
+            Drawable drawable = (getDrawable()).getCurrent();
             bitmap = ((BitmapDrawable)drawable).getBitmap();
             width = getWidth();
             height = getHeight();

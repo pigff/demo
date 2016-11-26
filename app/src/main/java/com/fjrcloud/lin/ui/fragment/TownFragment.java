@@ -21,8 +21,7 @@ import android.widget.Toast;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.TownListAdapter;
 import com.fjrcloud.lin.model.bean.Town;
-import com.fjrcloud.lin.ui.activity.TownGridActivity;
-import com.fjrcloud.lin.util.Constant;
+import com.fjrcloud.lin.ui.activity.VideoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,8 +96,10 @@ public class TownFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), TownGridActivity.class);
-                intent.putExtra(Constant.BEAN, mTowns.get(position).getName());
+//                Intent intent = new Intent(getActivity(), TownGridActivity.class);
+//                intent.putExtra(Constant.BEAN, mTowns.get(position).getName());
+//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), VideoActivity.class);
                 startActivity(intent);
             }
         });
