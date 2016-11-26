@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.bean.News;
+import com.fjrcloud.lin.model.bean.News;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
 

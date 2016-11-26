@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.bean.Category;
+import com.fjrcloud.lin.model.bean.Category;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.fjrcloud.lin.bean;
+package com.fjrcloud.lin.model.bean;
 
 /**
  * Created by lin on 2016/11/24.

@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.CenterGridAdapter;
-import com.fjrcloud.lin.bean.Category;
+import com.fjrcloud.lin.model.bean.Category;
 import com.fjrcloud.lin.ui.activity.ModifyPwdActivity;
 import com.fjrcloud.lin.ui.activity.SelectPicActivity;
 import com.fjrcloud.lin.util.Constant;

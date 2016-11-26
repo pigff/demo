@@ -1,4 +1,4 @@
-package com.fjrcloud.lin.bean;
+package com.fjrcloud.lin.model.bean;
 
 import java.io.Serializable;
 
@@ -20,6 +20,5 @@ public class Town implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
-
 
 }

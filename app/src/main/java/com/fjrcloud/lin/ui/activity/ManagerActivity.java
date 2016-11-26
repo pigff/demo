@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.bean.Manager;
+import com.fjrcloud.lin.model.bean.Manager;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.GlideCircleTransform;
 

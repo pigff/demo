@@ -10,9 +10,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.MultiAdapter;
-import com.fjrcloud.lin.bean.Category;
-import com.fjrcloud.lin.bean.Multi;
-import com.fjrcloud.lin.bean.News;
+import com.fjrcloud.lin.model.bean.Category;
+import com.fjrcloud.lin.model.bean.Multi;
+import com.fjrcloud.lin.model.bean.News;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
 

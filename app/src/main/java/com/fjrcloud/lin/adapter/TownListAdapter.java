@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.bean.Town;
+import com.fjrcloud.lin.model.bean.Town;
 
 import java.util.List;
 

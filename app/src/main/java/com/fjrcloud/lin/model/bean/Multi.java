@@ -1,4 +1,4 @@
-package com.fjrcloud.lin.bean;
+package com.fjrcloud.lin.model.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 

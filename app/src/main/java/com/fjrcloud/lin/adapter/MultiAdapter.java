@@ -7,8 +7,8 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.bean.Category;
-import com.fjrcloud.lin.bean.Multi;
+import com.fjrcloud.lin.model.bean.Category;
+import com.fjrcloud.lin.model.bean.Multi;
 
 import java.util.Arrays;
 import java.util.List;

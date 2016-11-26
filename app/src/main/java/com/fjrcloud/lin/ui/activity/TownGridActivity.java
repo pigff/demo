@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.bean.Video;
+import com.fjrcloud.lin.model.bean.Video;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
 import com.videogo.openapi.EZOpenSDK;

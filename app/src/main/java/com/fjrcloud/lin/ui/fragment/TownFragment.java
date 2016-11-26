@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.TownListAdapter;
-import com.fjrcloud.lin.bean.Town;
+import com.fjrcloud.lin.model.bean.Town;
 import com.fjrcloud.lin.ui.activity.TownGridActivity;
 import com.fjrcloud.lin.util.Constant;
 

@@ -2,6 +2,7 @@ package com.fjrcloud.lin.ui.activity;
 
 import android.Manifest;
 import android.graphics.Bitmap;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,7 +19,7 @@ import android.widget.Toast;
 
 import com.fjrcloud.lin.App;
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.bean.Video;
+import com.fjrcloud.lin.model.bean.Video;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
 import com.fjrcloud.lin.util.DataManager;
@@ -45,7 +46,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
 
     //    @ViewInject(R.id.video_img)
 //    private ImageView mImageView;
-    @ViewInject(R.id.test_img)
+    @ViewInject(R.id.video_load)
     private ImageView mImageView;
     private Video mVideo;
     private EZDeviceInfo mDeviceInfo;
@@ -224,6 +225,8 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            AnimationDrawable animationDrawable = (AnimationDrawable) mImageView.getDrawable();
+            animationDrawable.start();
         }
 
         @Override
@@ -242,6 +245,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
             super.onPostExecute(ezDeviceInfo);
             mCameraInfo = EZUtils.getCameraInfoFromDevice(ezDeviceInfo, 0);
             startPlay();
+            mImageView.setVisibility(View.GONE);
         }
     }
 
