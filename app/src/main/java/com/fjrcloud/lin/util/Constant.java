@@ -9,4 +9,9 @@ public class Constant {
     public static final String BUNDLE = "bundle";
     public static final String BEAN = "bean";
     public static final int PERMISSION_CODE = 10000;
+    public static final int PERMISSION_CODE2 = 10001;
+    public static final int PERMISSION_CODE3 = 10002;
+    public static final int PERMISSION_CODE4 = 10004;
+
+    //网络相关参数
 }

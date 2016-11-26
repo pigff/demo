@@ -146,7 +146,7 @@ public class TownMapFragment extends Fragment {
             imm.hideSoftInputFromWindow(
                     v.getApplicationWindowToken(), 0);
         }
-        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(new LatLng(25.479496,119.566955)));
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(new LatLng(25.479496, 119.566955)));
         MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(16);
         mBaiduMap.animateMapStatus(u);
     }
@@ -161,24 +161,24 @@ public class TownMapFragment extends Fragment {
 
     private void initOverlay() {
         mIsShow = true;
-        LatLng latLng = new LatLng(25.479496,119.566955);
-        setMap(latLng, "北垞村", R.mipmap.third_01);
-        LatLng latLng2 = new LatLng(25.478459,119.559925);
-        setMap(latLng2, "薛港村", R.mipmap.third_02);
-        LatLng latLng3 = new LatLng(25.48066,119.577245);
-        setMap(latLng3, "后安村", R.mipmap.third_03);
-        LatLng latLng4 = new LatLng(25.473688,119.577676);
-        setMap(latLng4, "东埔村", R.mipmap.third_04);
-        LatLng latLng5 = new LatLng(25.470657,119.571981);
-        setMap(latLng5, "安适村", R.mipmap.third_05);
-        LatLng latLng6 = new LatLng(25.477087,119.58113);
-        setMap(latLng6, "目屿村", R.mipmap.third_06);
+        LatLng latLng = new LatLng(25.479496, 119.566955);
+        setMap(latLng, "北垞村", R.mipmap.town_icon);
+        LatLng latLng2 = new LatLng(25.478459, 119.559925);
+        setMap(latLng2, "薛港村", R.mipmap.town_icon);
+        LatLng latLng3 = new LatLng(25.48066, 119.577245);
+        setMap(latLng3, "后安村", R.mipmap.town_icon);
+        LatLng latLng4 = new LatLng(25.473688, 119.577676);
+        setMap(latLng4, "东埔村", R.mipmap.town_icon);
+        LatLng latLng5 = new LatLng(25.470657, 119.571981);
+        setMap(latLng5, "安适村", R.mipmap.town_icon);
+        LatLng latLng6 = new LatLng(25.477087, 119.58113);
+        setMap(latLng6, "目屿村", R.mipmap.town_icon);
     }
 
     private void setMap(LatLng latLng, String title, Integer img) {
         Marker marker;
         marker = (Marker) mBaiduMap.addOverlay(new MarkerOptions().position(latLng)
-                .icon(BitmapDescriptorFactory.fromView(getOverlayView(img))));
+                .icon(BitmapDescriptorFactory.fromView(getOverlayView(img, title))));
         Bundle bundle1 = new Bundle();
         bundle1.putString(Constant.BEAN, title);
         marker.setExtraInfo(bundle1);
@@ -193,10 +193,18 @@ public class TownMapFragment extends Fragment {
         }
     }
 
-    public View getOverlayView(Integer img) {
+    public View getOverlayView(Integer img, String name) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.overlay_layout, null, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.over_img);
         imageView.setImageResource(img);
+        TextView textView = (TextView) view.findViewById(R.id.over_name);
+        int left = textView.getPaddingLeft();
+        int right = textView.getPaddingRight();
+        int top = textView.getTotalPaddingTop();
+        int bottom = textView.getPaddingBottom();
+        textView.setBackgroundResource(R.drawable.bg_dark_pink_red);
+        textView.setText(name);
+        textView.setPadding(left, top, right, bottom);
 //        TextView textView = (TextView) view.findViewById(R.id.overlay_name);
 //        textView.setText(companyName);
         return view;

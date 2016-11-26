@@ -9,6 +9,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-
+    <TextView
+        android:id="@+id/over_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/dimen_5dp"
+        android:paddingBottom="2dp"
+        android:textSize="9sp"
+        android:paddingLeft="@dimen/dimen_10dp"
+        android:paddingRight="@dimen/dimen_10dp"
+        android:paddingTop="2dp"
+        android:textColor="@color/white"/>
 
 </LinearLayout>

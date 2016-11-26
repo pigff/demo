@@ -1,6 +1,8 @@
 package com.fjrcloud.lin.ui.activity;
 
 import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
@@ -10,11 +12,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fjrcloud.lin.App;
@@ -24,6 +26,8 @@ import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
 import com.fjrcloud.lin.util.DataManager;
 import com.fjrcloud.lin.util.EZUtils;
+import com.fjrcloud.lin.util.IntentUtil;
+import com.fjrcloud.lin.util.custom_view.DialDialog;
 import com.videogo.exception.BaseException;
 import com.videogo.exception.InnerException;
 import com.videogo.openapi.EZPlayer;
@@ -46,6 +50,8 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
 
     //    @ViewInject(R.id.video_img)
 //    private ImageView mImageView;
+    @ViewInject(R.id.video_tip_tv)
+    private TextView mTextView;
     @ViewInject(R.id.video_load)
     private ImageView mImageView;
     private Video mVideo;
@@ -55,6 +61,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     private SurfaceHolder mRealPlaySh = null;
     private Handler mHandler = null;
     private SurfaceView mRealPlaySv = null;
+    private boolean mIsOnline; //设备是否在线
 
     private static final String TAG = "VideoActivity";
 
@@ -75,10 +82,16 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
                         .request();
                 break;
             case R.id.upload:
-                Toast.makeText(this, "上传", Toast.LENGTH_SHORT).show();
+                PermissionGen.with(VideoActivity.this)
+                        .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .addRequestCode(Constant.PERMISSION_CODE2)
+                        .request();
                 break;
             case R.id.policy:
-                Toast.makeText(this, "报警", Toast.LENGTH_SHORT).show();
+                PermissionGen.with(VideoActivity.this)
+                        .permissions(Manifest.permission.CALL_PHONE)
+                        .addRequestCode(Constant.PERMISSION_CODE3)
+                        .request();
                 break;
             default:
                 break;
@@ -107,7 +120,6 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
                         // 可以采用deviceSerial+时间作为文件命名，demo中简化，只用时间命名
                         java.util.Date date = new java.util.Date();
                         final String path = Environment.getExternalStorageDirectory().getPath() + "/Town/CapturePicture/" + String.format("%tY", date)
-                                + String.format("%tm", date) + String.format("%td", date) + "/"
                                 + String.format("%tH", date) + String.format("%tM", date) + String.format("%tS", date) + String.format("%tL", date) + ".jpg";
 
                         if (TextUtils.isEmpty(path)) {
@@ -161,29 +173,30 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     @Override
     protected void onResume() {
         super.onResume();
-        if (mEzPlayer != null) {
+        if (mEzPlayer != null && mIsOnline) {
             mEzPlayer.startRealPlay();
         }
-
-        Log.d(TAG, "onResume() called with: " + "");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mEzPlayer.stopRealPlay();
+        if (mEzPlayer != null && mIsOnline) {
+            mEzPlayer.stopRealPlay();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause() called with: " + "");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy() called with: " + "");
+        if (mEzPlayer != null) {
+            mEzPlayer.release();
+        }
     }
 
     @Override
@@ -244,8 +257,14 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         protected void onPostExecute(EZDeviceInfo ezDeviceInfo) {
             super.onPostExecute(ezDeviceInfo);
             mCameraInfo = EZUtils.getCameraInfoFromDevice(ezDeviceInfo, 0);
-            startPlay();
             mImageView.setVisibility(View.GONE);
+            if (ezDeviceInfo.getStatus() == 1) {
+                mIsOnline = true;
+                startPlay();
+            } else {
+                mTextView.setVisibility(View.VISIBLE);
+                mRealPlaySv.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -283,6 +302,45 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
 
     @PermissionFail(requestCode = Constant.PERMISSION_CODE)
     private void permissionFailure() {
+        Toast.makeText(this, R.string.permission_failure, Toast.LENGTH_SHORT).show();
+    }
+
+    @PermissionSuccess(requestCode = Constant.PERMISSION_CODE2)
+    private void permissionSuccess2() {
+        Intent intent = new Intent(VideoActivity.this, CheckPicActivity.class);
+        startActivity(intent);
+    }
+
+    @PermissionFail(requestCode = Constant.PERMISSION_CODE2)
+    private void permissionFailure2() {
+        Toast.makeText(this, R.string.permission_failure, Toast.LENGTH_SHORT).show();
+    }
+
+    @PermissionSuccess(requestCode = Constant.PERMISSION_CODE3)
+    private void permissionSuccess3() {
+        DialDialog.Builder builder = new DialDialog.Builder(this);
+        builder.setMessage("是否呼叫 " + "110");
+        builder.setPositiveButton("呼叫", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent2Dial = IntentUtil.getIntent2Dial("18060715985");
+                        startActivity(intent2Dial);
+                        dialog.dismiss();
+                    }
+                }
+        );
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }
+        );
+        builder.create().show();
+    }
+
+    @PermissionFail(requestCode = Constant.PERMISSION_CODE3)
+    private void permissionFailure3() {
         Toast.makeText(this, R.string.permission_failure, Toast.LENGTH_SHORT).show();
     }
 }

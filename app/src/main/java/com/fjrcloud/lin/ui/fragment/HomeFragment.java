@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment {
 //        Integer[] imgs = new Integer[]{R.mipmap.banner_3, R.mipmap.banner_3, R.mipmap.banner_3, R.mipmap.banner_3};
         Category[] imgs = new Category[]{new Category("haha", R.mipmap.banner_3)};
         Multi multi = new Multi(Multi.BANNER, imgs, Multi.NORMAL_SIZE);
-        News bigImg = new News("大标题", "大标题的内容", R.mipmap.image, "222323");
+        News bigImg = new News("大标题", "大标题的内容", R.mipmap.m_2, "222323");
         Multi multi1 = new Multi(Multi.BIG_IMG, bigImg, Multi.NORMAL_SIZE);
         Category category = new Category("发展变迁", R.mipmap.change);
         Category category1 = new Category("地方文化", R.mipmap.culture);
@@ -129,8 +129,8 @@ public class HomeFragment extends Fragment {
         mMultis.add(multi3);
         mMultis.add(multi1);
         News news1 = new News("第一个", "第一个内容",
-                R.mipmap.image, "2015-12-24");
-        News news2 = new News("第二个", "第二个内容", R.mipmap.image, "2015-10-2");
+                R.mipmap.m_6, "2015-12-24");
+        News news2 = new News("第二个", "第二个内容", R.mipmap.m_4, "2015-10-2");
         mMultis.add(new Multi(Multi.NEWS_RIGHT, news1, Multi.NORMAL_SIZE));
         mMultis.add(new Multi(Multi.NEWS_RIGHT, news2, Multi.NORMAL_SIZE));
         new Handler().postDelayed(new Runnable() {

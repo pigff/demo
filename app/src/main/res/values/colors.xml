@@ -23,5 +23,6 @@
     <color name="light_blue">#7bc4fe</color>
     <color name="dark_orange">#fc4305</color>
     <color name="pink_red">#fe3059</color>
+    <color name="dark_pink_red">#ff345a</color>
     <color name="light_green">#9fcb00</color>
 </resources>

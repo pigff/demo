@@ -1,4 +1,4 @@
-package com.fjrcloud.lin.util;
+package com.fjrcloud.lin.util.custom_view;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

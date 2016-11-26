@@ -3,11 +3,8 @@ package com.fjrcloud.lin;
 import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.videogo.errorlayer.ErrorInfo;
 import com.videogo.openapi.EZOpenSDK;
-import com.videogo.openapi.EZOpenSDKListener;
 import com.videogo.openapi.EzvizAPI;
-import com.videogo.util.LogUtil;
 
 import org.xutils.x;
 
@@ -26,17 +23,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         EZOpenSDK.showSDKLog(true);
-
-        /**
-         * 设置是否支持P2P取流,详见api
-         */
         EZOpenSDK.enableP2P(true);
-
-        /**
-         * APP_KEY请替换成自己申请的
-         */
         EZOpenSDK.initLib(this, APP_KEY, "");
-
 
         EzvizAPI.getInstance().setServerUrl(API_URL, WEB_URL);
         instance = this;

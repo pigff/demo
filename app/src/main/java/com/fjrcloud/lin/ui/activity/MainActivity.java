@@ -15,7 +15,7 @@ import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.MainFragmentAdapter;
 import com.fjrcloud.lin.ui.base.BaseFragmentActivity;
 import com.fjrcloud.lin.util.DisplayUtil;
-import com.fjrcloud.lin.util.NoScrollPager;
+import com.fjrcloud.lin.util.custom_view.NoScrollPager;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
