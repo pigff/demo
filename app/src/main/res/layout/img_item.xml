@@ -17,6 +17,14 @@
             android:layout_height="150dp"
             android:scaleType="fitXY"/>
 
+        <TextView
+            android:id="@+id/camer_online_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="不在线"
+            android:textColor="@color/black"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -25,12 +33,12 @@
             android:background="@color/black"
             android:gravity="center">
 
-        <TextView
-            android:id="@+id/grid_image_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/grid_image_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"/>
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

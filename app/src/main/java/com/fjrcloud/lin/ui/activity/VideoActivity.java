@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -21,6 +20,7 @@ import android.widget.Toast;
 
 import com.fjrcloud.lin.App;
 import com.fjrcloud.lin.R;
+import com.fjrcloud.lin.model.bean.CameraBean;
 import com.fjrcloud.lin.model.bean.Video;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
@@ -28,11 +28,8 @@ import com.fjrcloud.lin.util.DataManager;
 import com.fjrcloud.lin.util.EZUtils;
 import com.fjrcloud.lin.util.IntentUtil;
 import com.fjrcloud.lin.util.custom_view.DialDialog;
-import com.videogo.exception.BaseException;
 import com.videogo.exception.InnerException;
 import com.videogo.openapi.EZPlayer;
-import com.videogo.openapi.bean.EZCameraInfo;
-import com.videogo.openapi.bean.EZDeviceInfo;
 import com.videogo.util.MediaScanner;
 import com.videogo.util.SDCardUtil;
 import com.videogo.util.Utils;
@@ -55,15 +52,21 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     @ViewInject(R.id.video_load)
     private ImageView mImageView;
     private Video mVideo;
-    private EZDeviceInfo mDeviceInfo;
-    private EZCameraInfo mCameraInfo;
+//    private EZDeviceInfo mDeviceInfo;
+//    private EZCameraInfo mCameraInfo;
     private EZPlayer mEzPlayer;
     private SurfaceHolder mRealPlaySh = null;
     private Handler mHandler = null;
     private SurfaceView mRealPlaySv = null;
     private boolean mIsOnline; //设备是否在线
 
+    private boolean mCapBtnClick;
+    private boolean mUploadBtnClick;
+    private boolean mCallClick;
+
+
     private static final String TAG = "VideoActivity";
+    private CameraBean.Camera mCamera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,22 +75,55 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         initView();
     }
 
-    @Event(value = {R.id.capture, R.id.upload, R.id.policy})
+//    @Event(value = {R.id.capture, R.id.upload, R.id.policy})
+//    private void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.capture:
+//                PermissionGen.with(VideoActivity.this)
+//                        .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                        .addRequestCode(Constant.PERMISSION_CODE)
+//                        .request();
+//                break;
+//            case R.id.upload:
+//                PermissionGen.with(VideoActivity.this)
+//                        .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                        .addRequestCode(Constant.PERMISSION_CODE2)
+//                        .request();
+//                break;
+//            case R.id.policy:
+//                PermissionGen.with(VideoActivity.this)
+//                        .permissions(Manifest.permission.CALL_PHONE)
+//                        .addRequestCode(Constant.PERMISSION_CODE3)
+//                        .request();
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+
+    @Event(value = {R.id.capture, R.id.upload, R.id.call_policy, R.id.album
+                ,R.id.capture_back, R.id.album_back, R.id.upload_back})
     private void onClick(View view) {
         switch (view.getId()) {
             case R.id.capture:
-                PermissionGen.with(VideoActivity.this)
-                        .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .addRequestCode(Constant.PERMISSION_CODE)
-                        .request();
+                Toast.makeText(this, "抓拍", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.capture_back:
+                Toast.makeText(this, "抓拍背景", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.album:
+                Toast.makeText(this, "相册", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.album_back:
+                Toast.makeText(this, "相册背景", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.upload:
-                PermissionGen.with(VideoActivity.this)
-                        .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .addRequestCode(Constant.PERMISSION_CODE2)
-                        .request();
+                Toast.makeText(this, "上传", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.policy:
+            case R.id.upload_back:
+                Toast.makeText(this, "上传背景", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.call_policy:
                 PermissionGen.with(VideoActivity.this)
                         .permissions(Manifest.permission.CALL_PHONE)
                         .addRequestCode(Constant.PERMISSION_CODE3)
@@ -154,26 +190,30 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
 
     private void initView() {
 //        setTitle(mVideo.getName());
-        setTitle("视频");
+        setTitle(mCamera.getChannelName());
         mRealPlaySv = (SurfaceView) findViewById(R.id.realplay_sv);
         mRealPlaySh = mRealPlaySv.getHolder();
         mRealPlaySh.addCallback(this);
-
-
+        startPlay();
+        mImageView.setVisibility(View.GONE);
 //        mImageView.setImageResource(mVideo.getImg());
     }
 
     private void initData() {
+        AnimationDrawable animationDrawable = (AnimationDrawable) mImageView.getDrawable();
+        animationDrawable.start();
         mEzPlayer = null;
         mHandler = new Handler(this);
+        mCamera = (CameraBean.Camera) getIntent().getSerializableExtra(Constant.BEAN);
+
 //        mVideo = (Video) getIntent().getSerializableExtra(Constant.BEAN);
-        new GetCamersTask().execute();
+//        new GetCamersTask().execute();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mEzPlayer != null && mIsOnline) {
+        if (mEzPlayer != null) {
             mEzPlayer.startRealPlay();
         }
     }
@@ -181,7 +221,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     @Override
     protected void onStop() {
         super.onStop();
-        if (mEzPlayer != null && mIsOnline) {
+        if (mEzPlayer != null) {
             mEzPlayer.stopRealPlay();
         }
     }
@@ -233,55 +273,53 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     }
 
 
-    class GetCamersTask extends AsyncTask<Void, Void, EZDeviceInfo> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            AnimationDrawable animationDrawable = (AnimationDrawable) mImageView.getDrawable();
-            animationDrawable.start();
-        }
-
-        @Override
-        protected EZDeviceInfo doInBackground(Void... params) {
-            try {
-                mDeviceInfo = App.getOpenSDK().getDeviceList(0, 20).get(0);
-                return mDeviceInfo;
-            } catch (BaseException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(EZDeviceInfo ezDeviceInfo) {
-            super.onPostExecute(ezDeviceInfo);
-            mCameraInfo = EZUtils.getCameraInfoFromDevice(ezDeviceInfo, 0);
-            mImageView.setVisibility(View.GONE);
-            if (ezDeviceInfo.getStatus() == 1) {
-                mIsOnline = true;
-                startPlay();
-            } else {
-                mTextView.setVisibility(View.VISIBLE);
-                mRealPlaySv.setVisibility(View.GONE);
-            }
-        }
-    }
+//    class GetCamersTask extends AsyncTask<Void, Void, EZDeviceInfo> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            AnimationDrawable animationDrawable = (AnimationDrawable) mImageView.getDrawable();
+//            animationDrawable.start();
+//        }
+//
+//        @Override
+//        protected EZDeviceInfo doInBackground(Void... params) {
+//            try {
+//                mDeviceInfo = App.getOpenSDK().getDeviceList(0, 20).get(0);
+//                return mDeviceInfo;
+//            } catch (BaseException e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(EZDeviceInfo ezDeviceInfo) {
+//            super.onPostExecute(ezDeviceInfo);
+//            mCameraInfo = EZUtils.getCameraInfoFromDevice(ezDeviceInfo, 0);
+//            mImageView.setVisibility(View.GONE);
+//            if (ezDeviceInfo.getStatus() == 1) {
+//                mIsOnline = true;
+//                startPlay();
+//            } else {
+//                mTextView.setVisibility(View.VISIBLE);
+//                mRealPlaySv.setVisibility(View.GONE);
+//            }
+//        }
+//    }
 
     private void startPlay() {
-        if (mCameraInfo != null) {
+        if (mCamera != null) {
 
             if (mEzPlayer == null) {
-                mEzPlayer = App.getOpenSDK().createPlayer(mCameraInfo.getDeviceSerial(), mCameraInfo.getCameraNo());
+                mEzPlayer = App.getOpenSDK().createPlayer(mCamera.getDeviceSerial(), Integer.parseInt(mCamera.getChannelNo()));
             }
 
             if (mEzPlayer == null)
                 return;
-            if (mDeviceInfo == null) {
-                return;
-            }
-            if (mDeviceInfo.getIsEncrypt() == 1) {
-                mEzPlayer.setPlayVerifyCode(DataManager.getInstance().getDeviceSerialVerifyCode(mCameraInfo.getDeviceSerial()));
+
+            if (mCamera.getIsEncrypt() == 1) {
+                mEzPlayer.setPlayVerifyCode(DataManager.getInstance().getDeviceSerialVerifyCode(mCamera.getDeviceSerial()));
             }
 
             mEzPlayer.setHandler(mHandler);

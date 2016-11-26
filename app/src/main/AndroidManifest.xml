@@ -80,20 +80,6 @@
         <activity android:name=".ui.activity.ShowImageActivity">
         </activity>
 
-        <activity
-            android:name="com.videogo.main.EzvizWebViewActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <receiver
-            android:name=".receiver.EzvizBroadcastReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.videogo.action.OAUTH_SUCCESS_ACTION"/>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-            </intent-filter>
-        </receiver>
     </application>
 
 
