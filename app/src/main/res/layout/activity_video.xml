@@ -41,7 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/anim_probar_bg"/>
+            android:src="@drawable/anim_probar_bg"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 

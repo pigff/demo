@@ -90,6 +90,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
 
     private static final String TAG = "VideoActivity";
     private CameraBean.Camera mCamera;
+    private AnimationDrawable mAnimationDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,11 +223,10 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     }
 
     private void initView() {
-        setTitle(mCamera.getChannelName());
+        setTitle(mCamera.getName());
         mRealPlaySh = mRealPlaySv.getHolder();
         mRealPlaySh.addCallback(this);
         startPlay();
-        mImageView.setVisibility(View.GONE);
         mCaptureBtn.setImageResource(R.drawable.cap_pic);
         mCaptureBackBtn.setImageResource(R.drawable.cap_pic_back_on);
         mAlbumBtn.setImageResource(R.drawable.album_pic);
@@ -236,8 +236,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     }
 
     private void initData() {
-        AnimationDrawable animationDrawable = (AnimationDrawable) mImageView.getDrawable();
-        animationDrawable.start();
+
         mIsFirst = true;
         mEzPlayer = null;
         mHandler = new Handler(this);
@@ -249,6 +248,9 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     @Override
     protected void onResume() {
         super.onResume();
+        mImageView.setVisibility(View.VISIBLE);
+        mAnimationDrawable = (AnimationDrawable) mImageView.getDrawable();
+        mAnimationDrawable.start();
         if (mEzPlayer != null && !mIsFirst) {
             mEzPlayer.startRealPlay();
         }
@@ -274,6 +276,13 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         if (mEzPlayer != null) {
             mEzPlayer.release();
         }
+
+        mHandler.removeMessages(EZConstants.EZRealPlayConstants.MSG_REALPLAY_STOP_SUCCESS);
+        mHandler.removeMessages(EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_SUCCESS);
+        mHandler.removeMessages(EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL);
+        mHandler = null;
+
+
     }
 
     @Override
@@ -295,37 +304,22 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
             mEzPlayer.setSurfaceHold(null);
         }
         mRealPlaySh = null;
-        Log.d(TAG, "11212");
     }
 
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
-            case EZConstants.EZRealPlayConstants.MSG_GET_CAMERA_INFO_SUCCESS:
-                Log.d(TAG, "1");
-//                startRealPlay();
-                break;
-            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_START:
-                Log.d(TAG, "2");
-//                startRealPlay();
-                break;
-            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_CONNECTION_START:
-                Log.d(TAG, "3");
-//                startRealPlay();
-                break;
-            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_CONNECTION_SUCCESS:
+            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_STOP_SUCCESS:
                 Log.d(TAG, "4");
-//                startRealPlay();
                 break;
             case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_SUCCESS:
-                Log.d(TAG, "5");
+                mImageView.setVisibility(View.GONE);
 //                startRealPlay();
                 break;
             case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL:
-                Log.d(TAG, "6");
             default:
-                Log.d(TAG, "msg.what:" + msg.what);
-                Log.d(TAG, "10");
+                mImageView.setVisibility(View.GONE);
+                mVideoTip.setVisibility(View.VISIBLE);
                 break;
         }
         return false;
@@ -371,16 +365,16 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         if (mCamera != null) {
 
             if (mEzPlayer == null) {
-                mEzPlayer = App.getOpenSDK().createPlayer(mCamera.getDeviceSerial(), Integer.parseInt(mCamera.getChannelNo()));
+                mEzPlayer = App.getOpenSDK().createPlayer(mCamera.getSign(), Integer.parseInt(mCamera.getChannel()));
 //                mEzPlayer = App.getOpenSDK().createPlayer("587345020", 5);
             }
 
             if (mEzPlayer == null)
                 return;
 
-            if (mCamera.getIsEncrypt() == 1) {
-                mEzPlayer.setPlayVerifyCode(DataManager.getInstance().getDeviceSerialVerifyCode(mCamera.getDeviceSerial()));
-            }
+//            if (mCamera.getIsEncrypt() == 1) {
+            mEzPlayer.setPlayVerifyCode(DataManager.getInstance().getDeviceSerialVerifyCode(mCamera.getSign()));
+//            }
 
             mEzPlayer.setHandler(mHandler);
             mEzPlayer.setSurfaceHold(mRealPlaySh);

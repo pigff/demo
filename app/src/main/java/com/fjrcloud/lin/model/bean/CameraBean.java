@@ -13,24 +13,25 @@ import java.util.List;
 @HttpResponse(parser = JsonResponseParser.class)
 public class CameraBean implements Serializable{
 
-
     /**
      * code : 00050
      * msg : 操作成功
-     * data : [{"deviceSerial":"552163934","channelNo":"1","channelName":"测试机","status":1,"isShared":"1","picUrl":"https://i.ys7.com/assets/imgs/public/homeDevice.jpeg","isEncrypt":0,"videoLevel":2},{"deviceSerial":"587345020","channelNo":"1","channelName":"视频1@DS-8616N-K8(587345020)","status":1,"isShared":"0","picUrl":"https://i.ys7.com/assets/imgs/public/homeDevice.jpeg","isEncrypt":0,"videoLevel":0},{"deviceSerial":"587345020","channelNo":"2","channelName":"视频2@DS-8616N-K8(587345020)","status":1,"isShared":"0","picUrl":"https://i.ys7.com/assets/imgs/public/homeDevice.jpeg","isEncrypt":0,"videoLevel":0},{"deviceSerial":"587345020","channelNo":"3","channelName":"视频3@DS-8616N-K8(587345020)","status":1,"isShared":"0","picUrl":"https://i.ys7.com/assets/imgs/public/homeDevice.jpeg","isEncrypt":0,"videoLevel":0},{"deviceSerial":"587345020","channelNo":"4","channelName":"视频4@DS-8616N-K8(587345020)","status":1,"isShared":"0","picUrl":"https://i.ys7.com/assets/imgs/public/homeDevice.jpeg","isEncrypt":0,"videoLevel":0},{"deviceSerial":"587345020","channelNo":"5","channelName":"视频5@DS-8616N-K8(587345020)","status":1,"isShared":"0","picUrl":"https://i.ys7.com/assets/imgs/public/homeDevice.jpeg","isEncrypt":0,"videoLevel":0},{"deviceSerial":"587345020","channelNo":"6","channelName":"视频6@DS-8616N-K8(587345020)","status":1,"isShared":"0","picUrl":"https://i.ys7.com/assets/imgs/public/homeDevice.jpeg","isEncrypt":0,"videoLevel":0},{"deviceSerial":"587345020","channelNo":"7","channelName":"视频7@DS-8616N-K8(587345020)","status":1,"isShared":"0","picUrl":"https://i.ys7.com/assets/imgs/public/homeDevice.jpeg","isEncrypt":0,"videoLevel":0},{"deviceSerial":"587345020","channelNo":"8","channelName":"视频8@DS-8616N-K8(587345020)","status":1,"isShared":"0","picUrl":"https://i.ys7.com/assets/imgs/public/homeDevice.jpeg","isEncrypt":0,"videoLevel":0},{"deviceSerial":"587345020","channelNo":"9","channelName":"视频9@DS-8616N-K8(587345020)","status":1,"isShared":"0","picUrl":"https://i.ys7.com/assets/imgs/public/homeDevice.jpeg","isEncrypt":0,"videoLevel":0}]
+     * data : [{"id":6,"name":"测试机","sign":"552163934","channel":"1","status":"在线","img":"http://pic.ys7.com:99/image/3/3/2a21227c84cf4e549a8b15a2199291b7/2/59/6638/2611939067/23124","longitude":null,"latitude":null,"area":{"id":4,"name":"2村","vrPath":"vrpath","longitude":119.577245,"latitude":25.48066,"parent":null},"ysUser":null}]
      */
 
     private String code;
     private String msg;
     /**
-     * deviceSerial : 552163934
-     * channelNo : 1
-     * channelName : 测试机
-     * status : 1
-     * isShared : 1
-     * picUrl : https://i.ys7.com/assets/imgs/public/homeDevice.jpeg
-     * isEncrypt : 0
-     * videoLevel : 2
+     * id : 6
+     * name : 测试机
+     * sign : 552163934
+     * channel : 1
+     * status : 在线
+     * img : http://pic.ys7.com:99/image/3/3/2a21227c84cf4e549a8b15a2199291b7/2/59/6638/2611939067/23124
+     * longitude : null
+     * latitude : null
+     * area : {"id":4,"name":"2村","vrPath":"vrpath","longitude":119.577245,"latitude":25.48066,"parent":null}
+     * ysUser : null
      */
 
     private List<Camera> data;
@@ -60,77 +61,161 @@ public class CameraBean implements Serializable{
     }
 
     public static class Camera implements Serializable{
-        private String deviceSerial;
-        private String channelNo;
-        private String channelName;
-        private int status;
-        private String isShared;
-        private String picUrl;
-        private int isEncrypt;
-        private int videoLevel;
+        private int id;
+        private String name;
+        private String sign;
+        private String channel;
+        private String status;
+        private String img;
+        private Object longitude;
+        private Object latitude;
+        /**
+         * id : 4
+         * name : 2村
+         * vrPath : vrpath
+         * longitude : 119.577245
+         * latitude : 25.48066
+         * parent : null
+         */
 
-        public String getDeviceSerial() {
-            return deviceSerial;
+        private AreaEntity area;
+        private Object ysUser;
+
+        public int getId() {
+            return id;
         }
 
-        public void setDeviceSerial(String deviceSerial) {
-            this.deviceSerial = deviceSerial;
+        public void setId(int id) {
+            this.id = id;
         }
 
-        public String getChannelNo() {
-            return channelNo;
+        public String getName() {
+            return name;
         }
 
-        public void setChannelNo(String channelNo) {
-            this.channelNo = channelNo;
+        public void setName(String name) {
+            this.name = name;
         }
 
-        public String getChannelName() {
-            return channelName;
+        public String getSign() {
+            return sign;
         }
 
-        public void setChannelName(String channelName) {
-            this.channelName = channelName;
+        public void setSign(String sign) {
+            this.sign = sign;
         }
 
-        public int getStatus() {
+        public String getChannel() {
+            return channel;
+        }
+
+        public void setChannel(String channel) {
+            this.channel = channel;
+        }
+
+        public String getStatus() {
             return status;
         }
 
-        public void setStatus(int status) {
+        public void setStatus(String status) {
             this.status = status;
         }
 
-        public String getIsShared() {
-            return isShared;
+        public String getImg() {
+            return img;
         }
 
-        public void setIsShared(String isShared) {
-            this.isShared = isShared;
+        public void setImg(String img) {
+            this.img = img;
         }
 
-        public String getPicUrl() {
-            return picUrl;
+        public Object getLongitude() {
+            return longitude;
         }
 
-        public void setPicUrl(String picUrl) {
-            this.picUrl = picUrl;
+        public void setLongitude(Object longitude) {
+            this.longitude = longitude;
         }
 
-        public int getIsEncrypt() {
-            return isEncrypt;
+        public Object getLatitude() {
+            return latitude;
         }
 
-        public void setIsEncrypt(int isEncrypt) {
-            this.isEncrypt = isEncrypt;
+        public void setLatitude(Object latitude) {
+            this.latitude = latitude;
         }
 
-        public int getVideoLevel() {
-            return videoLevel;
+        public AreaEntity getArea() {
+            return area;
         }
 
-        public void setVideoLevel(int videoLevel) {
-            this.videoLevel = videoLevel;
+        public void setArea(AreaEntity area) {
+            this.area = area;
+        }
+
+        public Object getYsUser() {
+            return ysUser;
+        }
+
+        public void setYsUser(Object ysUser) {
+            this.ysUser = ysUser;
+        }
+
+        public static class AreaEntity implements Serializable{
+            private int id;
+            private String name;
+            private String vrPath;
+            private double longitude;
+            private double latitude;
+            private Object parent;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getVrPath() {
+                return vrPath;
+            }
+
+            public void setVrPath(String vrPath) {
+                this.vrPath = vrPath;
+            }
+
+            public double getLongitude() {
+                return longitude;
+            }
+
+            public void setLongitude(double longitude) {
+                this.longitude = longitude;
+            }
+
+            public double getLatitude() {
+                return latitude;
+            }
+
+            public void setLatitude(double latitude) {
+                this.latitude = latitude;
+            }
+
+            public Object getParent() {
+                return parent;
+            }
+
+            public void setParent(Object parent) {
+                this.parent = parent;
+            }
         }
     }
 }

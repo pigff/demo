@@ -18,6 +18,7 @@ import com.fjrcloud.lin.model.bean.CameraBean;
 import com.fjrcloud.lin.model.bean.TokenBean;
 import com.fjrcloud.lin.model.bean.TownBean;
 import com.fjrcloud.lin.model.domain.YsCamera;
+import com.fjrcloud.lin.model.domain.YsTown;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
 
@@ -107,7 +108,7 @@ public class TownGridActivity extends BaseActivity {
             @Override
             public void onFinished() {
 //                getCamera(new YsTown().new FindCameraByArea(mTown.getId()));
-                getCamera(new YsCamera().new GetCamera());
+                getCamera(new YsTown().new FindCameraByArea(mTown.getId()));
             }
         });
     }
@@ -147,9 +148,9 @@ public class TownGridActivity extends BaseActivity {
 
         @Override
         protected void convert(BaseViewHolder baseViewHolder, CameraBean.Camera camera) {
-            baseViewHolder.setText(R.id.grid_image_title, camera.getChannelName())
+            baseViewHolder.setText(R.id.grid_image_title, camera.getName())
                     .addOnClickListener(R.id.img_group);
-            Glide.with(mContext).load(R.mipmap.image).error(R.mipmap.error_image).
+            Glide.with(mContext).load(camera.getImg()).error(R.mipmap.error_image).
                     into((ImageView) baseViewHolder.getView(R.id.grid_image));
 //            if (!TextUtils.equals(camera.getStatus(), "在线")) {
 //                baseViewHolder.setVisible(R.id.camer_online_tip, true);

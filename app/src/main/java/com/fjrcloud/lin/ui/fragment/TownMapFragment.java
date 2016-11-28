@@ -29,6 +29,7 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.model.bean.TownBean;
+import com.fjrcloud.lin.model.domain.YsTown;
 import com.fjrcloud.lin.ui.activity.TownGridActivity;
 import com.fjrcloud.lin.util.Constant;
 
@@ -87,7 +88,7 @@ public class TownMapFragment extends Fragment {
     }
 
     private void getData() {
-//        getTown(new YsTown().new FindTownByParent(null));
+        getTown(new YsTown().new FindTownByParent(null));
     }
 
     private void initListener() {
@@ -111,21 +112,21 @@ public class TownMapFragment extends Fragment {
 
             @Override
             public void onMapStatusChange(MapStatus mapStatus) {
-//                if (mapStatus.zoom < 14.5) {
-//                    if (mIsShow) {
-//                        mBaiduMap.clear();
-//                        mIsShow = !mIsShow;
-//                    }
-//                } else {
-//                    if (!mIsShow) {
-//                        initOverlay();
-//                    }
-//                }
+
             }
 
             @Override
             public void onMapStatusChangeFinish(MapStatus mapStatus) {
-
+                if (mapStatus.zoom < 14.5) {
+                    if (mIsShow) {
+                        mBaiduMap.clear();
+                        mIsShow = !mIsShow;
+                    }
+                } else {
+                    if (!mIsShow) {
+                        initOverlay();
+                    }
+                }
             }
         });
         mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -176,6 +177,7 @@ public class TownMapFragment extends Fragment {
         for (int i = 0; i < mTowns.size(); i++) {
             setMap(mTowns.get(i));
         }
+        mIsShow = true;
     }
 
     private void setMap(TownBean.Town town) {
@@ -222,8 +224,8 @@ public class TownMapFragment extends Fragment {
                     mTowns.add(result.getData().get(i));
                     setMap(result.getData().get(i));
                 }
-
-            }
+//                mIsShow = true;
+        }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {

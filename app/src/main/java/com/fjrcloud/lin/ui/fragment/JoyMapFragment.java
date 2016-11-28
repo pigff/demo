@@ -88,6 +88,11 @@ public class JoyMapFragment extends Fragment {
 
             @Override
             public void onMapStatusChange(MapStatus mapStatus) {
+
+            }
+
+            @Override
+            public void onMapStatusChangeFinish(MapStatus mapStatus) {
                 if (mapStatus.zoom < 14.5) {
                     if (mIsShow) {
                         mBaiduMap.clear();
@@ -99,11 +104,6 @@ public class JoyMapFragment extends Fragment {
                         mIsShow = true;
                     }
                 }
-            }
-
-            @Override
-            public void onMapStatusChangeFinish(MapStatus mapStatus) {
-
             }
         });
 
