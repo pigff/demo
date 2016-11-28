@@ -80,6 +80,9 @@
         <activity android:name=".ui.activity.ShowImageActivity">
         </activity>
 
+        <activity android:name=".ui.activity.UploadPicActivity">
+        </activity>
+
     </application>
 
 

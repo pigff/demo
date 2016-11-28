@@ -20,8 +20,14 @@ import android.widget.Toast;
 
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.TownListAdapter;
-import com.fjrcloud.lin.model.bean.Town;
-import com.fjrcloud.lin.ui.activity.VideoActivity;
+import com.fjrcloud.lin.model.bean.TownBean;
+import com.fjrcloud.lin.model.domain.YsTown;
+import com.fjrcloud.lin.ui.activity.TownGridActivity;
+import com.fjrcloud.lin.util.Constant;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +39,8 @@ import java.util.List;
  */
 public class TownFragment extends Fragment {
 
-    private List<Town> mTowns;
-    private TownListAdapter mAdapter3;
+    private List<TownBean.Town> mTowns;
+    private TownListAdapter mAdapter;
     private ListView mListView;
     private EditText mEditText;
     private ImageButton mSearchBtn;
@@ -66,6 +72,7 @@ public class TownFragment extends Fragment {
         initData();
         initAdapter();
         initView();
+        getData();
         initListener();
         return view;
     }
@@ -92,36 +99,54 @@ public class TownFragment extends Fragment {
     }
 
     private void initView() {
-        mListView.setAdapter(mAdapter3);
+        mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(getActivity(), TownGridActivity.class);
-//                intent.putExtra(Constant.BEAN, mTowns.get(position).getName());
-//                startActivity(intent);
-                Intent intent = new Intent(getActivity(), VideoActivity.class);
+                Intent intent = new Intent(getActivity(), TownGridActivity.class);
+                intent.putExtra(Constant.BEAN, mTowns.get(position));
                 startActivity(intent);
             }
         });
     }
 
     private void initAdapter() {
-        mAdapter3 = new TownListAdapter(mTowns, getActivity());
+        mAdapter = new TownListAdapter(mTowns, getActivity());
     }
 
     private void initData() {
         mTowns = new ArrayList<>();
-        Town town1 = new Town("北垞村");
-        Town town2 = new Town("薛港村");
-        Town town3 = new Town("后安村");
-        Town town4 = new Town("东进村");
-        Town town5 = new Town("洋门村");
-        mTowns.add(town1);
-        mTowns.add(town2);
-        mTowns.add(town3);
-        mTowns.add(town4);
-        mTowns.add(town5);
     }
 
 
+    public void getData() {
+        getTown(new YsTown().new FindTownByParent(null));
+    }
+
+    private void getTown(RequestParams params) {
+        x.http().post(params, new Callback.CommonCallback<TownBean>() {
+            @Override
+            public void onSuccess(TownBean result) {
+                for (int i = 0; i < result.getData().size(); i++) {
+                    mTowns.add(result.getData().get(i));
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(getActivity(), R.string.unknow_error, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
 }

@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -21,7 +22,6 @@ import android.widget.Toast;
 import com.fjrcloud.lin.App;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.model.bean.CameraBean;
-import com.fjrcloud.lin.model.bean.Video;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
 import com.fjrcloud.lin.util.DataManager;
@@ -64,8 +64,15 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     private MenuViewItem mUploadBtn;
     @ViewInject(R.id.upload_back)
     private MenuViewItem mUploadBackBtn;
-    private Video mVideo;
-//    private EZDeviceInfo mDeviceInfo;
+    @ViewInject(R.id.des_cap)
+    private TextView mCapTv;
+    @ViewInject(R.id.des_album)
+    private TextView mAlbumTv;
+    @ViewInject(R.id.des_upload)
+    private TextView mUploadTv;
+    @ViewInject(R.id.video_tip_tv)
+    private TextView mVideoTip;
+    //    private EZDeviceInfo mDeviceInfo;
 //    private EZCameraInfo mCameraInfo;
     private EZPlayer mEzPlayer;
     private SurfaceHolder mRealPlaySh = null;
@@ -88,73 +95,68 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         initView();
     }
 
-//    @Event(value = {R.id.capture, R.id.upload, R.id.policy})
-//    private void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.capture:
-//                PermissionGen.with(VideoActivity.this)
-//                        .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                        .addRequestCode(Constant.PERMISSION_CODE)
-//                        .request();
-//                break;
-//            case R.id.upload:
-//                PermissionGen.with(VideoActivity.this)
-//                        .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                        .addRequestCode(Constant.PERMISSION_CODE2)
-//                        .request();
-//                break;
-//            case R.id.policy:
-//                PermissionGen.with(VideoActivity.this)
-//                        .permissions(Manifest.permission.CALL_PHONE)
-//                        .addRequestCode(Constant.PERMISSION_CODE3)
-//                        .request();
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-
     @Event(value = {R.id.capture, R.id.upload, R.id.call_policy, R.id.album
-                ,R.id.capture_back, R.id.album_back, R.id.upload_back})
+            , R.id.capture_back, R.id.album_back, R.id.upload_back})
     private void onClick(View view) {
         switch (view.getId()) {
             case R.id.capture:
                 mCapBtnClick = !mCapBtnClick;
                 if (mCapBtnClick) {
                     mCaptureBackBtn.setImageResource(R.drawable.cap_pic_back_off);
+                    mCapTv.setVisibility(View.VISIBLE);
                 } else {
                     mCaptureBackBtn.setImageResource(R.drawable.cap_pic_back_on);
+                    mCapTv.setVisibility(View.GONE);
                 }
                 break;
             case R.id.capture_back:
-                Toast.makeText(this, "抓拍背景", Toast.LENGTH_SHORT).show();
+                if (!mCapBtnClick) {
+                    PermissionGen.with(VideoActivity.this)
+                            .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            .addRequestCode(Constant.PERMISSION_CODE)
+                            .request();
+                }
                 break;
             case R.id.album:
                 mAlbumdBtnClick = !mAlbumdBtnClick;
                 if (mAlbumdBtnClick) {
                     mAlbumBackBtn.setImageResource(R.drawable.album_pic_off);
+                    mAlbumTv.setVisibility(View.VISIBLE);
                 } else {
                     mAlbumBackBtn.setImageResource(R.drawable.album_pic_on);
+                    mAlbumTv.setVisibility(View.GONE);
                 }
                 break;
             case R.id.album_back:
-                Toast.makeText(this, "相册背景", Toast.LENGTH_SHORT).show();
+                if (!mAlbumdBtnClick) {
+                    PermissionGen.with(VideoActivity.this)
+                            .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            .addRequestCode(Constant.PERMISSION_CODE2)
+                            .request();
+                }
                 break;
             case R.id.upload:
                 mUploadClick = !mUploadClick;
                 if (mUploadClick) {
                     mUploadBackBtn.setImageResource(R.drawable.upload_pic_off);
+                    mUploadTv.setVisibility(View.VISIBLE);
                 } else {
-                    mUploadBackBtn.setImageResource(R.drawable.upload_pic_on    );
+                    mUploadBackBtn.setImageResource(R.drawable.upload_pic_on);
+                    mUploadTv.setVisibility(View.GONE);
                 }
                 break;
             case R.id.upload_back:
-                Toast.makeText(this, "上传背景", Toast.LENGTH_SHORT).show();
+                if (!mUploadClick) {
+                    PermissionGen.with(VideoActivity.this)
+                            .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            .addRequestCode(Constant.PERMISSION_CODE4)
+                            .request();
+                }
                 break;
             case R.id.call_policy:
                 PermissionGen.with(VideoActivity.this)
                         .permissions(Manifest.permission.CALL_PHONE)
-                        .addRequestCode(Constant.PERMISSION_CODE3)
+                        .addRequestCode(Constant.PERMISSION_CODE4)
                         .request();
                 break;
             default:
@@ -217,20 +219,18 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     }
 
     private void initView() {
-//        setTitle(mVideo.getName());
-//        setTitle(mCamera.getChannelName());
-//        mRealPlaySv = (SurfaceView) findViewById(R.id.realplay_sv);
-//        mRealPlaySh = mRealPlaySv.getHolder();
-//        mRealPlaySh.addCallback(this);
-//        startPlay();
-        mImageView.setVisibility(View.GONE);
-//        mImageView.setImageResource(mVideo.getImg());
         mCaptureBtn.setImageResource(R.drawable.cap_pic);
         mCaptureBackBtn.setImageResource(R.drawable.cap_pic_back_on);
         mAlbumBtn.setImageResource(R.drawable.album_pic);
         mAlbumBackBtn.setImageResource(R.drawable.album_pic_on);
         mUploadBtn.setImageResource(R.drawable.upload_pic);
         mUploadBackBtn.setImageResource(R.drawable.upload_pic_on);
+        setTitle(mCamera.getChannelName());
+        mRealPlaySv = (SurfaceView) findViewById(R.id.realplay_sv);
+        mRealPlaySh = mRealPlaySv.getHolder();
+        mRealPlaySh.addCallback(this);
+        startPlay();
+        mImageView.setVisibility(View.GONE);
     }
 
     private void initData() {
@@ -238,9 +238,8 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         animationDrawable.start();
         mEzPlayer = null;
         mHandler = new Handler(this);
-//        mCamera = (CameraBean.Camera) getIntent().getSerializableExtra(Constant.BEAN);
+        mCamera = (CameraBean.Camera) getIntent().getSerializableExtra(Constant.BEAN);
 
-//        mVideo = (Video) getIntent().getSerializableExtra(Constant.BEAN);
 //        new GetCamersTask().execute();
     }
 
@@ -248,7 +247,10 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     protected void onResume() {
         super.onResume();
         if (mEzPlayer != null) {
-            mEzPlayer.startRealPlay();
+            mIsOnline = mEzPlayer.startRealPlay();
+        }
+        if (!mIsOnline) {
+            mVideoTip.setVisibility(View.VISIBLE);
         }
     }
 
@@ -292,17 +294,39 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
             mEzPlayer.setSurfaceHold(null);
         }
         mRealPlaySh = null;
+        Log.d(TAG, "11212");
     }
 
     @Override
     public boolean handleMessage(Message msg) {
-        switch (msg.what) {
-            case 207:
-//                startRealPlay();
-                break;
-            default:
-                break;
-        }
+//        switch (msg.what) {
+//            case EZConstants.EZRealPlayConstants.MSG_GET_CAMERA_INFO_SUCCESS:
+//                Log.d(TAG, "1");
+////                startRealPlay();
+//                break;
+//            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_START:
+//                Log.d(TAG, "2");
+////                startRealPlay();
+//                break;
+//            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_CONNECTION_START:
+//                Log.d(TAG, "3");
+////                startRealPlay();
+//                break;
+//            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_CONNECTION_SUCCESS:
+//                Log.d(TAG, "4");
+////                startRealPlay();
+//                break;
+//            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_SUCCESS:
+//                Log.d(TAG, "5");
+////                startRealPlay();
+//                break;
+//            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL:
+//                Log.d(TAG, "6");
+//            default:
+//                Log.d(TAG, "msg.what:" + msg.what);
+//                Log.d(TAG, "10");
+//                break;
+//        }
         return false;
     }
 
@@ -347,6 +371,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
 
             if (mEzPlayer == null) {
                 mEzPlayer = App.getOpenSDK().createPlayer(mCamera.getDeviceSerial(), Integer.parseInt(mCamera.getChannelNo()));
+//                mEzPlayer = App.getOpenSDK().createPlayer("587345020", 5);
             }
 
             if (mEzPlayer == null)
@@ -358,7 +383,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
 
             mEzPlayer.setHandler(mHandler);
             mEzPlayer.setSurfaceHold(mRealPlaySh);
-            mEzPlayer.startRealPlay();
+            mIsOnline = mEzPlayer.startRealPlay();
         }
     }
 
@@ -415,4 +440,16 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     private void permissionFailure3() {
         Toast.makeText(this, R.string.permission_failure, Toast.LENGTH_SHORT).show();
     }
+
+    @PermissionSuccess(requestCode = Constant.PERMISSION_CODE4)
+    private void permissionSuccess4() {
+        Intent intent = new Intent(VideoActivity.this, UploadPicActivity.class);
+        startActivity(intent);
+    }
+
+    @PermissionFail(requestCode = Constant.PERMISSION_CODE4)
+    private void permissionFailure4() {
+        Toast.makeText(this, R.string.permission_failure, Toast.LENGTH_SHORT).show();
+    }
+
 }

@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -27,8 +28,16 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.fjrcloud.lin.R;
+import com.fjrcloud.lin.model.bean.TownBean;
 import com.fjrcloud.lin.ui.activity.TownGridActivity;
 import com.fjrcloud.lin.util.Constant;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +53,7 @@ public class TownMapFragment extends Fragment {
     private EditText mEditText;
     private ImageButton mSearchBtn;
     private boolean mIsSearch; //点击search的时候  zoom按16来
+    private List<TownBean.Town> mTowns;
 
     public TownMapFragment() {
         // Required empty public constructor
@@ -71,9 +81,13 @@ public class TownMapFragment extends Fragment {
         mEditText = (EditText) view.findViewById(R.id.search_edit);
         mSearchBtn = (ImageButton) view.findViewById(R.id.search_btn);
         initData();
-        initView();
+        getData();
         initListener();
         return view;
+    }
+
+    private void getData() {
+//        getTown(new YsTown().new FindTownByParent(null));
     }
 
     private void initListener() {
@@ -81,9 +95,9 @@ public class TownMapFragment extends Fragment {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Bundle bundle = marker.getExtraInfo();
-                String title = bundle.getString(Constant.BEAN);
+                TownBean.Town town = (TownBean.Town) bundle.getSerializable(Constant.BEAN);
                 Intent intent = new Intent(getActivity(), TownGridActivity.class);
-                intent.putExtra(Constant.BEAN, title);
+                intent.putExtra(Constant.BEAN, town);
                 startActivity(intent);
                 return true;
             }
@@ -97,16 +111,16 @@ public class TownMapFragment extends Fragment {
 
             @Override
             public void onMapStatusChange(MapStatus mapStatus) {
-                if (mapStatus.zoom < 14.5) {
-                    if (mIsShow) {
-                        mBaiduMap.clear();
-                        mIsShow = !mIsShow;
-                    }
-                } else {
-                    if (!mIsShow) {
-                        initOverlay();
-                    }
-                }
+//                if (mapStatus.zoom < 14.5) {
+//                    if (mIsShow) {
+//                        mBaiduMap.clear();
+//                        mIsShow = !mIsShow;
+//                    }
+//                } else {
+//                    if (!mIsShow) {
+//                        initOverlay();
+//                    }
+//                }
             }
 
             @Override
@@ -153,34 +167,24 @@ public class TownMapFragment extends Fragment {
 
     private void initData() {
         mIsFirst = true;
+        mIsShow = true;
+        mTowns = new ArrayList<>();
     }
 
-    private void initView() {
-        initOverlay();
-    }
 
     private void initOverlay() {
-        mIsShow = true;
-        LatLng latLng = new LatLng(25.479496, 119.566955);
-        setMap(latLng, "北垞村", R.mipmap.town_icon);
-        LatLng latLng2 = new LatLng(25.478459, 119.559925);
-        setMap(latLng2, "薛港村", R.mipmap.town_icon);
-        LatLng latLng3 = new LatLng(25.48066, 119.577245);
-        setMap(latLng3, "后安村", R.mipmap.town_icon);
-        LatLng latLng4 = new LatLng(25.473688, 119.577676);
-        setMap(latLng4, "东埔村", R.mipmap.town_icon);
-        LatLng latLng5 = new LatLng(25.470657, 119.571981);
-        setMap(latLng5, "安适村", R.mipmap.town_icon);
-        LatLng latLng6 = new LatLng(25.477087, 119.58113);
-        setMap(latLng6, "目屿村", R.mipmap.town_icon);
+        for (int i = 0; i < mTowns.size(); i++) {
+            setMap(mTowns.get(i));
+        }
     }
 
-    private void setMap(LatLng latLng, String title, Integer img) {
+    private void setMap(TownBean.Town town) {
+        LatLng latLng = new LatLng(Float.parseFloat(town.getLatitude()), Float.parseFloat(town.getLongitude()));
         Marker marker;
         marker = (Marker) mBaiduMap.addOverlay(new MarkerOptions().position(latLng)
-                .icon(BitmapDescriptorFactory.fromView(getOverlayView(img, title))));
+                .icon(BitmapDescriptorFactory.fromView(getOverlayView(R.mipmap.town_icon, town.getName()))));
         Bundle bundle1 = new Bundle();
-        bundle1.putString(Constant.BEAN, title);
+        bundle1.putSerializable(Constant.BEAN, town);
         marker.setExtraInfo(bundle1);
         if (mIsFirst) {
             mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(latLng));
@@ -208,6 +212,34 @@ public class TownMapFragment extends Fragment {
 //        TextView textView = (TextView) view.findViewById(R.id.overlay_name);
 //        textView.setText(companyName);
         return view;
+    }
+
+    private void getTown(RequestParams params) {
+        x.http().post(params, new Callback.CommonCallback<TownBean>() {
+            @Override
+            public void onSuccess(TownBean result) {
+                for (int i = 0; i < result.getData().size(); i++) {
+                    mTowns.add(result.getData().get(i));
+                    setMap(result.getData().get(i));
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(getActivity(), R.string.unknow_error, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
 }

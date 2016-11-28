@@ -17,7 +17,7 @@
         android:id="@+id/realplay_group"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1.5">
 
 
         <SurfaceView
@@ -33,6 +33,7 @@
             android:layout_centerInParent="true"
             android:text="@string/device_not_online"
             android:textSize="18sp"
+            android:textColor="@color/white"
             android:visibility="gone"/>
 
         <ImageView

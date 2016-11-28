@@ -8,20 +8,20 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.model.bean.Town;
+import com.fjrcloud.lin.model.bean.TownBean;
 
 import java.util.List;
 
 /**
  * Created by lin on 2016/11/21.
  */
-public class TownListAdapter extends BaseAdapter{
+public class TownListAdapter extends BaseAdapter {
 
-    private List<Town> mTowns;
+    private List<TownBean.Town> mTowns;
 
     private LayoutInflater mInflater;
 
-    public TownListAdapter(List<Town> towns, Context context) {
+    public TownListAdapter(List<TownBean.Town> towns, Context context) {
         mTowns = towns;
         mInflater = LayoutInflater.from(context);
     }
@@ -48,7 +48,7 @@ public class TownListAdapter extends BaseAdapter{
             convertView = mInflater.inflate(R.layout.town_lv_item, parent, false);
             holder = new ViewHolder();
             holder.mName = (TextView) convertView.findViewById(R.id.town_name);
-            holder.mCount = (TextView) convertView.findViewById(R.id.town_count);
+//            holder.mCount = (TextView) convertView.findViewById(R.id.town_count);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

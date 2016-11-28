@@ -16,6 +16,7 @@ import com.fjrcloud.lin.App;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.model.bean.CameraBean;
 import com.fjrcloud.lin.model.bean.TokenBean;
+import com.fjrcloud.lin.model.bean.TownBean;
 import com.fjrcloud.lin.model.domain.YsCamera;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
@@ -36,7 +37,8 @@ public class TownGridActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
     private List<CameraBean.Camera> mVideoAttr;
     private GridAdapter mGridAdapter;
-    private String mTitle;
+    private TownBean.Town mTown;
+    private String mAccessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class TownGridActivity extends BaseActivity {
     }
 
     private void initView() {
-        setTitle(mTitle);
+        setTitle(mTown.getName());
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mGridAdapter);
@@ -59,7 +61,6 @@ public class TownGridActivity extends BaseActivity {
                 startActivity(intent2Video);
             }
         });
-
     }
 
     private void initAdapter() {
@@ -67,7 +68,7 @@ public class TownGridActivity extends BaseActivity {
     }
 
     private void initData() {
-        mTitle = getIntent().getStringExtra(Constant.BEAN);
+        mTown = (TownBean.Town) getIntent().getSerializableExtra(Constant.BEAN);
         mVideoAttr = new ArrayList<>();
 //        mVideoAttr.add(new Video(R.mipmap.image, "八字路口(流畅)"));
 //        mVideoAttr.add(new Video(R.mipmap.image, "马路口(流畅)"));
@@ -77,18 +78,20 @@ public class TownGridActivity extends BaseActivity {
 //        mVideoAttr.add(new Video(R.mipmap.image, "乡村路口(流畅)"));
 //        mVideoAttr.add(new Video(R.mipmap.image, "乡村路口(流畅)"));
 //        mVideoAttr.add(new Video(R.mipmap.image, "乡村路口(流畅)"));
-        if (App.getOpenSDK().getEZAccessToken() == null) {
-            getToken(new YsCamera().new GetYsToken());
-        } else {
-            getCamera(new YsCamera().new GetCamera());
-        }
+//        if (App.getOpenSDK().getEZAccessToken() == null) {
+//            getToken(new YsCamera().new GetYsToken());
+//        } else {
+//            getCamera(new YsCamera().new GetCamera());
+//        }
+        getToken(new YsCamera().new GetYsToken());
     }
 
     private void getToken(RequestParams params) {
         x.http().post(params, new Callback.CommonCallback<TokenBean>() {
             @Override
             public void onSuccess(TokenBean result) {
-                App.getOpenSDK().setAccessToken(result.getData().getAccessToken());
+                mAccessToken = result.getData().getAccessToken();
+                App.getOpenSDK().setAccessToken(mAccessToken);
             }
 
             @Override
@@ -103,6 +106,7 @@ public class TownGridActivity extends BaseActivity {
 
             @Override
             public void onFinished() {
+//                getCamera(new YsTown().new FindCameraByArea(mTown.getId()));
                 getCamera(new YsCamera().new GetCamera());
             }
         });
@@ -112,7 +116,10 @@ public class TownGridActivity extends BaseActivity {
         x.http().post(params, new Callback.CommonCallback<CameraBean>() {
             @Override
             public void onSuccess(CameraBean result) {
-                mGridAdapter.addData(result.getData());
+                for (int i = 0; i < result.getData().size(); i++) {
+                    mVideoAttr.add(result.getData().get(i));
+                }
+                mGridAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -142,12 +149,12 @@ public class TownGridActivity extends BaseActivity {
         protected void convert(BaseViewHolder baseViewHolder, CameraBean.Camera camera) {
             baseViewHolder.setText(R.id.grid_image_title, camera.getChannelName())
                     .addOnClickListener(R.id.img_group);
-            Glide.with(mContext).load(camera.getPicUrl()).error(R.mipmap.error_image).
+            Glide.with(mContext).load(R.mipmap.image).error(R.mipmap.error_image).
                     into((ImageView) baseViewHolder.getView(R.id.grid_image));
-            if (camera.getStatus() == 0) {
-                baseViewHolder.setVisible(R.id.camer_online_tip, true);
-                baseViewHolder.getView(R.id.img_group).setEnabled(false);
-            }
+//            if (!TextUtils.equals(camera.getStatus(), "在线")) {
+//                baseViewHolder.setVisible(R.id.camer_online_tip, true);
+//                baseViewHolder.getView(R.id.img_group).setEnabled(false);
+//            }
         }
     }
 }
