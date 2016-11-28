@@ -22,6 +22,9 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        EZOpenSDK.showSDKLog(true);
+        EZOpenSDK.enableP2P(true);
         EZOpenSDK.initLib(this, APP_KEY, "");
         EzvizAPI.getInstance().setServerUrl(API_URL, WEB_URL);
         instance = this;

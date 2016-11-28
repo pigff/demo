@@ -30,6 +30,7 @@ import com.fjrcloud.lin.util.IntentUtil;
 import com.fjrcloud.lin.util.custom_view.DialDialog;
 import com.fjrcloud.lin.util.custom_view.MenuViewItem;
 import com.videogo.exception.InnerException;
+import com.videogo.openapi.EZConstants;
 import com.videogo.openapi.EZPlayer;
 import com.videogo.util.MediaScanner;
 import com.videogo.util.SDCardUtil;
@@ -77,12 +78,14 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     private EZPlayer mEzPlayer;
     private SurfaceHolder mRealPlaySh = null;
     private Handler mHandler = null;
-    private SurfaceView mRealPlaySv = null;
-    private boolean mIsOnline; //设备是否在线
+    @ViewInject(R.id.realplay_sv)
+    private SurfaceView mRealPlaySv;
+//    private boolean mIsOnline; //设备是否在线
 
     private boolean mCapBtnClick;
     private boolean mAlbumdBtnClick;
     private boolean mUploadClick;
+    private boolean mIsFirst;
 
 
     private static final String TAG = "VideoActivity";
@@ -219,23 +222,23 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     }
 
     private void initView() {
+        setTitle(mCamera.getChannelName());
+        mRealPlaySh = mRealPlaySv.getHolder();
+        mRealPlaySh.addCallback(this);
+        startPlay();
+        mImageView.setVisibility(View.GONE);
         mCaptureBtn.setImageResource(R.drawable.cap_pic);
         mCaptureBackBtn.setImageResource(R.drawable.cap_pic_back_on);
         mAlbumBtn.setImageResource(R.drawable.album_pic);
         mAlbumBackBtn.setImageResource(R.drawable.album_pic_on);
         mUploadBtn.setImageResource(R.drawable.upload_pic);
         mUploadBackBtn.setImageResource(R.drawable.upload_pic_on);
-        setTitle(mCamera.getChannelName());
-        mRealPlaySv = (SurfaceView) findViewById(R.id.realplay_sv);
-        mRealPlaySh = mRealPlaySv.getHolder();
-        mRealPlaySh.addCallback(this);
-        startPlay();
-        mImageView.setVisibility(View.GONE);
     }
 
     private void initData() {
         AnimationDrawable animationDrawable = (AnimationDrawable) mImageView.getDrawable();
         animationDrawable.start();
+        mIsFirst = true;
         mEzPlayer = null;
         mHandler = new Handler(this);
         mCamera = (CameraBean.Camera) getIntent().getSerializableExtra(Constant.BEAN);
@@ -246,12 +249,10 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     @Override
     protected void onResume() {
         super.onResume();
-        if (mEzPlayer != null) {
-            mIsOnline = mEzPlayer.startRealPlay();
+        if (mEzPlayer != null && !mIsFirst) {
+            mEzPlayer.startRealPlay();
         }
-        if (!mIsOnline) {
-            mVideoTip.setVisibility(View.VISIBLE);
-        }
+        mIsFirst = false;
     }
 
     @Override
@@ -299,34 +300,34 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
 
     @Override
     public boolean handleMessage(Message msg) {
-//        switch (msg.what) {
-//            case EZConstants.EZRealPlayConstants.MSG_GET_CAMERA_INFO_SUCCESS:
-//                Log.d(TAG, "1");
-////                startRealPlay();
-//                break;
-//            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_START:
-//                Log.d(TAG, "2");
-////                startRealPlay();
-//                break;
-//            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_CONNECTION_START:
-//                Log.d(TAG, "3");
-////                startRealPlay();
-//                break;
-//            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_CONNECTION_SUCCESS:
-//                Log.d(TAG, "4");
-////                startRealPlay();
-//                break;
-//            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_SUCCESS:
-//                Log.d(TAG, "5");
-////                startRealPlay();
-//                break;
-//            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL:
-//                Log.d(TAG, "6");
-//            default:
-//                Log.d(TAG, "msg.what:" + msg.what);
-//                Log.d(TAG, "10");
-//                break;
-//        }
+        switch (msg.what) {
+            case EZConstants.EZRealPlayConstants.MSG_GET_CAMERA_INFO_SUCCESS:
+                Log.d(TAG, "1");
+//                startRealPlay();
+                break;
+            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_START:
+                Log.d(TAG, "2");
+//                startRealPlay();
+                break;
+            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_CONNECTION_START:
+                Log.d(TAG, "3");
+//                startRealPlay();
+                break;
+            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_CONNECTION_SUCCESS:
+                Log.d(TAG, "4");
+//                startRealPlay();
+                break;
+            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_SUCCESS:
+                Log.d(TAG, "5");
+//                startRealPlay();
+                break;
+            case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL:
+                Log.d(TAG, "6");
+            default:
+                Log.d(TAG, "msg.what:" + msg.what);
+                Log.d(TAG, "10");
+                break;
+        }
         return false;
     }
 
@@ -383,7 +384,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
 
             mEzPlayer.setHandler(mHandler);
             mEzPlayer.setSurfaceHold(mRealPlaySh);
-            mIsOnline = mEzPlayer.startRealPlay();
+            mEzPlayer.startRealPlay();
         }
     }
 
