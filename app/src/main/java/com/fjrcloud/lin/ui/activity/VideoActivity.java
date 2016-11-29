@@ -282,7 +282,10 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         mHandler.removeMessages(EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL);
         mHandler = null;
 
-
+        if (mAnimationDrawable.isRunning()) {
+            mAnimationDrawable.stop();
+            mAnimationDrawable = null;
+        }
     }
 
     @Override

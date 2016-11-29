@@ -1,11 +1,15 @@
 package com.fjrcloud.lin.ui.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -36,17 +40,32 @@ public class TownGridActivity extends BaseActivity {
 
     @ViewInject(R.id.town_grid)
     private RecyclerView mRecyclerView;
+    @ViewInject(R.id.loading_group)
+    private LinearLayout mLoadingGroup;
+    @ViewInject(R.id.loading_img)
+    private ImageView mImageView;
+    @ViewInject(R.id.town_tip_tv)
+    private TextView mTipTv;
     private List<CameraBean.Camera> mVideoAttr;
     private GridAdapter mGridAdapter;
     private TownBean.Town mTown;
     private String mAccessToken;
+    private AnimationDrawable mDrawalbe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initData();
+        getData();
         initAdapter();
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mDrawalbe = (AnimationDrawable) mImageView.getDrawable();
+        mDrawalbe.start();
     }
 
     private void initView() {
@@ -62,6 +81,7 @@ public class TownGridActivity extends BaseActivity {
                 startActivity(intent2Video);
             }
         });
+
     }
 
     private void initAdapter() {
@@ -71,20 +91,6 @@ public class TownGridActivity extends BaseActivity {
     private void initData() {
         mTown = (TownBean.Town) getIntent().getSerializableExtra(Constant.BEAN);
         mVideoAttr = new ArrayList<>();
-//        mVideoAttr.add(new Video(R.mipmap.image, "八字路口(流畅)"));
-//        mVideoAttr.add(new Video(R.mipmap.image, "马路口(流畅)"));
-//        mVideoAttr.add(new Video(R.mipmap.image, "十字路口(流畅)"));
-//        mVideoAttr.add(new Video(R.mipmap.image, "学校路口(流畅)"));
-//        mVideoAttr.add(new Video(R.mipmap.image, "集市路口(流畅)"));
-//        mVideoAttr.add(new Video(R.mipmap.image, "乡村路口(流畅)"));
-//        mVideoAttr.add(new Video(R.mipmap.image, "乡村路口(流畅)"));
-//        mVideoAttr.add(new Video(R.mipmap.image, "乡村路口(流畅)"));
-//        if (App.getOpenSDK().getEZAccessToken() == null) {
-//            getToken(new YsCamera().new GetYsToken());
-//        } else {
-//            getCamera(new YsCamera().new GetCamera());
-//        }
-        getToken(new YsCamera().new GetYsToken());
     }
 
     private void getToken(RequestParams params) {
@@ -117,10 +123,15 @@ public class TownGridActivity extends BaseActivity {
         x.http().post(params, new Callback.CommonCallback<CameraBean>() {
             @Override
             public void onSuccess(CameraBean result) {
-                for (int i = 0; i < result.getData().size(); i++) {
-                    mVideoAttr.add(result.getData().get(i));
+                if (result.getData().size() > 0) {
+                    for (int i = 0; i < result.getData().size(); i++) {
+                        mVideoAttr.add(result.getData().get(i));
+                    }
+                    mGridAdapter.notifyDataSetChanged();
+                } else {
+                    mTipTv.setVisibility(View.VISIBLE);
                 }
-                mGridAdapter.notifyDataSetChanged();
+                loadviewGone();
             }
 
             @Override
@@ -140,6 +151,22 @@ public class TownGridActivity extends BaseActivity {
         });
     }
 
+    private void loadviewGone() {
+        if (mDrawalbe.isRunning()) {
+            mDrawalbe.stop();
+        }
+        mLoadingGroup.setVisibility(View.GONE);
+    }
+
+    public void getData() {
+//        if (App.getOpenSDK().getEZAccessToken() == null) {
+//            getToken(new YsCamera().new GetYsToken());
+//        } else {
+//            getCamera(new YsCamera().new GetCamera());
+//        }
+        getToken(new YsCamera().new GetYsToken());
+    }
+
     class GridAdapter extends BaseQuickAdapter<CameraBean.Camera, BaseViewHolder> {
 
         public GridAdapter(int layoutResId, List<CameraBean.Camera> data) {
@@ -152,10 +179,10 @@ public class TownGridActivity extends BaseActivity {
                     .addOnClickListener(R.id.img_group);
             Glide.with(mContext).load(camera.getImg()).error(R.mipmap.error_image).
                     into((ImageView) baseViewHolder.getView(R.id.grid_image));
-//            if (!TextUtils.equals(camera.getStatus(), "在线")) {
-//                baseViewHolder.setVisible(R.id.camer_online_tip, true);
-//                baseViewHolder.getView(R.id.img_group).setEnabled(false);
-//            }
+            if (!TextUtils.equals(camera.getStatus(), "在线")) {
+                baseViewHolder.setVisible(R.id.camer_online_tip, true);
+                baseViewHolder.getView(R.id.img_group).setEnabled(false);
+            }
         }
     }
 }

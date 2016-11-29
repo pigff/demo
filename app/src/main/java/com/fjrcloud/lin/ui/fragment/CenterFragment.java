@@ -107,7 +107,7 @@ public class CenterFragment extends Fragment {
 
     private void initView() {
         mGridView.setAdapter(mAdapter);
-        Glide.with(this).load(R.mipmap.image).transform(new GlideCircleTransform(getActivity())).into(mImageView);
+        Glide.with(this).load(R.mipmap.center_user_header_def).transform(new GlideCircleTransform(getActivity())).into(mImageView);
     }
 
     private void initAdapter() {

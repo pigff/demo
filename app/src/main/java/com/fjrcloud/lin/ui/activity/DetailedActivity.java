@@ -2,7 +2,6 @@ package com.fjrcloud.lin.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import com.fjrcloud.lin.R;
@@ -45,9 +44,9 @@ public class DetailedActivity extends BaseActivity {
 //        mNews = (News) bundle.getSerializable(Constant.BEAN);
     }
 
-    public void jump(View view) {
-        Intent intent = new Intent(this, ManagerActivity.class);
-        startActivity(intent);
-    }
+//    public void jump(View view) {
+//        Intent intent = new Intent(this, ManagerActivity.class);
+//        startActivity(intent);
+//    }
 
 }

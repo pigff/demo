@@ -88,7 +88,7 @@ public class UploadPicActivity extends BaseActivity {
         File[] files = fileAll.listFiles();
         if (files != null) {
             // 将所有的文件存入ArrayList中,并过滤所有图片格式的文件
-            for (int i = 0; i < files.length; i++) {
+            for (int i = files.length - 1; i >= 0; i--) {
                 File file = files[i];
                 if (checkIsImageFile(file.getPath())) {
                     imageAll.images.add(new ImageItem(file.getPath()));
