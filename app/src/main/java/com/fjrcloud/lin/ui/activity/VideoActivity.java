@@ -55,22 +55,10 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     private ImageView mImageView;
     @ViewInject(R.id.capture)
     private MenuViewItem mCaptureBtn;
-    @ViewInject(R.id.capture_back)
-    private MenuViewItem mCaptureBackBtn;
     @ViewInject(R.id.album)
     private MenuViewItem mAlbumBtn;
-    @ViewInject(R.id.album_back)
-    private MenuViewItem mAlbumBackBtn;
     @ViewInject(R.id.upload)
     private MenuViewItem mUploadBtn;
-    @ViewInject(R.id.upload_back)
-    private MenuViewItem mUploadBackBtn;
-    @ViewInject(R.id.des_cap)
-    private TextView mCapTv;
-    @ViewInject(R.id.des_album)
-    private TextView mAlbumTv;
-    @ViewInject(R.id.des_upload)
-    private TextView mUploadTv;
     @ViewInject(R.id.video_tip_tv)
     private TextView mVideoTip;
     //    private EZDeviceInfo mDeviceInfo;
@@ -82,9 +70,6 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     private SurfaceView mRealPlaySv;
 //    private boolean mIsOnline; //设备是否在线
 
-    private boolean mCapBtnClick;
-    private boolean mAlbumdBtnClick;
-    private boolean mUploadClick;
     private boolean mIsFirst;
 
 
@@ -99,68 +84,32 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         initView();
     }
 
-    @Event(value = {R.id.capture, R.id.upload, R.id.call_policy, R.id.album
-            , R.id.capture_back, R.id.album_back, R.id.upload_back})
+    @Event(value = {R.id.capture, R.id.upload, R.id.call_policy, R.id.album})
     private void onClick(View view) {
         switch (view.getId()) {
             case R.id.capture:
-                mCapBtnClick = !mCapBtnClick;
-                if (mCapBtnClick) {
-                    mCaptureBackBtn.setImageResource(R.drawable.cap_pic_back_off);
-                    mCapTv.setVisibility(View.VISIBLE);
-                } else {
-                    mCaptureBackBtn.setImageResource(R.drawable.cap_pic_back_on);
-                    mCapTv.setVisibility(View.GONE);
-                }
-                break;
-            case R.id.capture_back:
-                if (!mCapBtnClick) {
-                    PermissionGen.with(VideoActivity.this)
-                            .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            .addRequestCode(Constant.PERMISSION_CODE)
-                            .request();
-                }
+                PermissionGen.with(VideoActivity.this)
+                        .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .addRequestCode(Constant.PERMISSION_CODE)
+                        .request();
                 break;
             case R.id.album:
-                mAlbumdBtnClick = !mAlbumdBtnClick;
-                if (mAlbumdBtnClick) {
-                    mAlbumBackBtn.setImageResource(R.drawable.album_pic_off);
-                    mAlbumTv.setVisibility(View.VISIBLE);
-                } else {
-                    mAlbumBackBtn.setImageResource(R.drawable.album_pic_on);
-                    mAlbumTv.setVisibility(View.GONE);
-                }
+                PermissionGen.with(VideoActivity.this)
+                        .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .addRequestCode(Constant.PERMISSION_CODE2)
+                        .request();
                 break;
-            case R.id.album_back:
-                if (!mAlbumdBtnClick) {
-                    PermissionGen.with(VideoActivity.this)
-                            .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            .addRequestCode(Constant.PERMISSION_CODE2)
-                            .request();
-                }
-                break;
+
             case R.id.upload:
-                mUploadClick = !mUploadClick;
-                if (mUploadClick) {
-                    mUploadBackBtn.setImageResource(R.drawable.upload_pic_off);
-                    mUploadTv.setVisibility(View.VISIBLE);
-                } else {
-                    mUploadBackBtn.setImageResource(R.drawable.upload_pic_on);
-                    mUploadTv.setVisibility(View.GONE);
-                }
-                break;
-            case R.id.upload_back:
-                if (!mUploadClick) {
-                    PermissionGen.with(VideoActivity.this)
-                            .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            .addRequestCode(Constant.PERMISSION_CODE4)
-                            .request();
-                }
+                PermissionGen.with(VideoActivity.this)
+                        .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .addRequestCode(Constant.PERMISSION_CODE4)
+                        .request();
                 break;
             case R.id.call_policy:
                 PermissionGen.with(VideoActivity.this)
                         .permissions(Manifest.permission.CALL_PHONE)
-                        .addRequestCode(Constant.PERMISSION_CODE4)
+                        .addRequestCode(Constant.PERMISSION_CODE3)
                         .request();
                 break;
             default:
@@ -227,12 +176,9 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         mRealPlaySh = mRealPlaySv.getHolder();
         mRealPlaySh.addCallback(this);
         startPlay();
-        mCaptureBtn.setImageResource(R.drawable.cap_pic);
-        mCaptureBackBtn.setImageResource(R.drawable.cap_pic_back_on);
-        mAlbumBtn.setImageResource(R.drawable.album_pic);
-        mAlbumBackBtn.setImageResource(R.drawable.album_pic_on);
-        mUploadBtn.setImageResource(R.drawable.upload_pic);
-        mUploadBackBtn.setImageResource(R.drawable.upload_pic_on);
+        mCaptureBtn.setImageResource(R.mipmap.cap_pic);
+        mAlbumBtn.setImageResource(R.mipmap.album_pic);
+        mUploadBtn.setImageResource(R.mipmap.upload_pic);
     }
 
     private void initData() {

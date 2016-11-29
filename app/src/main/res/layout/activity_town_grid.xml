@@ -7,27 +7,11 @@
 
     <include layout="@layout/titlebar"/>
 
-    <LinearLayout
-        android:id="@+id/loading_group"
+    <include
+        layout="@layout/loading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
-
-
-        <ImageView
-            android:id="@+id/loading_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/anim_probar_bg"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/loading_tip"/>
-    </LinearLayout>
+        android:layout_centerInParent="true"/>
 
     <TextView
         android:id="@+id/town_tip_tv"
