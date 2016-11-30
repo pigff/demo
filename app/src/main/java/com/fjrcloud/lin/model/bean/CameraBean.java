@@ -65,6 +65,7 @@ public class CameraBean implements Serializable{
         private String name;
         private String sign;
         private String channel;
+        private String phone;
         private String status;
         private String img;
         private Object longitude;
@@ -159,6 +160,14 @@ public class CameraBean implements Serializable{
 
         public void setYsUser(Object ysUser) {
             this.ysUser = ysUser;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
 
         public static class AreaEntity implements Serializable{

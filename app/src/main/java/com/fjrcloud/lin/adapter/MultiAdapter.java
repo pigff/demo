@@ -13,7 +13,6 @@ import com.fjrcloud.lin.model.bean.Multi;
 import com.fjrcloud.lin.util.Constant;
 import com.fjrcloud.lin.util.DateUtil;
 import com.fjrcloud.lin.util.GlideCircleTransform;
-import com.fjrcloud.lin.util.HtmlUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -95,7 +94,7 @@ public class MultiAdapter extends BaseMultiItemQuickAdapter<Multi, BaseViewHolde
                 break;
             case Multi.NEWS_RIGHT:
                 baseViewHolder.setText(R.id.right_item_title, multi.getNews().getTitle())
-                        .setText(R.id.right_item_content, HtmlUtil.getTextFromHtml(multi.getNews().getContent()))
+                        .setText(R.id.right_item_content, multi.getNews().getContent())
                         .setText(R.id.right_item_time, DateUtil.getDateToString(multi.getNews().getCreateTime()))
                         .addOnClickListener(R.id.right_img_group);
 
@@ -104,7 +103,7 @@ public class MultiAdapter extends BaseMultiItemQuickAdapter<Multi, BaseViewHolde
                 break;
             case Multi.NEWS_LEFT:
                 baseViewHolder.setText(R.id.left_item_title, multi.getNews().getTitle())
-                        .setText(R.id.left_item_content, HtmlUtil.getTextFromHtml(multi.getNews().getContent()))
+                        .setText(R.id.left_item_content, multi.getNews().getContent())
                         .addOnClickListener(R.id.left_img_group);
                 Glide.with(mContext).load(Constant.SERVICE_HOST + multi.getNews().getImgPath()).error(R.mipmap.no_img).
                         into((ImageView) baseViewHolder.getView(R.id.left_img));

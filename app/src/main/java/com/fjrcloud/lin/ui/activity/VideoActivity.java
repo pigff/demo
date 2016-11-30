@@ -106,10 +106,14 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
                         .request();
                 break;
             case R.id.call_policy:
-                PermissionGen.with(VideoActivity.this)
-                        .permissions(Manifest.permission.CALL_PHONE)
-                        .addRequestCode(Constant.PERMISSION_CODE3)
-                        .request();
+                if (!TextUtils.isEmpty(mCamera.getPhone())) {
+                    PermissionGen.with(VideoActivity.this)
+                            .permissions(Manifest.permission.CALL_PHONE)
+                            .addRequestCode(Constant.PERMISSION_CODE3)
+                            .request();
+                } else {
+                    Toast.makeText(this, R.string.call_notice, Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 break;
@@ -328,11 +332,11 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     @PermissionSuccess(requestCode = Constant.PERMISSION_CODE3)
     private void permissionSuccess3() {
         DialDialog.Builder builder = new DialDialog.Builder(this);
-        builder.setMessage("是否呼叫 " + "110");
+        builder.setMessage("是否呼叫 " + mCamera.getPhone());
         builder.setPositiveButton("呼叫", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent2Dial = IntentUtil.getIntent2Dial("18060715985");
+                        Intent intent2Dial = IntentUtil.getIntent2Dial(mCamera.getPhone());
                         startActivity(intent2Dial);
                         dialog.dismiss();
                     }

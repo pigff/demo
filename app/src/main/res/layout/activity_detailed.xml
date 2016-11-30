@@ -10,7 +10,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:background="@color/white"
+        android:descendantFocusability="blocksDescendants">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,19 +49,19 @@
                     android:layout_marginRight="10dp"
                     android:text="270"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/comment_icon"/>
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:background="@mipmap/comment_icon"/>-->
 
-                <TextView
-                    android:id="@+id/detailed_recall_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:text="10"/>
+                <!--<TextView-->
+                <!--android:id="@+id/detailed_recall_count"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:text="10"/>-->
 
             </LinearLayout>
 
@@ -71,30 +72,10 @@
                 android:layout_marginRight="@dimen/dimen_right_10dp"
                 android:background="@color/grey"/>
 
-            <TextView
-                android:id="@+id/detailed_content"
+            <WebView
+                android:id="@+id/detailed_web"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dimen_10dp"
-                android:text="@string/text1"
-                />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dimen_10dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/banner_4"/>
-
-            <TextView
-                android:id="@+id/detailed_content2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_10dp"
-                android:layout_marginRight="@dimen/dimen_10dp"
-                android:text="@string/text2"
-                />
-
+                android:layout_height="match_parent"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -21,6 +21,7 @@ import com.fjrcloud.lin.model.domain.Article;
 import com.fjrcloud.lin.ui.activity.DetailedActivity;
 import com.fjrcloud.lin.ui.activity.MoreActivity;
 import com.fjrcloud.lin.util.Constant;
+import com.fjrcloud.lin.util.HtmlUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -77,9 +78,7 @@ public class HomeFragment extends Fragment {
                         switch (view.getId()) {
                             case R.id.big_image:
                                 Intent intent = new Intent(getActivity(), DetailedActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable(Constant.BEAN, ((Multi) baseQuickAdapter.getItem(i)).getNews());
-                                intent.putExtra(Constant.BUNDLE, bundle);
+                                intent.putExtra(Constant.BEAN, ((Multi) baseQuickAdapter.getItem(i)).getNews());
                                 intent.putExtra(Constant.TITLE, "相关推荐");
                                 startActivity(intent);
                                 break;
@@ -92,16 +91,14 @@ public class HomeFragment extends Fragment {
                         break;
                     case Multi.NEWS_RIGHT:
                         Intent intent = new Intent(getActivity(), DetailedActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable(Constant.BEAN, ((Multi) baseQuickAdapter.getItem(i)).getNews());
+                        intent.putExtra(Constant.BEAN, ((Multi) baseQuickAdapter.getItem(i)).getNews());
                         intent.putExtra(Constant.TITLE, "相关推荐");
-                        intent.putExtra(Constant.BUNDLE, bundle);
                         startActivity(intent);
-//                        Toast.makeText(getActivity(), ((Multi) baseQuickAdapter.getItem(i)).getNews().getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case Multi.CATEGORY:
                         Intent intent2List = new Intent(getActivity(), MoreActivity.class);
-                        intent2List.putExtra(Constant.TITLE, ((Multi) baseQuickAdapter.getItem(i)).getCategory());
+                        intent2List.putExtra(Constant.TITLE, ((Multi) baseQuickAdapter.getItem(i)).getCategory().getName());
+                        intent2List.putExtra(Constant.ID, ((Multi) baseQuickAdapter.getItem(i)).getCategory().getId());
                         startActivity(intent2List);
                         break;
                 }
@@ -124,7 +121,6 @@ public class HomeFragment extends Fragment {
                 new CategoryBean.Category("haha", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg")};
         Multi multi = new Multi(Multi.BANNER, imgs, Multi.NORMAL_SIZE);
         mMultis.add(multi);
-
     }
 
 
@@ -136,7 +132,6 @@ public class HomeFragment extends Fragment {
                 return mMultis.get(i).getSpanSize();
             }
         });
-        mMultiAdapter.openLoadAnimation();
 //        mMultiAdapter.setOnLoadMoreListener(this);
 //        mMultiAdapter.setEnableLoadMore(true);
     }
@@ -204,6 +199,7 @@ public class HomeFragment extends Fragment {
                     if (i == 0) {
                         mulitis.add(new Multi(Multi.BIG_IMG, result.getData().getContent().get(i), Multi.NORMAL_SIZE));
                     } else {
+                        result.getData().getContent().get(i).setContent(HtmlUtil.getTextFromHtml(result.getData().getContent().get(i).getContent()));
                         mulitis.add(new Multi(Multi.NEWS_RIGHT, result.getData().getContent().get(i), Multi.NORMAL_SIZE));
                     }
                 }

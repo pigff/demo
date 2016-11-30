@@ -165,7 +165,7 @@ public class NewsBean implements Serializable{
             private String title;
             private String content;
             private long createTime;
-            private Object views;
+            private String views;
             private String imgPath;
             private double longitude;
             private double latitude;
@@ -209,11 +209,11 @@ public class NewsBean implements Serializable{
                 this.createTime = createTime;
             }
 
-            public Object getViews() {
+            public String getViews() {
                 return views;
             }
 
-            public void setViews(Object views) {
+            public void setViews(String views) {
                 this.views = views;
             }
 

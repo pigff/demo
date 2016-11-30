@@ -8,6 +8,8 @@ public class Constant {
     public static final String TITLE = "title";
     public static final String BUNDLE = "bundle";
     public static final String BEAN = "bean";
+
+    ///
     public static final int PERMISSION_CODE = 10000;
     public static final int PERMISSION_CODE2 = 10001;
     public static final int PERMISSION_CODE3 = 10002;
@@ -22,4 +24,5 @@ public class Constant {
     public static final String CAMERA = "camera/";
     public static final String ARTICLE = "article/";
     public static final String ARTICLE_CATEGORY = "articleCategory/";
+    public static final String ID = "id";
 }

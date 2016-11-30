@@ -82,4 +82,22 @@ public class Article {
             this.pageSize = pageSize;
         }
     }
+
+    /**
+     * 获取所有新闻
+     */
+    @HttpRequest(
+            host = Constant.SERVICE_HOST,
+            path = Constant.ARTICLE + "updateViews",
+            builder = DefaultParamsBuilder.class)
+    public class AddViewCount extends RequestParams {
+
+        private Integer articleId;
+
+
+        public AddViewCount(Integer articleId) {
+            super();
+            this.articleId = articleId;
+        }
+    }
 }
