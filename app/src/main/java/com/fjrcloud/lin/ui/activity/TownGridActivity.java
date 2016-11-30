@@ -177,12 +177,13 @@ public class TownGridActivity extends BaseActivity {
         protected void convert(BaseViewHolder baseViewHolder, CameraBean.Camera camera) {
             baseViewHolder.setText(R.id.grid_image_title, camera.getName())
                     .addOnClickListener(R.id.img_group);
-            Glide.with(mContext).load(camera.getImg()).error(R.mipmap.error_image).
+            Glide.with(mContext).load(camera.getImg()).error(R.mipmap.no_img).
                     into((ImageView) baseViewHolder.getView(R.id.grid_image));
             if (!TextUtils.equals(camera.getStatus(), "在线")) {
                 baseViewHolder.setVisible(R.id.camer_online_tip, true);
                 baseViewHolder.getView(R.id.img_group).setEnabled(false);
             }
         }
+
     }
 }

@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="@color/light_black">
 
         <GridView
             android:id="@+id/upload_grid"
@@ -19,7 +19,7 @@
             android:horizontalSpacing="3dp"
             android:numColumns="3"
             android:scrollbars="none"
-            android:verticalSpacing="5dp">
+            android:verticalSpacing="2dp">
         </GridView>
 
     </RelativeLayout>

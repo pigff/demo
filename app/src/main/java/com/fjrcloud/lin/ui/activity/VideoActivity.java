@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -68,7 +67,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     private Handler mHandler = null;
     @ViewInject(R.id.realplay_sv)
     private SurfaceView mRealPlaySv;
-//    private boolean mIsOnline; //设备是否在线
+    private boolean mIsPlaying; //设备是否播放了
 
     private boolean mIsFirst;
 
@@ -198,7 +197,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         mAnimationDrawable = (AnimationDrawable) mImageView.getDrawable();
         mAnimationDrawable.start();
         if (mEzPlayer != null && !mIsFirst) {
-            mEzPlayer.startRealPlay();
+            mIsPlaying = mEzPlayer.startRealPlay();
         }
         mIsFirst = false;
     }
@@ -206,7 +205,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     @Override
     protected void onStop() {
         super.onStop();
-        if (mEzPlayer != null) {
+        if (mEzPlayer != null && mIsPlaying) {
             mEzPlayer.stopRealPlay();
         }
     }
@@ -259,10 +258,14 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
             case EZConstants.EZRealPlayConstants.MSG_REALPLAY_STOP_SUCCESS:
-                Log.d(TAG, "4");
+                mImageView.setVisibility(View.GONE);
+                mVideoTip.setVisibility(View.GONE);
                 break;
             case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_SUCCESS:
                 mImageView.setVisibility(View.GONE);
+                if (mVideoTip.isShown()) {
+                    mVideoTip.setVisibility(View.GONE);
+                }
 //                startRealPlay();
                 break;
             case EZConstants.EZRealPlayConstants.MSG_REALPLAY_PLAY_FAIL:
@@ -274,41 +277,6 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
         return false;
     }
 
-
-//    class GetCamersTask extends AsyncTask<Void, Void, EZDeviceInfo> {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            AnimationDrawable animationDrawable = (AnimationDrawable) mImageView.getDrawable();
-//            animationDrawable.start();
-//        }
-//
-//        @Override
-//        protected EZDeviceInfo doInBackground(Void... params) {
-//            try {
-//                mDeviceInfo = App.getOpenSDK().getDeviceList(0, 20).get(0);
-//                return mDeviceInfo;
-//            } catch (BaseException e) {
-//                e.printStackTrace();
-//                return null;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(EZDeviceInfo ezDeviceInfo) {
-//            super.onPostExecute(ezDeviceInfo);
-//            mCameraInfo = EZUtils.getCameraInfoFromDevice(ezDeviceInfo, 0);
-//            mImageView.setVisibility(View.GONE);
-//            if (ezDeviceInfo.getStatus() == 1) {
-//                mIsOnline = true;
-//                startPlay();
-//            } else {
-//                mTextView.setVisibility(View.VISIBLE);
-//                mRealPlaySv.setVisibility(View.GONE);
-//            }
-//        }
-//    }
 
     private void startPlay() {
         if (mCamera != null) {
@@ -327,7 +295,7 @@ public class VideoActivity extends BaseActivity implements SurfaceHolder.Callbac
 
             mEzPlayer.setHandler(mHandler);
             mEzPlayer.setSurfaceHold(mRealPlaySh);
-            mEzPlayer.startRealPlay();
+            mIsPlaying = mEzPlayer.startRealPlay();
         }
     }
 

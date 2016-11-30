@@ -34,7 +34,6 @@ public class LoginActivity extends BaseActivity {
     private String mUserName;
     private String mPassword;
 
-//    private ResponseHandler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
