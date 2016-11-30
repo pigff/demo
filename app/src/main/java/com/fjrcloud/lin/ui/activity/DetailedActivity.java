@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.model.bean.News;
+import com.fjrcloud.lin.model.bean.NewsBean;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
 
@@ -22,7 +22,7 @@ public class DetailedActivity extends BaseActivity {
 
     @ViewInject(R.id.detailed_content)
     private TextView mContent;
-    private News mNews;
+    private NewsBean mNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,6 @@ public class DetailedActivity extends BaseActivity {
         Intent intent = getIntent();
         mTitle = intent.getStringExtra(Constant.TITLE);
 //        Bundle bundle = intent.getBundleExtra(Constant.BUNDLE);
-//        mNews = (News) bundle.getSerializable(Constant.BEAN);
     }
 
 //    public void jump(View view) {

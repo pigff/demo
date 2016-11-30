@@ -2,24 +2,29 @@ package com.fjrcloud.lin.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.MultiAdapter;
-import com.fjrcloud.lin.model.bean.Category;
+import com.fjrcloud.lin.model.bean.CategoryBean;
 import com.fjrcloud.lin.model.bean.Multi;
-import com.fjrcloud.lin.model.bean.News;
+import com.fjrcloud.lin.model.bean.NewsBean;
+import com.fjrcloud.lin.model.domain.Article;
 import com.fjrcloud.lin.ui.activity.DetailedActivity;
 import com.fjrcloud.lin.ui.activity.MoreActivity;
 import com.fjrcloud.lin.util.Constant;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +63,7 @@ public class HomeFragment extends Fragment {
         initAdapter();
         initView();
         initListener();
+        getData();
         return view;
     }
 
@@ -72,7 +78,7 @@ public class HomeFragment extends Fragment {
                             case R.id.big_image:
                                 Intent intent = new Intent(getActivity(), DetailedActivity.class);
                                 Bundle bundle = new Bundle();
-                                bundle.putSerializable(Constant.BEAN, new News("测试", "测试内容", R.mipmap.image, "2012-12"));
+                                bundle.putSerializable(Constant.BEAN, ((Multi) baseQuickAdapter.getItem(i)).getNews());
                                 intent.putExtra(Constant.BUNDLE, bundle);
                                 intent.putExtra(Constant.TITLE, "相关推荐");
                                 startActivity(intent);
@@ -95,7 +101,7 @@ public class HomeFragment extends Fragment {
                         break;
                     case Multi.CATEGORY:
                         Intent intent2List = new Intent(getActivity(), MoreActivity.class);
-                        intent2List.putExtra(Constant.TITLE, ((Multi) baseQuickAdapter.getItem(i)).getCategory().getName());
+                        intent2List.putExtra(Constant.TITLE, ((Multi) baseQuickAdapter.getItem(i)).getCategory());
                         startActivity(intent2List);
                         break;
                 }
@@ -111,37 +117,13 @@ public class HomeFragment extends Fragment {
 
     private void initData() {
         mMultis = new ArrayList<>();
-//        Integer[] imgs = new Integer[]{R.mipmap.banner_3, R.mipmap.banner_3, R.mipmap.banner_3, R.mipmap.banner_3};
-        Category[] imgs = new Category[]{new Category("haha", R.mipmap.banner_3)};
+        CategoryBean.Category[] imgs = new CategoryBean.Category[]{
+                new CategoryBean.Category("haha", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg"),
+                new CategoryBean.Category("haha", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg"),
+                new CategoryBean.Category("haha", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg"),
+                new CategoryBean.Category("haha", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg")};
         Multi multi = new Multi(Multi.BANNER, imgs, Multi.NORMAL_SIZE);
-        News bigImg = new News("大标题", "大标题的内容", R.mipmap.m_2, "222323");
-        Multi multi1 = new Multi(Multi.BIG_IMG, bigImg, Multi.NORMAL_SIZE);
-        Category category = new Category("发展变迁", R.mipmap.change);
-        Category category1 = new Category("地方文化", R.mipmap.culture);
-        Category category2 = new Category("特产美食", R.mipmap.food);
-        Category category3 = new Category("风景名胜", R.mipmap.attractions);
-        Multi multi3 = new Multi(Multi.DIVIDING, Multi.NORMAL_SIZE);
         mMultis.add(multi);
-        mMultis.add(new Multi(Multi.CATEGORY, category, Multi.CATEGORY_SIZE));
-        mMultis.add(new Multi(Multi.CATEGORY, category1, Multi.CATEGORY_SIZE));
-        mMultis.add(new Multi(Multi.CATEGORY, category2, Multi.CATEGORY_SIZE));
-        mMultis.add(new Multi(Multi.CATEGORY, category3, Multi.CATEGORY_SIZE));
-        mMultis.add(multi3);
-        mMultis.add(multi1);
-        News news1 = new News("第一个", "第一个内容",
-                R.mipmap.m_6, "2015-12-24");
-        News news2 = new News("第二个", "第二个内容", R.mipmap.m_4, "2015-10-2");
-        mMultis.add(new Multi(Multi.NEWS_RIGHT, news1, Multi.NORMAL_SIZE));
-        mMultis.add(new Multi(Multi.NEWS_RIGHT, news2, Multi.NORMAL_SIZE));
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Category[] imgs = new Category[]{new Category("xixi", R.mipmap.banner_3), new Category("xixi", R.mipmap.banner_3)
-                        , new Category("xixi", R.mipmap.banner_3), new Category("xixi", R.mipmap.banner_3)};
-                mMultis.set(0, new Multi(Multi.BANNER, imgs, Multi.NORMAL_SIZE));
-                mMultiAdapter.notifyDataSetChanged();
-            }
-        }, 5000);
 
     }
 
@@ -159,7 +141,7 @@ public class HomeFragment extends Fragment {
 //        mMultiAdapter.setEnableLoadMore(true);
     }
 
-//    @Override
+    //    @Override
 //    public void onLoadMoreRequested() {
 //        if (count < 3) {
 //            new Handler().postDelayed(new Runnable() {
@@ -179,21 +161,69 @@ public class HomeFragment extends Fragment {
 //            }, 1000);
 //        }
 //    }
+    private void getData() {
+        getCategories(new Article().new FindAllCategory());
+    }
 
-//    private List<Multi> getData() {
-//        List<Multi> multis = new ArrayList<>();
-//        for (int i = 0; i < 4; i++) {
-//            Multi multi = new Multi(Multi.NEWS, new News("第" + i, "第" + i + "content", R.mipmap.banner_img2, "232323"), Multi.NORMAL_SIZE);
-//            Category category = new Category("发展变迁", R.mipmap.change);
-//            Category category1 = new Category("地方文化", R.mipmap.culture);
-//            Category category2 = new Category("特产美食", R.mipmap.food);
-//            Category category3 = new Category("风景名胜", R.mipmap.attractions);
-//            multis.add(new Multi(Multi.CATEGORY, category, Multi.CATEGORY_SIZE));
-//            multis.add(new Multi(Multi.CATEGORY, category1, Multi.CATEGORY_SIZE));
-//            multis.add(new Multi(Multi.CATEGORY, category2, Multi.CATEGORY_SIZE));
-//            multis.add(new Multi(Multi.CATEGORY, category3, Multi.CATEGORY_SIZE));
-//            multis.add(multi);
-//        }
-//        return multis;
-//    }
+    private void getCategories(RequestParams params) {
+        x.http().post(params, new Callback.CommonCallback<CategoryBean>() {
+            @Override
+            public void onSuccess(CategoryBean result) {
+                List<Multi> multis = new ArrayList<>();
+                for (int i = 0; i < result.getData().size(); i++) {
+                    multis.add(new Multi(Multi.CATEGORY, result.getData().get(i), Multi.CATEGORY_SIZE));
+                }
+                mMultiAdapter.addData(multis);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(getActivity(), R.string.unknow_error, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                Multi multi = new Multi(Multi.DIVIDING, Multi.NORMAL_SIZE);
+                mMultis.add(multi);
+                getAllNews(new Article().new FindAllArticles(0, 6));
+            }
+        });
+    }
+
+    private void getAllNews(RequestParams params) {
+        x.http().post(params, new Callback.CommonCallback<NewsBean>() {
+            @Override
+            public void onSuccess(NewsBean result) {
+                List<Multi> mulitis = new ArrayList<>();
+                for (int i = 0; i < result.getData().getContent().size(); i++) {
+                    if (i == 0) {
+                        mulitis.add(new Multi(Multi.BIG_IMG, result.getData().getContent().get(i), Multi.NORMAL_SIZE));
+                    } else {
+                        mulitis.add(new Multi(Multi.NEWS_RIGHT, result.getData().getContent().get(i), Multi.NORMAL_SIZE));
+                    }
+                }
+                mMultiAdapter.addData(mulitis);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(getActivity(), R.string.unknow_error, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
 }

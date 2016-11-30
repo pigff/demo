@@ -12,7 +12,7 @@ import org.xutils.http.app.DefaultParamsBuilder;
 public class YsCamera {
 
     /**
-     * 获取我的诉求
+     * 获取Token
      */
     @HttpRequest(
             host = Constant.SERVICE_HOST,
@@ -26,7 +26,7 @@ public class YsCamera {
     }
 
     /**
-     * 获取我的诉求
+     * 获取所有摄像头列表
      */
     @HttpRequest(
             host = Constant.SERVICE_HOST,

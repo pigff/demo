@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.CenterGridAdapter;
-import com.fjrcloud.lin.model.bean.Category;
+import com.fjrcloud.lin.model.bean.CategoryBean;
 import com.fjrcloud.lin.ui.activity.ModifyPwdActivity;
 import com.fjrcloud.lin.ui.activity.SelectPicActivity;
 import com.fjrcloud.lin.util.Constant;
@@ -43,7 +43,7 @@ public class CenterFragment extends Fragment {
     public static final int LOGIN_CODE = 100;
 
     private GridView mGridView;
-    private List<Category> mCategories;
+    private List<CategoryBean> mCategories;
     private CenterGridAdapter mAdapter;
     private ImageView mImageView;
     private TextView mNoticeLogin;
@@ -116,18 +116,18 @@ public class CenterFragment extends Fragment {
 
     private void initData() {
         mCategories = new ArrayList<>();
-        Category category1 = new Category("头像设置", R.mipmap.icon_portrait);
-        Category category2 = new Category("修改密码", R.mipmap.icon_psw);
-        Category category3 = new Category("运动数据", R.mipmap.icon_sport);
-        Category category4 = new Category("健康记录", R.mipmap.icon_health_record);
-        Category category5 = new Category("健康检测", R.mipmap.icon_health_check);
-        Category category6 = new Category("保险查询", R.mipmap.icon_check_insur);
-        mCategories.add(category1);
-        mCategories.add(category2);
-        mCategories.add(category3);
-        mCategories.add(category4);
-        mCategories.add(category5);
-        mCategories.add(category6);
+//        CategoryBean category1 = new CategoryBean("头像设置", R.mipmap.icon_portrait);
+//        CategoryBean category2 = new CategoryBean("修改密码", R.mipmap.icon_psw);
+//        CategoryBean category3 = new CategoryBean("运动数据", R.mipmap.icon_sport);
+//        CategoryBean category4 = new CategoryBean("健康记录", R.mipmap.icon_health_record);
+//        CategoryBean category5 = new CategoryBean("健康检测", R.mipmap.icon_health_check);
+//        CategoryBean category6 = new CategoryBean("保险查询", R.mipmap.icon_check_insur);
+//        mCategories.add(category1);
+//        mCategories.add(category2);
+//        mCategories.add(category3);
+//        mCategories.add(category4);
+//        mCategories.add(category5);
+//        mCategories.add(category6);
     }
 
     private void initListener() {

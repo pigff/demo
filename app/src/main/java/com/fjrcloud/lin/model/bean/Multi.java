@@ -22,21 +22,21 @@ public class Multi implements MultiItemEntity, Serializable {
     public static final int CATEGORY_SIZE = 1;
     public static final int NORMAL_SIZE = 4;
 
-    private Category[] bannerImgs;
-    private List<Category> categories;
-    private Category category;
-    private News news;
+    private CategoryBean.Category[] bannerImgs;
+    private List<CategoryBean.Category> categories;
+    private CategoryBean.Category category;
+    private NewsBean.DataEntity.News news;
     private int itemType;
     private int spanSize;
 
 
-    public Multi(int itemType, News news, int spanSize) {
+    public Multi(int itemType, NewsBean.DataEntity.News news, int spanSize) {
         this.itemType = itemType;
         this.news = news;
         this.spanSize = spanSize;
     }
 
-    public Multi(int itemType, News news) {
+    public Multi(int itemType, NewsBean.DataEntity.News news) {
         this.itemType = itemType;
         this.news = news;
     }
@@ -50,45 +50,45 @@ public class Multi implements MultiItemEntity, Serializable {
         this.itemType = itemType;
     }
 
-    public Multi(int itemType, Category[] bannerImgs, int spanSize) {
+    public Multi(int itemType, CategoryBean.Category[] bannerImgs, int spanSize) {
         this.itemType = itemType;
         this.bannerImgs = bannerImgs;
         this.spanSize = spanSize;
     }
 
-    public Multi(int itemType, Category[] bannerImgs) {
+    public Multi(int itemType, CategoryBean.Category[] bannerImgs) {
         this.itemType = itemType;
         this.bannerImgs = bannerImgs;
     }
 
-    public Multi(int itemType, Category category, int spanSize) {
+    public Multi(int itemType, CategoryBean.Category category, int spanSize) {
         this.itemType = itemType;
         this.category = category;
         this.spanSize = spanSize;
     }
 
 
-    public Category[] getBannerImgs() {
+    public CategoryBean.Category[] getBannerImgs() {
         return bannerImgs;
     }
 
-    public void setBannerImgs(Category[] bannerImgs) {
+    public void setBannerImgs(CategoryBean.Category[] bannerImgs) {
         this.bannerImgs = bannerImgs;
     }
 
-    public List<Category> getCategories() {
+    public List<CategoryBean.Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(List<CategoryBean.Category> categories) {
         this.categories = categories;
     }
 
-    public News getNews() {
+    public NewsBean.DataEntity.News getNews() {
         return news;
     }
 
-    public void setNews(News news) {
+    public void setNews(NewsBean.DataEntity.News news) {
         this.news = news;
     }
 
@@ -97,11 +97,11 @@ public class Multi implements MultiItemEntity, Serializable {
         return itemType;
     }
 
-    public Category getCategory() {
+    public CategoryBean.Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryBean.Category category) {
         this.category = category;
     }
 

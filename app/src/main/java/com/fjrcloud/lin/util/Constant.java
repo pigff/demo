@@ -15,9 +15,11 @@ public class Constant {
 
     //网络相关参数
 
-//    public static final String SERVICE_HOST = "http://172.30.16.24:8080/country";
-    public static final String SERVICE_HOST = "http://java.fjrcloud.com/country";
+    public static final String SERVICE_HOST = "http://172.30.16.24:8080/country";
+//    public static final String SERVICE_HOST = "http://java.fjrcloud.com/country";
     public static final String YS = "ys/";
     public static final String AREA = "area/";
     public static final String CAMERA = "camera/";
+    public static final String ARTICLE = "article/";
+    public static final String ARTICLE_CATEGORY = "articleCategory/";
 }
