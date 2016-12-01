@@ -1,7 +1,6 @@
 package com.fjrcloud.lin.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -10,10 +9,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.fjrcloud.lin.R;
+import com.fjrcloud.lin.ui.base.BaseFragment;
 import com.sevenheaven.segmentcontrol.SegmentControl;
 
 
-public class BeatyTownFragment extends Fragment {
+public class BeatyTownFragment extends BaseFragment {
 
     private SegmentControl mSegmentControl;
     private FrameLayout mLayout;
@@ -39,13 +39,14 @@ public class BeatyTownFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_beauty_town, container, false);
         mSegmentControl = (SegmentControl) view.findViewById(R.id.by_town_segment_control);
-
-        initView();
-        initListener();
+        mIsFirstLoad = false;
+        mIsPrepared = true;
+        lazyLoad();
         return view;
     }
 
     private void initView() {
+        mIsFirstLoad = true;
         FragmentManager manager = getChildFragmentManager();
         manager.beginTransaction().replace(R.id.by_town_fragment_group, JoyMapFragment.newInstance()).commit();
     }
@@ -70,4 +71,12 @@ public class BeatyTownFragment extends Fragment {
     }
 
 
+    @Override
+    public void lazyLoad() {
+        if (!mIsVisible || !mIsPrepared || mIsFirstLoad) {
+            return;
+        }
+        initView();
+        initListener();
+    }
 }

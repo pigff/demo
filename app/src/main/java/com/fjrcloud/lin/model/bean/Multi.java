@@ -26,19 +26,22 @@ public class Multi implements MultiItemEntity, Serializable {
     private List<CategoryBean.Category> categories;
     private CategoryBean.Category category;
     private NewsBean.DataEntity.News news;
+    private String ogContent;
     private int itemType;
     private int spanSize;
 
 
-    public Multi(int itemType, NewsBean.DataEntity.News news, int spanSize) {
+    public Multi(int itemType, NewsBean.DataEntity.News news, String ogContent, int spanSize) {
         this.itemType = itemType;
         this.news = news;
         this.spanSize = spanSize;
+        this.ogContent = ogContent;
     }
 
-    public Multi(int itemType, NewsBean.DataEntity.News news) {
+    public Multi(int itemType, NewsBean.DataEntity.News news, String ogContent) {
         this.itemType = itemType;
         this.news = news;
+        this.ogContent = ogContent;
     }
 
     public Multi(int itemType, int spanSize) {
@@ -115,5 +118,13 @@ public class Multi implements MultiItemEntity, Serializable {
 
     public void setSpanSize(int spanSize) {
         this.spanSize = spanSize;
+    }
+
+    public String getOgContent() {
+        return ogContent;
+    }
+
+    public void setOgContent(String ogContent) {
+        this.ogContent = ogContent;
     }
 }

@@ -4,7 +4,6 @@ package com.fjrcloud.lin.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -28,9 +27,10 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.ui.activity.DetailedActivity;
+import com.fjrcloud.lin.ui.base.BaseFragment;
 
 
-public class JoyMapFragment extends Fragment {
+public class JoyMapFragment extends BaseFragment {
 
     private MapView mMapView;
     private BaiduMap mBaiduMap;
@@ -146,6 +146,8 @@ public class JoyMapFragment extends Fragment {
 
     private void initData() {
         mIsFirst = true;
+        mIsFirstLoad = false;
+        mIsPrepared = true;
     }
 
     private void initView() {
@@ -210,4 +212,10 @@ public class JoyMapFragment extends Fragment {
         super.onDestroy();
     }
 
+    @Override
+    public void lazyLoad() {
+        if (!mIsPrepared || !mIsVisible || mIsFirstLoad) {
+            return;
+        }
+    }
 }

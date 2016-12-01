@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.model.bean.CategoryBean;
+import com.fjrcloud.lin.model.bean.GridCategory;
 
 import java.util.List;
 
@@ -20,9 +20,9 @@ public class CenterGridAdapter extends BaseAdapter {
 
     private Context mContext;
 
-    private List<CategoryBean> mCategories;
+    private List<GridCategory> mCategories;
 
-    public CenterGridAdapter(Context context, List<CategoryBean> categories) {
+    public CenterGridAdapter(Context context, List<GridCategory> categories) {
         mContext = context;
         mCategories = categories;
     }
@@ -54,8 +54,8 @@ public class CenterGridAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-//        holder.mImageView.setImageResource(mCategories.get(position).getImg());
-//        holder.mTextView.setText(mCategories.get(position).getName());
+        holder.mImageView.setImageResource(mCategories.get(position).getImg());
+        holder.mTextView.setText(mCategories.get(position).getName());
         return convertView;
     }
 

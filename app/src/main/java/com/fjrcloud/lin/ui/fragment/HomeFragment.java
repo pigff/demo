@@ -65,6 +65,7 @@ public class HomeFragment extends Fragment {
         initView();
         initListener();
         getData();
+//        lazyLoad();
         return view;
     }
 
@@ -80,6 +81,7 @@ public class HomeFragment extends Fragment {
                                 Intent intent = new Intent(getActivity(), DetailedActivity.class);
                                 intent.putExtra(Constant.BEAN, ((Multi) baseQuickAdapter.getItem(i)).getNews());
                                 intent.putExtra(Constant.TITLE, "相关推荐");
+                                intent.putExtra(Constant.CONTENT, ((Multi) baseQuickAdapter.getItem(i)).getOgContent());
                                 startActivity(intent);
                                 break;
                             case R.id.big_image_more:
@@ -93,6 +95,7 @@ public class HomeFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), DetailedActivity.class);
                         intent.putExtra(Constant.BEAN, ((Multi) baseQuickAdapter.getItem(i)).getNews());
                         intent.putExtra(Constant.TITLE, "相关推荐");
+                        intent.putExtra(Constant.CONTENT, ((Multi) baseQuickAdapter.getItem(i)).getOgContent());
                         startActivity(intent);
                         break;
                     case Multi.CATEGORY:
@@ -113,6 +116,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initData() {
+//        mIsFirstLoad = false;
+//        mIsPrepared = true;
         mMultis = new ArrayList<>();
         CategoryBean.Category[] imgs = new CategoryBean.Category[]{
                 new CategoryBean.Category("haha", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg"),
@@ -164,6 +169,7 @@ public class HomeFragment extends Fragment {
         x.http().post(params, new Callback.CommonCallback<CategoryBean>() {
             @Override
             public void onSuccess(CategoryBean result) {
+//                mIsPrepared = true;
                 List<Multi> multis = new ArrayList<>();
                 for (int i = 0; i < result.getData().size(); i++) {
                     multis.add(new Multi(Multi.CATEGORY, result.getData().get(i), Multi.CATEGORY_SIZE));
@@ -196,11 +202,12 @@ public class HomeFragment extends Fragment {
             public void onSuccess(NewsBean result) {
                 List<Multi> mulitis = new ArrayList<>();
                 for (int i = 0; i < result.getData().getContent().size(); i++) {
+                    String ogContent = result.getData().getContent().get(i).getContent();
                     if (i == 0) {
-                        mulitis.add(new Multi(Multi.BIG_IMG, result.getData().getContent().get(i), Multi.NORMAL_SIZE));
+                        mulitis.add(new Multi(Multi.BIG_IMG, result.getData().getContent().get(i), ogContent, Multi.NORMAL_SIZE));
                     } else {
-                        result.getData().getContent().get(i).setContent(HtmlUtil.getTextFromHtml(result.getData().getContent().get(i).getContent()));
-                        mulitis.add(new Multi(Multi.NEWS_RIGHT, result.getData().getContent().get(i), Multi.NORMAL_SIZE));
+                        result.getData().getContent().get(i).setContent(HtmlUtil.getTextFromHtml(ogContent));
+                        mulitis.add(new Multi(Multi.NEWS_RIGHT, result.getData().getContent().get(i), ogContent, Multi.NORMAL_SIZE));
                     }
                 }
                 mMultiAdapter.addData(mulitis);
@@ -222,4 +229,12 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+//    @Override
+//    public void lazyLoad() {
+//        if (!mIsPrepared || !mIsVisible || mIsFirstLoad) {
+//            return;
+//        }
+//        getData();
+//    }
 }

@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.CenterGridAdapter;
-import com.fjrcloud.lin.model.bean.CategoryBean;
+import com.fjrcloud.lin.model.bean.GridCategory;
 import com.fjrcloud.lin.ui.activity.ModifyPwdActivity;
 import com.fjrcloud.lin.ui.activity.SelectPicActivity;
 import com.fjrcloud.lin.util.Constant;
@@ -43,7 +43,7 @@ public class CenterFragment extends Fragment {
     public static final int LOGIN_CODE = 100;
 
     private GridView mGridView;
-    private List<CategoryBean> mCategories;
+    private List<GridCategory> mCategories;
     private CenterGridAdapter mAdapter;
     private ImageView mImageView;
     private TextView mNoticeLogin;
@@ -116,18 +116,18 @@ public class CenterFragment extends Fragment {
 
     private void initData() {
         mCategories = new ArrayList<>();
-//        CategoryBean category1 = new CategoryBean("头像设置", R.mipmap.icon_portrait);
-//        CategoryBean category2 = new CategoryBean("修改密码", R.mipmap.icon_psw);
-//        CategoryBean category3 = new CategoryBean("运动数据", R.mipmap.icon_sport);
-//        CategoryBean category4 = new CategoryBean("健康记录", R.mipmap.icon_health_record);
-//        CategoryBean category5 = new CategoryBean("健康检测", R.mipmap.icon_health_check);
-//        CategoryBean category6 = new CategoryBean("保险查询", R.mipmap.icon_check_insur);
-//        mCategories.add(category1);
-//        mCategories.add(category2);
-//        mCategories.add(category3);
-//        mCategories.add(category4);
-//        mCategories.add(category5);
-//        mCategories.add(category6);
+        GridCategory category1 = new GridCategory("头像设置", R.mipmap.icon_portrait);
+        GridCategory category2 = new GridCategory("修改密码", R.mipmap.icon_psw);
+        GridCategory category3 = new GridCategory("运动数据", R.mipmap.icon_sport);
+        GridCategory category4 = new GridCategory("健康记录", R.mipmap.icon_health_record);
+        GridCategory category5 = new GridCategory("健康检测", R.mipmap.icon_health_check);
+        GridCategory category6 = new GridCategory("保险查询", R.mipmap.icon_check_insur);
+        mCategories.add(category1);
+        mCategories.add(category2);
+        mCategories.add(category3);
+        mCategories.add(category4);
+        mCategories.add(category5);
+        mCategories.add(category6);
     }
 
     private void initListener() {

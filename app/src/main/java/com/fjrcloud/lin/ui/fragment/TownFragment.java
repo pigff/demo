@@ -72,8 +72,8 @@ public class TownFragment extends Fragment {
         initData();
         initAdapter();
         initView();
-        getData();
         initListener();
+        getData();
         return view;
     }
 

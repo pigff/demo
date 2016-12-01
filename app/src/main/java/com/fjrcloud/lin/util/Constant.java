@@ -8,6 +8,8 @@ public class Constant {
     public static final String TITLE = "title";
     public static final String BUNDLE = "bundle";
     public static final String BEAN = "bean";
+    public static final String CONTENT = "content";
+    public static final String ID = "id";
 
     ///
     public static final int PERMISSION_CODE = 10000;
@@ -24,5 +26,6 @@ public class Constant {
     public static final String CAMERA = "camera/";
     public static final String ARTICLE = "article/";
     public static final String ARTICLE_CATEGORY = "articleCategory/";
-    public static final String ID = "id";
+
+
 }

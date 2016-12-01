@@ -1,8 +1,8 @@
 package com.fjrcloud.lin.ui.base;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,7 +15,7 @@ import org.xutils.x;
 /**
  * Created by lin on 2016/11/19.
  */
-public class BaseActivity extends Activity {
+public class BaseActivity extends AppCompatActivity {
 
     @ViewInject(R.id.titlebar_title)
     private TextView mTitleText;

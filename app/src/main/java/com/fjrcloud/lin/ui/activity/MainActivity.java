@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.MainFragmentAdapter;
-import com.fjrcloud.lin.ui.base.BaseFragmentActivity;
+import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.DisplayUtil;
 import com.fjrcloud.lin.util.custom_view.NoScrollPager;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ContentView(R.layout.activity_main)
-public class MainActivity extends BaseFragmentActivity {
+public class MainActivity extends BaseActivity {
 
     @ViewInject(R.id.main_tabs)
     private TabLayout mTabLayout;
@@ -93,7 +93,7 @@ public class MainActivity extends BaseFragmentActivity {
         MainFragmentAdapter mainFragmentAdapter = new MainFragmentAdapter(getSupportFragmentManager(), mTitles);
         mViewPager.setAdapter(mainFragmentAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setOffscreenPageLimit(3);
     }
 
     private void init() {

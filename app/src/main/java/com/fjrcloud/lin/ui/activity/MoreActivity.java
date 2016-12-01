@@ -61,6 +61,7 @@ public class MoreActivity extends BaseActivity implements BaseQuickAdapter.Reque
                         Intent intent = new Intent(MoreActivity.this, DetailedActivity.class);
                         intent.putExtra(Constant.BEAN, ((Multi) baseQuickAdapter.getItem(i)).getNews());
                         intent.putExtra(Constant.TITLE, mTitle);
+                        intent.putExtra(Constant.CONTENT, ((Multi) baseQuickAdapter.getItem(i)).getOgContent());
                         startActivity(intent);
                         break;
                 }
@@ -134,9 +135,10 @@ public class MoreActivity extends BaseActivity implements BaseQuickAdapter.Reque
     private void setData(NewsBean result) {
         List<Multi> multis = new ArrayList<>();
         for (int i = 0; i < result.getData().getContent().size(); i++) {
+            String ogContent = result.getData().getContent().get(i).getContent();
             result.getData().getContent().get(i).
-                    setContent(HtmlUtil.getTextFromHtml(result.getData().getContent().get(i).getContent()));
-            multis.add(new Multi(Multi.NEWS_LEFT, result.getData().getContent().get(i)));
+                    setContent(HtmlUtil.getTextFromHtml(ogContent));
+            multis.add(new Multi(Multi.NEWS_LEFT, result.getData().getContent().get(i), ogContent));
         }
         mMultiAdapter.addData(multis);
         if (result.getData().getContent().size() == mPageSize) {

@@ -2,7 +2,6 @@ package com.fjrcloud.lin.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -10,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fjrcloud.lin.R;
+import com.fjrcloud.lin.ui.base.BaseFragment;
 import com.sevenheaven.segmentcontrol.SegmentControl;
 
 
-public class SafaHomeFragment extends Fragment {
+public class SafaHomeFragment extends BaseFragment {
 
     private SegmentControl mSegmentControl;
 
@@ -36,12 +36,14 @@ public class SafaHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_safe_home, container, false);
         mSegmentControl = (SegmentControl) view.findViewById(R.id.sf_home_segment_control);
-        initView();
-        initListener();
+        mIsFirstLoad = false;
+        mIsPrepared = true;
+        lazyLoad();
         return view;
     }
 
     private void initView() {
+        mIsFirstLoad = true;
         FragmentManager fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.sf_home_fragment_group, TownMapFragment.newInstance()).commit();
     }
@@ -65,4 +67,12 @@ public class SafaHomeFragment extends Fragment {
         });
     }
 
+    @Override
+    public void lazyLoad() {
+        if (mIsFirstLoad || !mIsVisible || !mIsPrepared) {
+            return;
+        }
+        initView();
+        initListener();
+    }
 }

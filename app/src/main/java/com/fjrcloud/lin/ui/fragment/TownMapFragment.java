@@ -82,8 +82,8 @@ public class TownMapFragment extends Fragment {
         mEditText = (EditText) view.findViewById(R.id.search_edit);
         mSearchBtn = (ImageButton) view.findViewById(R.id.search_btn);
         initData();
-        getData();
         initListener();
+        getData();
         return view;
     }
 
@@ -181,6 +181,9 @@ public class TownMapFragment extends Fragment {
     }
 
     private void setMap(TownBean.Town town) {
+        if (town.getLongitude() == null || town.getLatitude() == null) {
+            return;
+        }
         LatLng latLng = new LatLng(Float.parseFloat(town.getLatitude()), Float.parseFloat(town.getLongitude()));
         Marker marker;
         marker = (Marker) mBaiduMap.addOverlay(new MarkerOptions().position(latLng)

@@ -35,6 +35,7 @@ public class DetailedActivity extends BaseActivity {
     private WebView mWebView;
     private NewsBean.DataEntity.News mNews;
     private String mTitle;
+    private String mContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class DetailedActivity extends BaseActivity {
             mDetailedTitle.setText(mNews.getTitle());
             mWebView.getSettings().setDomStorageEnabled(true);
             mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.loadData(mNews.getContent(), "text/html; charset=utf-8", "utf-8");
+            mWebView.loadData(mContent, "text/html; charset=utf-8", "utf-8");
             mWebView.setWebViewClient(new MyWebViewClient());
         } else {
             Toast.makeText(this, R.string.unknow_error, Toast.LENGTH_SHORT).show();
@@ -75,6 +76,7 @@ public class DetailedActivity extends BaseActivity {
         Intent intent = getIntent();
         mNews = (NewsBean.DataEntity.News) intent.getSerializableExtra(Constant.BEAN);
         mTitle = intent.getStringExtra(Constant.TITLE);
+        mContent = intent.getStringExtra(Constant.CONTENT);
     }
 
 //    public void jump(View view) {
