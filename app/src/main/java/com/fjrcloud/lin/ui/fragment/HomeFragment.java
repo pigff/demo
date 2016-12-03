@@ -14,9 +14,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.MultiAdapter;
+import com.fjrcloud.lin.model.bean.AdBean;
 import com.fjrcloud.lin.model.bean.CategoryBean;
 import com.fjrcloud.lin.model.bean.Multi;
 import com.fjrcloud.lin.model.bean.NewsBean;
+import com.fjrcloud.lin.model.domain.Advertising;
 import com.fjrcloud.lin.model.domain.Article;
 import com.fjrcloud.lin.ui.activity.DetailedActivity;
 import com.fjrcloud.lin.ui.activity.MoreActivity;
@@ -119,13 +121,13 @@ public class HomeFragment extends Fragment {
 //        mIsFirstLoad = false;
 //        mIsPrepared = true;
         mMultis = new ArrayList<>();
-        CategoryBean.Category[] imgs = new CategoryBean.Category[]{
-                new CategoryBean.Category("haha", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg"),
-                new CategoryBean.Category("haha", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg"),
-                new CategoryBean.Category("haha", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg"),
-                new CategoryBean.Category("haha", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg")};
-        Multi multi = new Multi(Multi.BANNER, imgs, Multi.NORMAL_SIZE);
-        mMultis.add(multi);
+//        CategoryBean.Category[] imgs = new CategoryBean.Category[]{
+//                new CategoryBean.Category("haha", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg"),
+//                new CategoryBean.Category("haha", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg"),
+//                new CategoryBean.Category("haha", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg"),
+//                new CategoryBean.Category("haha", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg")};
+//        Multi multi = new Multi(Multi.BANNER, imgs, Multi.NORMAL_SIZE);
+//        mMultis.add(multi);
     }
 
 
@@ -162,7 +164,8 @@ public class HomeFragment extends Fragment {
 //        }
 //    }
     private void getData() {
-        getCategories(new Article().new FindAllCategory());
+        getAd(new Advertising().new FindAdByCategory(null, 0, 8));
+
     }
 
     private void getCategories(RequestParams params) {
@@ -229,6 +232,47 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    private void getAd(RequestParams params) {
+        x.http().post(params, new Callback.CommonCallback<AdBean>() {
+            @Override
+            public void onSuccess(AdBean result) {
+                List<Multi> multis = new ArrayList<Multi>();
+                Multi multi = null;
+                List<AdBean.DataEntity.Ad> ads = new ArrayList<AdBean.DataEntity.Ad>();
+                if (result.getData().getContent().size() > 0) {
+                    multi = new Multi(Multi.BANNER, result.getData().getContent().
+                            toArray(new AdBean.DataEntity.Ad[result.getData().getContent().size()]), Multi.NORMAL_SIZE);
+                } else {
+                    multi = new Multi(Multi.BANNER,
+                            new AdBean.DataEntity.Ad[]{new AdBean.DataEntity.Ad("广告位招租", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg")}, Multi.NORMAL_SIZE);
+                }
+
+                multis.add(multi);
+                mMultiAdapter.addData(multis);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                List<Multi> multis = new ArrayList<Multi>();
+                Multi multi = new Multi(Multi.BANNER,
+                        new AdBean.DataEntity.Ad[]{new AdBean.DataEntity.Ad("广告位招租", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg")}, Multi.NORMAL_SIZE);
+                multis.add(multi);
+                mMultiAdapter.addData(multis);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                getCategories(new Article().new FindAllCategory());
+            }
+        });
+    }
+
 
 //    @Override
 //    public void lazyLoad() {

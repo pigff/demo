@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -118,4 +119,18 @@ public class FileUtil {
         }
         return data;
     }
+
+    public static int getVersionCode(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            int versionCode = packageInfo.versionCode;
+            return versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            //没有找到包名的异常
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
 }

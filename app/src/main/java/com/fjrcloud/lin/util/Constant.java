@@ -26,6 +26,6 @@ public class Constant {
     public static final String CAMERA = "camera/";
     public static final String ARTICLE = "article/";
     public static final String ARTICLE_CATEGORY = "articleCategory/";
-
-
+    public static final String AD = "ad/";
+    public static final String APP = "app/";
 }

@@ -11,9 +11,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.fjrcloud.lin.R;
 import com.fjrcloud.lin.adapter.MultiAdapter;
-import com.fjrcloud.lin.model.bean.CategoryBean;
+import com.fjrcloud.lin.model.bean.AdBean;
 import com.fjrcloud.lin.model.bean.Multi;
 import com.fjrcloud.lin.model.bean.NewsBean;
+import com.fjrcloud.lin.model.domain.Advertising;
 import com.fjrcloud.lin.model.domain.Article;
 import com.fjrcloud.lin.ui.base.BaseActivity;
 import com.fjrcloud.lin.util.Constant;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ContentView(R.layout.activity_more)
-public class MoreActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener{
+public class MoreActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener {
 
 
     @ViewInject(R.id.more_rv)
@@ -90,20 +91,16 @@ public class MoreActivity extends BaseActivity implements BaseQuickAdapter.Reque
         mPageNum = 0;
         mPageSize = 10;
         mMultis = new ArrayList<>();
-        CategoryBean.Category[] imgs = new CategoryBean.Category[]{new CategoryBean.Category("xixi", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg"),
-                new CategoryBean.Category("xixi", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg"),
-                new CategoryBean.Category("xixi", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg"),
-                new CategoryBean.Category("xixi", "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1112/28/c11/10084076_10084076_1325087736046.jpg")};
-        mMultis.add(new Multi(Multi.BIG_BANNER, imgs));
-        mMultis.add(new Multi(Multi.TEXT_IMG));
+//        CategoryBean.Category[] imgs = new CategoryBean.Category[]{new CategoryBean.Category("xixi", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg"),
+//                new CategoryBean.Category("xixi", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg"),
+//                new CategoryBean.Category("xixi", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg"),
+//                new CategoryBean.Category("xixi", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg")};
+//        mMultis.add(new Multi(Multi.BIG_BANNER, imgs));
+//        mMultis.add(new Multi(Multi.TEXT_IMG));
     }
 
     private void getData() {
-        if (mId != -1) {
-            getArticlesByCg(new Article().new FindArticlesByCg(mId, mPageNum, mPageSize));
-        } else {
-            getAllArticles(new Article().new FindAllArticles(mPageNum, mPageSize));
-        }
+        getAd(new Advertising().new FindAdByCategory(mId, 0, 8));
     }
 
     private void getAllArticles(RequestParams params) {
@@ -174,9 +171,58 @@ public class MoreActivity extends BaseActivity implements BaseQuickAdapter.Reque
         });
     }
 
+    private void getAd(RequestParams params) {
+        x.http().post(params, new Callback.CommonCallback<AdBean>() {
+            @Override
+            public void onSuccess(AdBean result) {
+                List<Multi> multis = new ArrayList<Multi>();
+                Multi multi = null;
+                if (result.getData().getContent().size() > 0) {
+                    multi = new Multi(Multi.BANNER, result.getData().getContent().
+                            toArray(new AdBean.DataEntity.Ad[result.getData().getContent().size()]), Multi.NORMAL_SIZE);
+                } else {
+                    multi = new Multi(Multi.BANNER,
+                            new AdBean.DataEntity.Ad[]{new AdBean.DataEntity.Ad("广告位招租", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg")}, Multi.NORMAL_SIZE);
+                }
+                multis.add(multi);
+                multis.add(new Multi(Multi.TEXT_IMG));
+                mMultiAdapter.addData(multis);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                List<Multi> multis = new ArrayList<Multi>();
+                Multi multi = new Multi(Multi.BANNER,
+                        new AdBean.DataEntity.Ad[]{new AdBean.DataEntity.Ad("广告位招租", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg")}, Multi.NORMAL_SIZE);
+                multis.add(multi);
+                multis.add(new Multi(Multi.TEXT_IMG));
+                mMultiAdapter.addData(multis);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                if (mId != -1) {
+                    getArticlesByCg(new Article().new FindArticlesByCg(mId, mPageNum, mPageSize));
+                } else {
+                    getAllArticles(new Article().new FindAllArticles(mPageNum, mPageSize));
+                }
+            }
+        });
+    }
+
     @Override
     public void onLoadMoreRequested() {
         mPageNum++;
-        getData();
+        if (mId != -1) {
+            getArticlesByCg(new Article().new FindArticlesByCg(mId, mPageNum, mPageSize));
+        } else {
+            getAllArticles(new Article().new FindAllArticles(mPageNum, mPageSize));
+        }
     }
 }

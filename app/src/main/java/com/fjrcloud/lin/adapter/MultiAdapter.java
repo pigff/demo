@@ -1,19 +1,20 @@
 package com.fjrcloud.lin.adapter;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.model.bean.CategoryBean;
+import com.fjrcloud.lin.model.bean.AdBean;
 import com.fjrcloud.lin.model.bean.Multi;
 import com.fjrcloud.lin.util.Constant;
 import com.fjrcloud.lin.util.DateUtil;
 import com.fjrcloud.lin.util.GlideCircleTransform;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,40 +43,66 @@ public class MultiAdapter extends BaseMultiItemQuickAdapter<Multi, BaseViewHolde
     protected void convert(BaseViewHolder baseViewHolder, Multi multi) {
         switch (baseViewHolder.getItemViewType()) {
             case Multi.BIG_BANNER:
+                List<String> bigNames = new ArrayList<>();
                 BGABanner bigBanner = baseViewHolder.getView(R.id.big_banner);
-                bigBanner.setAdapter(new BGABanner.Adapter() {
-                    @Override
-                    public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
-                        Glide.with(mContext).load(((CategoryBean.Category) model).getImgPath()).
-                                error(R.mipmap.no_img).into((ImageView) view);
-//                        Glide.with(mContext).load(Constant.SERVICE_HOST + ((CategoryBean.Category) model).getImgPath()).
-//                                error(R.mipmap.no_img).into((ImageView) view);
-                    }
-                });
-                bigBanner.setData(Arrays.asList(multi.getBannerImgs()), null);
+                if (multi.getBannerImgs().length > 0 &&
+                        !TextUtils.equals(multi.getBannerImgs()[0].getTitle(), "广告位招租")) {
+                    bigBanner.setAdapter(new BGABanner.Adapter() {
+                        @Override
+                        public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
+                            Glide.with(mContext).load(Constant.SERVICE_HOST + ((AdBean.DataEntity.Ad) model).getImgPath()).
+                                    fitCenter().error(R.mipmap.no_img).into((ImageView) view);
+                        }
+                    });
+                } else {
+                    bigBanner.setAdapter(new BGABanner.Adapter() {
+                        @Override
+                        public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
+                            Glide.with(mContext).load(((AdBean.DataEntity.Ad) model).getImgPath()).
+                                    fitCenter().error(R.mipmap.no_img).into((ImageView) view);
+                        }
+                    });
+                }
+                for (int i = 0; i < multi.getBannerImgs().length; i++) {
+                    bigNames.add(multi.getBannerImgs()[i].getTitle());
+                }
+                bigBanner.setData(Arrays.asList(multi.getBannerImgs()), bigNames);
                 bigBanner.setOnItemClickListener(new BGABanner.OnItemClickListener() {
                     @Override
                     public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
-                        Toast.makeText(mContext, ((CategoryBean.Category) model).getName(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(mContext, ((CategoryBean.Category) model).getName(), Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
             case Multi.BANNER:
+                List<String> names = new ArrayList<>();
                 BGABanner bgaBanner = baseViewHolder.getView(R.id.common_banner);
-                bgaBanner.setData(Arrays.asList(multi.getBannerImgs()), null);
-                bgaBanner.setAdapter(new BGABanner.Adapter() {
-                    @Override
-                    public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
-                        Glide.with(mContext).load(((CategoryBean.Category) model).getImgPath()).
+                if (multi.getBannerImgs().length > 0 &&
+                        !TextUtils.equals(multi.getBannerImgs()[0].getTitle(), "广告位招租")) {
+                    bgaBanner.setAdapter(new BGABanner.Adapter() {
+                        @Override
+                        public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
+                            Glide.with(mContext).load(Constant.SERVICE_HOST + ((AdBean.DataEntity.Ad) model).getImgPath()).
+                                    fitCenter().error(R.mipmap.no_img).into((ImageView) view);
+                        }
+                    });
+                } else {
+                    bgaBanner.setAdapter(new BGABanner.Adapter() {
+                        @Override
+                        public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
+                        Glide.with(mContext).load(((AdBean.DataEntity.Ad) model).getImgPath()).
                                 error(R.mipmap.no_img).into((ImageView) view);
-//                        Glide.with(mContext).load(Constant.SERVICE_HOST + ((CategoryBean.Category) model).getImgPath()).
-//                                error(R.mipmap.no_img).into((ImageView) view);
-                    }
-                });
+                        }
+                    });
+                }
+                for (int i = 0; i < multi.getBannerImgs().length; i++) {
+                    names.add(multi.getBannerImgs()[i].getTitle());
+                }
+                bgaBanner.setData(Arrays.asList(multi.getBannerImgs()), names);
                 bgaBanner.setOnItemClickListener(new BGABanner.OnItemClickListener() {
                     @Override
                     public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
-                        Toast.makeText(mContext, ((CategoryBean.Category) model).getName(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(mContext, ((CategoryBean.Category) model).getName(), Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;

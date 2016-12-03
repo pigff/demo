@@ -134,7 +134,10 @@ public class TownMapFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 switch (actionId) {
                     case EditorInfo.IME_ACTION_SEARCH:
-                        searchLat(v);
+                        String keyWord = String.valueOf(mEditText.getText());
+                        if (!TextUtils.isEmpty(keyWord)) {
+                            searchLat(v, keyWord);
+                        }
                         return true;
                 }
                 return false;
@@ -146,24 +149,29 @@ public class TownMapFragment extends Fragment {
             public void onClick(View v) {
                 String keyWord = String.valueOf(mEditText.getText());
                 if (!TextUtils.isEmpty(keyWord)) {
-                    searchLat(v);
+                    searchLat(v, keyWord);
                 }
             }
         });
     }
 
-    private void searchLat(View v) {
-        mIsSearch = true;
-        InputMethodManager imm = (InputMethodManager) v
-                .getContext().getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
-        if (imm.isActive()) {
-            imm.hideSoftInputFromWindow(
-                    v.getApplicationWindowToken(), 0);
+    private void searchLat(View v, String keyWord) {
+        for (TownBean.Town town : mTowns) {
+            if (TextUtils.equals(town.getName(), keyWord) && (town.getLatitude() != null && town.getLongitude() != null)) {
+                mIsSearch = true;
+                InputMethodManager imm = (InputMethodManager) v
+                        .getContext().getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                if (imm.isActive()) {
+                    imm.hideSoftInputFromWindow(
+                            v.getApplicationWindowToken(), 0);
+                }
+                mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(new LatLng(Float.parseFloat(town.getLatitude()), Float.parseFloat(town.getLongitude()))));
+                MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(16);
+                mBaiduMap.animateMapStatus(u);
+            }
         }
-        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(new LatLng(25.479496, 119.566955)));
-        MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(16);
-        mBaiduMap.animateMapStatus(u);
+
     }
 
     private void initData() {

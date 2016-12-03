@@ -83,6 +83,7 @@ public class DetailedActivity extends BaseActivity {
 //        Intent intent = new Intent(this, ManagerActivity.class);
 //        startActivity(intent);
 //    }
+
     private void addCount(RequestParams params) {
         x.http().post(params, new Callback.CommonCallback<ResponseBean>() {
             @Override

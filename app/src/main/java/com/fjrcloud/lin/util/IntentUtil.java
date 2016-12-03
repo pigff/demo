@@ -155,4 +155,12 @@ public class IntentUtil {
                 .setAllowTransaction(true);
         return daoConfig;
     }
+
+    public static Intent getStallIntent(File file) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return intent;
+    }
 }

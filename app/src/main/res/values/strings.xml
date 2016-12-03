@@ -23,6 +23,7 @@
     <string name="sd_error">存储卡不可用</string>
     <string name="sd_error2">抓图失败,存储空间已满</string>
     <string name="already_saved_to_volume">已保存至相册</string>
+    <string name="download_error">下载失败</string>
     <string name="device_not_online">设备不在线</string>
     <string name="login_only_can_input">qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM1234567890-_=+@</string>
     <string name="upload_success">上传成功</string>

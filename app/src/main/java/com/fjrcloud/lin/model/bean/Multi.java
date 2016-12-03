@@ -22,7 +22,7 @@ public class Multi implements MultiItemEntity, Serializable {
     public static final int CATEGORY_SIZE = 1;
     public static final int NORMAL_SIZE = 4;
 
-    private CategoryBean.Category[] bannerImgs;
+    private AdBean.DataEntity.Ad[] bannerImgs;
     private List<CategoryBean.Category> categories;
     private CategoryBean.Category category;
     private NewsBean.DataEntity.News news;
@@ -53,13 +53,13 @@ public class Multi implements MultiItemEntity, Serializable {
         this.itemType = itemType;
     }
 
-    public Multi(int itemType, CategoryBean.Category[] bannerImgs, int spanSize) {
+    public Multi(int itemType, AdBean.DataEntity.Ad[] bannerImgs, int spanSize) {
         this.itemType = itemType;
         this.bannerImgs = bannerImgs;
         this.spanSize = spanSize;
     }
 
-    public Multi(int itemType, CategoryBean.Category[] bannerImgs) {
+    public Multi(int itemType, AdBean.DataEntity.Ad[] bannerImgs) {
         this.itemType = itemType;
         this.bannerImgs = bannerImgs;
     }
@@ -71,11 +71,11 @@ public class Multi implements MultiItemEntity, Serializable {
     }
 
 
-    public CategoryBean.Category[] getBannerImgs() {
+    public AdBean.DataEntity.Ad[] getBannerImgs() {
         return bannerImgs;
     }
 
-    public void setBannerImgs(CategoryBean.Category[] bannerImgs) {
+    public void setBannerImgs(AdBean.DataEntity.Ad[] bannerImgs) {
         this.bannerImgs = bannerImgs;
     }
 

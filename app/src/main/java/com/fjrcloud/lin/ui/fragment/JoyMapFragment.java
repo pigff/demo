@@ -2,7 +2,6 @@ package com.fjrcloud.lin.ui.fragment;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -26,7 +25,6 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.ui.activity.DetailedActivity;
 import com.fjrcloud.lin.ui.base.BaseFragment;
 
 
@@ -74,8 +72,8 @@ public class JoyMapFragment extends BaseFragment {
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Intent intent = new Intent(getActivity(), DetailedActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), DetailedActivity.class);
+//                startActivity(intent);
                 return true;
             }
         });
