@@ -2,7 +2,9 @@ package com.fjrcloud.lin.ui.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -25,10 +28,20 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.ui.base.BaseFragment;
+import com.fjrcloud.lin.model.bean.TownBean;
+import com.fjrcloud.lin.model.domain.YsTown;
+import com.fjrcloud.lin.ui.activity.VrActivity;
+import com.fjrcloud.lin.util.Constant;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class JoyMapFragment extends BaseFragment {
+public class JoyMapFragment extends Fragment {
 
     private MapView mMapView;
     private BaiduMap mBaiduMap;
@@ -38,6 +51,7 @@ public class JoyMapFragment extends BaseFragment {
 
     private EditText mEditText;
     private ImageButton mSearchBtn;
+    private List<TownBean.Town> mTowns;
 
     public JoyMapFragment() {
         // Required empty public constructor
@@ -65,15 +79,23 @@ public class JoyMapFragment extends BaseFragment {
         initData();
         initView();
         initListener();
+        getData();
         return view;
+    }
+
+    private void getData() {
+        getTown(new YsTown().new FindTownByParent(null));
     }
 
     private void initListener() {
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-//                Intent intent = new Intent(getActivity(), DetailedActivity.class);
-//                startActivity(intent);
+                Bundle bundle = marker.getExtraInfo();
+                TownBean.Town town = (TownBean.Town) bundle.getSerializable(Constant.BEAN);
+                Intent intent = new Intent(getActivity(), VrActivity.class);
+                intent.putExtra(Constant.BEAN, town);
+                startActivity(intent);
                 return true;
             }
         });
@@ -94,12 +116,11 @@ public class JoyMapFragment extends BaseFragment {
                 if (mapStatus.zoom < 14.5) {
                     if (mIsShow) {
                         mBaiduMap.clear();
-                        mIsShow = false;
+                        mIsShow = !mIsShow;
                     }
                 } else {
                     if (!mIsShow) {
                         initOverlay();
-                        mIsShow = true;
                     }
                 }
             }
@@ -110,7 +131,10 @@ public class JoyMapFragment extends BaseFragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 switch (actionId) {
                     case EditorInfo.IME_ACTION_SEARCH:
-                        searchLat(v);
+                        String keyWord = String.valueOf(mEditText.getText());
+                        if (!TextUtils.isEmpty(keyWord)) {
+                            searchLat(v, keyWord);
+                        }
                         return true;
                 }
                 return false;
@@ -122,30 +146,35 @@ public class JoyMapFragment extends BaseFragment {
             public void onClick(View v) {
                 String keyWord = String.valueOf(mEditText.getText());
                 if (!TextUtils.isEmpty(keyWord)) {
-                    searchLat(v);
+                    searchLat(v, keyWord);
                 }
             }
         });
     }
 
-    private void searchLat(View v) {
-        mIsSearch = true;
-        InputMethodManager imm = (InputMethodManager) v
-                .getContext().getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
-        if (imm.isActive()) {
-            imm.hideSoftInputFromWindow(
-                    v.getApplicationWindowToken(), 0);
+    private void searchLat(View v, String keyWord) {
+        for (TownBean.Town town : mTowns) {
+            if (TextUtils.equals(town.getName(), keyWord) && (town.getLatitude() != null && town.getLongitude() != null)) {
+                mIsSearch = true;
+                InputMethodManager imm = (InputMethodManager) v
+                        .getContext().getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                if (imm.isActive()) {
+                    imm.hideSoftInputFromWindow(
+                            v.getApplicationWindowToken(), 0);
+                }
+                mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(new LatLng(Float.parseFloat(town.getLatitude()), Float.parseFloat(town.getLongitude()))));
+                MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(16);
+                mBaiduMap.animateMapStatus(u);
+            }
         }
-        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(new LatLng(25.479496,119.566955)));
-        MapStatusUpdate u = MapStatusUpdateFactory.zoomTo(16);
-        mBaiduMap.animateMapStatus(u);
     }
 
     private void initData() {
         mIsFirst = true;
-        mIsFirstLoad = false;
-        mIsPrepared = true;
+        mTowns = new ArrayList<>();
+//        mIsFirstLoad = false;
+//        mIsPrepared = true;
     }
 
     private void initView() {
@@ -153,25 +182,23 @@ public class JoyMapFragment extends BaseFragment {
     }
 
     private void initOverlay() {
+        for (int i = 0; i < mTowns.size(); i++) {
+            setMap(mTowns.get(i));
+        }
         mIsShow = true;
-        LatLng latLng = new LatLng(25.479496, 119.566955);
-        setMap(latLng, R.mipmap.second_1);
-        LatLng latLng2 = new LatLng(25.478459, 119.559925);
-        setMap(latLng2, R.mipmap.second_2);
-        LatLng latLng3 = new LatLng(25.48066, 119.577245);
-        setMap(latLng3, R.mipmap.second_3);
-        LatLng latLng4 = new LatLng(25.473688, 119.577676);
-        setMap(latLng4, R.mipmap.second_4);
-        LatLng latLng5 = new LatLng(25.470657, 119.571981);
-        setMap(latLng5, R.mipmap.second_5);
-        LatLng latLng6 = new LatLng(25.477087, 119.58113);
-        setMap(latLng6, R.mipmap.second_6);
     }
 
-    private void setMap(LatLng latLng, Integer img) {
+    private void setMap(TownBean.Town town) {
+        if (town.getLongitude() == null || town.getLatitude() == null) {
+            return;
+        }
+        LatLng latLng = new LatLng(Float.parseFloat(town.getLatitude()), Float.parseFloat(town.getLongitude()));
         Marker marker;
         marker = (Marker) mBaiduMap.addOverlay(new MarkerOptions().position(latLng)
-                .icon(BitmapDescriptorFactory.fromView(getOverlayView(img))));
+                .icon(BitmapDescriptorFactory.fromView(getOverlayView(R.mipmap.town_icon, town.getName()))));
+        Bundle bundle1 = new Bundle();
+        bundle1.putSerializable(Constant.BEAN, town);
+        marker.setExtraInfo(bundle1);
         if (mIsFirst) {
             mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(latLng));
             mIsFirst = false;
@@ -183,14 +210,23 @@ public class JoyMapFragment extends BaseFragment {
         }
     }
 
-    public View getOverlayView(Integer img) {
+    public View getOverlayView(Integer img, String name) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.overlay_layout, null, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.over_img);
         imageView.setImageResource(img);
+        TextView textView = (TextView) view.findViewById(R.id.over_name);
+        int left = textView.getPaddingLeft();
+        int right = textView.getPaddingRight();
+        int top = textView.getTotalPaddingTop();
+        int bottom = textView.getPaddingBottom();
+        textView.setBackgroundResource(R.drawable.bg_dark_pink_red);
+        textView.setText(name);
+        textView.setPadding(left, top, right, bottom);
 //        TextView textView = (TextView) view.findViewById(R.id.overlay_name);
 //        textView.setText(companyName);
         return view;
     }
+
 
     @Override
     public void onResume() {
@@ -210,10 +246,38 @@ public class JoyMapFragment extends BaseFragment {
         super.onDestroy();
     }
 
-    @Override
-    public void lazyLoad() {
-        if (!mIsPrepared || !mIsVisible || mIsFirstLoad) {
-            return;
-        }
+    private void getTown(RequestParams params) {
+        x.http().post(params, new Callback.CommonCallback<TownBean>() {
+            @Override
+            public void onSuccess(TownBean result) {
+                for (int i = 0; i < result.getData().size(); i++) {
+                    mTowns.add(result.getData().get(i));
+                    setMap(result.getData().get(i));
+                }
+//                mIsShow = true;
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(getActivity(), R.string.unknow_error, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
+
+//    @Override
+//    public void lazyLoad() {
+//        if (!mIsPrepared || !mIsVisible || mIsFirstLoad) {
+//            return;
+//        }
+//    }
 }
