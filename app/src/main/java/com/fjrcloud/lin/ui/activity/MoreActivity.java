@@ -10,9 +10,9 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.fjrcloud.lin.R;
-import com.fjrcloud.lin.adapter.MultiAdapter;
+import com.fjrcloud.lin.adapter.NewsMultiAdapter;
 import com.fjrcloud.lin.model.bean.AdBean;
-import com.fjrcloud.lin.model.bean.Multi;
+import com.fjrcloud.lin.model.bean.NewsMulti;
 import com.fjrcloud.lin.model.bean.NewsBean;
 import com.fjrcloud.lin.model.domain.Advertising;
 import com.fjrcloud.lin.model.domain.Article;
@@ -36,8 +36,8 @@ public class MoreActivity extends BaseActivity implements BaseQuickAdapter.Reque
     @ViewInject(R.id.more_rv)
     private RecyclerView mRecyclerView;
     private String mTitle;
-    private List<Multi> mMultis;
-    private MultiAdapter mMultiAdapter;
+    private List<NewsMulti> mMultis;
+    private NewsMultiAdapter mMultiAdapter;
     private int mId;
     private int mPageNum;
     private int mPageSize;
@@ -50,6 +50,7 @@ public class MoreActivity extends BaseActivity implements BaseQuickAdapter.Reque
         initView();
         initListener();
         getData();
+
     }
 
     private void initListener() {
@@ -58,11 +59,11 @@ public class MoreActivity extends BaseActivity implements BaseQuickAdapter.Reque
             public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
                 int type = baseQuickAdapter.getItemViewType(i);
                 switch (type) {
-                    case Multi.NEWS_LEFT:
+                    case NewsMulti.NEWS_LEFT:
                         Intent intent = new Intent(MoreActivity.this, DetailedActivity.class);
-                        intent.putExtra(Constant.BEAN, ((Multi) baseQuickAdapter.getItem(i)).getNews());
+                        intent.putExtra(Constant.BEAN, ((NewsMulti) baseQuickAdapter.getItem(i)).getNews());
                         intent.putExtra(Constant.TITLE, mTitle);
-                        intent.putExtra(Constant.CONTENT, ((Multi) baseQuickAdapter.getItem(i)).getOgContent());
+                        intent.putExtra(Constant.CONTENT, ((NewsMulti) baseQuickAdapter.getItem(i)).getOgContent());
                         startActivity(intent);
                         break;
                 }
@@ -71,7 +72,7 @@ public class MoreActivity extends BaseActivity implements BaseQuickAdapter.Reque
     }
 
     private void initAdapter() {
-        mMultiAdapter = new MultiAdapter(mMultis);
+        mMultiAdapter = new NewsMultiAdapter(mMultis);
         mMultiAdapter.setOnLoadMoreListener(this);
         mMultiAdapter.setEnableLoadMore(true);
     }
@@ -89,14 +90,8 @@ public class MoreActivity extends BaseActivity implements BaseQuickAdapter.Reque
         mTitle = intent.getStringExtra(Constant.TITLE);
         mId = intent.getIntExtra(Constant.ID, -1);
         mPageNum = 0;
-        mPageSize = 10;
+        mPageSize = 16;
         mMultis = new ArrayList<>();
-//        CategoryBean.Category[] imgs = new CategoryBean.Category[]{new CategoryBean.Category("xixi", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg"),
-//                new CategoryBean.Category("xixi", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg"),
-//                new CategoryBean.Category("xixi", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg"),
-//                new CategoryBean.Category("xixi", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg")};
-//        mMultis.add(new Multi(Multi.BIG_BANNER, imgs));
-//        mMultis.add(new Multi(Multi.TEXT_IMG));
     }
 
     private void getData() {
@@ -130,12 +125,12 @@ public class MoreActivity extends BaseActivity implements BaseQuickAdapter.Reque
     }
 
     private void setData(NewsBean result) {
-        List<Multi> multis = new ArrayList<>();
+        List<NewsMulti> multis = new ArrayList<>();
         for (int i = 0; i < result.getData().getContent().size(); i++) {
             String ogContent = result.getData().getContent().get(i).getContent();
             result.getData().getContent().get(i).
                     setContent(HtmlUtil.getTextFromHtml(ogContent));
-            multis.add(new Multi(Multi.NEWS_LEFT, result.getData().getContent().get(i), ogContent));
+            multis.add(new NewsMulti(NewsMulti.NEWS_LEFT, result.getData().getContent().get(i), ogContent));
         }
         mMultiAdapter.addData(multis);
         if (result.getData().getContent().size() == mPageSize) {
@@ -175,28 +170,28 @@ public class MoreActivity extends BaseActivity implements BaseQuickAdapter.Reque
         x.http().post(params, new Callback.CommonCallback<AdBean>() {
             @Override
             public void onSuccess(AdBean result) {
-                List<Multi> multis = new ArrayList<Multi>();
-                Multi multi = null;
+                List<NewsMulti> multis = new ArrayList<NewsMulti>();
+                NewsMulti multi = null;
                 if (result.getData().getContent().size() > 0) {
-                    multi = new Multi(Multi.BANNER, result.getData().getContent().
-                            toArray(new AdBean.DataEntity.Ad[result.getData().getContent().size()]), Multi.NORMAL_SIZE);
+                    multi = new NewsMulti(NewsMulti.BANNER, result.getData().getContent().
+                            toArray(new AdBean.DataEntity.Ad[result.getData().getContent().size()]), NewsMulti.NORMAL_SIZE);
                 } else {
-                    multi = new Multi(Multi.BANNER,
-                            new AdBean.DataEntity.Ad[]{new AdBean.DataEntity.Ad("广告位招租", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg")}, Multi.NORMAL_SIZE);
+                    multi = new NewsMulti(NewsMulti.BANNER,
+                            new AdBean.DataEntity.Ad[]{new AdBean.DataEntity.Ad("广告位招租", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg")}, NewsMulti.NORMAL_SIZE);
                 }
                 multis.add(multi);
-                multis.add(new Multi(Multi.TEXT_IMG));
+                multis.add(new NewsMulti(NewsMulti.TEXT_IMG));
                 mMultiAdapter.addData(multis);
 
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                List<Multi> multis = new ArrayList<Multi>();
-                Multi multi = new Multi(Multi.BANNER,
-                        new AdBean.DataEntity.Ad[]{new AdBean.DataEntity.Ad("广告位招租", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg")}, Multi.NORMAL_SIZE);
+                List<NewsMulti> multis = new ArrayList<NewsMulti>();
+                NewsMulti multi = new NewsMulti(NewsMulti.BANNER,
+                        new AdBean.DataEntity.Ad[]{new AdBean.DataEntity.Ad("广告位招租", "http://www.baosteelresources.com/baogang/new_web/images/top_yewu_02.jpg")}, NewsMulti.NORMAL_SIZE);
                 multis.add(multi);
-                multis.add(new Multi(Multi.TEXT_IMG));
+                multis.add(new NewsMulti(NewsMulti.TEXT_IMG));
                 mMultiAdapter.addData(multis);
             }
 

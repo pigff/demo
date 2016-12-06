@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by lin on 2016/11/22.
  */
-public class Multi implements MultiItemEntity, Serializable {
+public class NewsMulti implements MultiItemEntity, Serializable {
 
     public static final int BANNER = 1;
     public static final int CATEGORY = 2;
@@ -31,40 +31,40 @@ public class Multi implements MultiItemEntity, Serializable {
     private int spanSize;
 
 
-    public Multi(int itemType, NewsBean.DataEntity.News news, String ogContent, int spanSize) {
+    public NewsMulti(int itemType, NewsBean.DataEntity.News news, String ogContent, int spanSize) {
         this.itemType = itemType;
         this.news = news;
         this.spanSize = spanSize;
         this.ogContent = ogContent;
     }
 
-    public Multi(int itemType, NewsBean.DataEntity.News news, String ogContent) {
+    public NewsMulti(int itemType, NewsBean.DataEntity.News news, String ogContent) {
         this.itemType = itemType;
         this.news = news;
         this.ogContent = ogContent;
     }
 
-    public Multi(int itemType, int spanSize) {
+    public NewsMulti(int itemType, int spanSize) {
         this.itemType = itemType;
         this.spanSize = spanSize;
     }
 
-    public Multi(int itemType) {
+    public NewsMulti(int itemType) {
         this.itemType = itemType;
     }
 
-    public Multi(int itemType, AdBean.DataEntity.Ad[] bannerImgs, int spanSize) {
+    public NewsMulti(int itemType, AdBean.DataEntity.Ad[] bannerImgs, int spanSize) {
         this.itemType = itemType;
         this.bannerImgs = bannerImgs;
         this.spanSize = spanSize;
     }
 
-    public Multi(int itemType, AdBean.DataEntity.Ad[] bannerImgs) {
+    public NewsMulti(int itemType, AdBean.DataEntity.Ad[] bannerImgs) {
         this.itemType = itemType;
         this.bannerImgs = bannerImgs;
     }
 
-    public Multi(int itemType, CategoryBean.Category category, int spanSize) {
+    public NewsMulti(int itemType, CategoryBean.Category category, int spanSize) {
         this.itemType = itemType;
         this.category = category;
         this.spanSize = spanSize;

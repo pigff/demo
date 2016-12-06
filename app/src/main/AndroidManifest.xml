@@ -74,6 +74,14 @@
         </activity>
         <activity android:name=".ui.activity.VrActivity">
         </activity>
+        <activity android:name=".ui.activity.InspectActivity">
+        </activity>
+        <activity android:name=".ui.activity.NewAssActivity">
+        </activity>
+        <activity android:name=".ui.activity.CommentLvActivity">
+        </activity>
+        <activity android:name=".ui.activity.SelectTownActivity">
+        </activity>
     </application>
 
 </manifest>
